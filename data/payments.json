@@ -12,8 +12,9 @@
       "proofFileName": "IMG_3057.png",
       "proofFileType": "image/png",
       "statusTokenHash": "e6bb2711edfa48f0c66b79b422d49779ae7eee8ef5f93e41fc97db37ac068cbf",
-      "status": "pending",
-      "createdAt": "2026-11-03T14:59:30.883Z"
+      "status": "rejected",
+      "createdAt": "2026-11-03T14:59:30.883Z",
+      "processedAt": "2026-11-03T15:00:02.052Z"
     },
     {
       "id": "PAY-1793713838982-MPC8WK",
