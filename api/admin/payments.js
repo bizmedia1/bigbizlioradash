@@ -2,7 +2,8 @@ const { readJSON, writeJSON } = require("../../lib/github-storage");
 
 const FILES = {
   payments: "data/payments.json",
-  balance: "data/balance.json"
+  balance: "data/balance.json",
+  transactions: "data/transactions.json"
 };
 
 function send(res, status, data) {
@@ -115,21 +116,115 @@ module.exports = async function handler(req, res) {
       });
     }
 
-    if (action === "approve") {
-      return send(res, 501, {
-        ok: false,
-        message: "Payment approvals are temporarily disabled."
-      });
-    }
-
     const processedAt = new Date().toISOString();
     const updatedPayments = [...payments];
 
+    if (action === "reject") {
+      updatedPayments[index] = {
+        ...payment,
+        status: "rejected",
+        processedAt
+      };
+
+      await writeJSON(
+        FILES.payments,
+        {
+          ...paymentData,
+          payments: updatedPayments
+        },
+        paymentFile.sha
+      );
+
+      return send(res, 200, {
+        ok: true,
+        message: "Payment rejected.",
+        payment: updatedPayments[index]
+      });
+    }
+
+    const amount = Number(payment.amount);
+
+    if (!Number.isFinite(amount) || amount <= 0) {
+      return send(res, 400, {
+        ok: false,
+        message: "Invalid payment amount."
+      });
+    }
+
+    const balanceFile = await readJSON(FILES.balance, {
+      balance: 0,
+      currency: "NGN"
+    });
+
+    const balanceData = balanceFile.data || {};
+    const currentBalance = Number(balanceData.balance || 0);
+
+    if (!Number.isFinite(currentBalance)) {
+      return send(res, 500, {
+        ok: false,
+        message: "Wallet balance data is invalid."
+      });
+    }
+
+    const transactionFile = await readJSON(FILES.transactions, {
+      transactions: []
+    });
+
+    const transactionData = transactionFile.data || {};
+    const transactions = Array.isArray(transactionData.transactions)
+      ? transactionData.transactions
+      : [];
+
+    const transactionExists = transactions.some(
+      transaction =>
+        transaction.paymentId === paymentId(payment)
+    );
+
+    if (transactionExists) {
+      return send(res, 409, {
+        ok: false,
+        message: "A transaction already exists for this payment."
+      });
+    }
+
+    const transaction = {
+      id: "TXN-" + Date.now(),
+      paymentId: paymentId(payment),
+      customerName: payment.customerName || "",
+      email: payment.email || "",
+      amount,
+      method: payment.method || "",
+      reference: payment.reference || "",
+      type: "credit",
+      status: "successful",
+      description: "Approved customer payment",
+      createdAt: processedAt
+    };
+
     updatedPayments[index] = {
       ...payment,
-      status: "rejected",
+      status: "approved",
       processedAt
     };
+
+    await writeJSON(
+      FILES.transactions,
+      {
+        ...transactionData,
+        transactions: [transaction, ...transactions]
+      },
+      transactionFile.sha
+    );
+
+    await writeJSON(
+      FILES.balance,
+      {
+        ...balanceData,
+        balance: currentBalance + amount,
+        currency: balanceData.currency || "NGN"
+      },
+      balanceFile.sha
+    );
 
     await writeJSON(
       FILES.payments,
@@ -142,8 +237,10 @@ module.exports = async function handler(req, res) {
 
     return send(res, 200, {
       ok: true,
-      message: "Payment rejected.",
-      payment: updatedPayments[index]
+      message: "Payment approved and wallet balance updated.",
+      payment: updatedPayments[index],
+      transaction,
+      balance: currentBalance + amount
     });
 
   } catch (error) {
