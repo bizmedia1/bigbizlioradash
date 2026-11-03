@@ -1,0 +1,13 @@
+{
+  "paymentAmount": 15000,
+  "paymentMethods": {
+    "paga": true,
+    "manualBank": true
+  },
+  "manualBank": {
+    "accountNumber": "",
+    "bankName": "",
+    "accountName": ""
+  },
+  "adminName": "Liora Admin"
+}
