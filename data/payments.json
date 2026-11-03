@@ -1,3 +1,18 @@
 {
-  "payments": []
+  "payments": [
+    {
+      "id": "PAY-1793710399951-C6A2ZU",
+      "customerName": "Akasmsmwm",
+      "email": "victorisrael539@gmail.com",
+      "phone": "09050009000",
+      "amount": 15000,
+      "method": "paga",
+      "reference": "liora_paga_1793710370884",
+      "proofPath": "uploads/payment-proofs/PAY-1793710399951-C6A2ZU-IMG_2951.jpeg",
+      "proofFileName": "IMG_2951.jpeg",
+      "proofFileType": "image/jpeg",
+      "status": "pending",
+      "createdAt": "2026-11-03T12:53:21.371Z"
+    }
+  ]
 }
