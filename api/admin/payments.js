@@ -12,6 +12,7 @@ function send(res, status, data) {
 
 function authenticate(req) {
   const secret = process.env.ADMIN_SECRET;
+
   return Boolean(
     secret &&
     req.headers.authorization === `Bearer ${secret}`
@@ -23,30 +24,54 @@ function paymentId(payment) {
 }
 
 module.exports = async function handler(req, res) {
+  res.setHeader("Cache-Control", "no-store");
+
   if (!authenticate(req)) {
-    return send(res, 401, { ok: false, message: "Unauthorized" });
+    return send(res, 401, {
+      ok: false,
+      message: "Unauthorized"
+    });
   }
 
   try {
-    const paymentFile = await readJSON(FILES.payments, []);
-    const payments = Array.isArray(paymentFile.data)
-      ? paymentFile.data
+    const paymentFile = await readJSON(FILES.payments, {
+      payments: []
+    });
+
+    const paymentData = paymentFile.data || {};
+    const payments = Array.isArray(paymentData.payments)
+      ? paymentData.payments
       : [];
 
     if (req.method === "GET") {
-      const counts = { pending: 0, approved: 0, rejected: 0 };
+      const counts = {
+        pending: 0,
+        approved: 0,
+        rejected: 0
+      };
 
       payments.forEach(payment => {
         const status = String(payment.status || "pending").toLowerCase();
-        if (counts[status] !== undefined) counts[status]++;
+
+        if (counts[status] !== undefined) {
+          counts[status]++;
+        }
       });
 
-      return send(res, 200, { ok: true, payments, counts });
+      return send(res, 200, {
+        ok: true,
+        payments,
+        counts
+      });
     }
 
     if (req.method !== "POST") {
       res.setHeader("Allow", "GET, POST");
-      return send(res, 405, { ok: false, message: "Method not allowed" });
+
+      return send(res, 405, {
+        ok: false,
+        message: "Method not allowed"
+      });
     }
 
     const { id, action } = req.body || {};
@@ -58,10 +83,15 @@ module.exports = async function handler(req, res) {
       });
     }
 
-    const index = payments.findIndex(p => paymentId(p) === String(id));
+    const index = payments.findIndex(
+      payment => paymentId(payment) === String(id)
+    );
 
-    if (index < 0) {
-      return send(res, 404, { ok: false, message: "Payment not found." });
+    if (index === -1) {
+      return send(res, 404, {
+        ok: false,
+        message: "Payment not found."
+      });
     }
 
     const payment = payments[index];
@@ -75,78 +105,34 @@ module.exports = async function handler(req, res) {
 
     const processedAt = new Date().toISOString();
 
+    const updatedPayments = [...payments];
+
     if (action === "reject") {
-      payments[index] = {
+      updatedPayments[index] = {
         ...payment,
         status: "rejected",
         processedAt
       };
 
-      await writeJSON(FILES.payments, payments, paymentFile.sha);
+      await writeJSON(
+        FILES.payments,
+        {
+          ...paymentData,
+          payments: updatedPayments
+        },
+        paymentFile.sha
+      );
 
       return send(res, 200, {
         ok: true,
         message: "Payment rejected.",
-        payment: payments[index]
+        payment: updatedPayments[index]
       });
     }
 
-    const amount = Number(payment.amount ?? payment.paymentAmount);
-
-    if (!Number.isFinite(amount) || amount <= 0) {
-      return send(res, 400, {
-        ok: false,
-        message: "Invalid payment amount."
-      });
-    }
-
-    const balanceFile = await readJSON(FILES.balance, { balance: 0 });
-    const currentBalance = Number(
-      balanceFile.data.balance ?? balanceFile.data.amount ?? 0
-    );
-
-    if (!Number.isFinite(currentBalance) || currentBalance < 0) {
-      return send(res, 500, {
-        ok: false,
-        message: "Invalid stored balance."
-      });
-    }
-
-    const transactionFile = await readJSON(FILES.transactions, []);
-    const transactions = Array.isArray(transactionFile.data)
-      ? transactionFile.data
-      : [];
-
-    payments[index] = {
-      ...payment,
-      status: "approved",
-      processedAt
-    };
-
-    const updatedBalance = {
-      ...balanceFile.data,
-      balance: currentBalance + amount,
-      updatedAt: processedAt
-    };
-
-    transactions.push({
-      id: `approval_${paymentId(payment)}`,
-      paymentId: paymentId(payment),
-      type: "payment_approval",
-      amount,
-      status: "completed",
-      createdAt: processedAt
-    });
-
-    await writeJSON(FILES.payments, payments, paymentFile.sha);
-    await writeJSON(FILES.balance, updatedBalance, balanceFile.sha);
-    await writeJSON(FILES.transactions, transactions, transactionFile.sha);
-
-    return send(res, 200, {
-      ok: true,
-      message: "Payment approved.",
-      payment: payments[index],
-      balance: updatedBalance.balance
+    return send(res, 501, {
+      ok: false,
+      message: "Approvals are temporarily disabled until balance updates are made safe."
     });
 
   } catch (error) {
