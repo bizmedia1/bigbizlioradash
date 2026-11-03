@@ -24,7 +24,7 @@ module.exports = async (req, res) => {
 
   if (
     typeof path !== "string" ||
-    !/^uploads\/payment-proofs\/PAY-[A-Z0-9-]+\.[a-zA-Z0-9]+$/.test(path)
+   !/^uploads\/payment-proofs\/PAY-[A-Z0-9-]+-[a-zA-Z0-9._-]+$/.test(path)
   ) {
     return res.status(400).json({
       ok: false,
