@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#033D2D">
+  <title>Liora Admin Dashboard</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 24px 16px;
+      background: #F5F7F3;
+      color: #123D2D;
+      font-family: Inter, Arial, sans-serif;
+    }
+
+    .dashboard {
+      width: 100%;
+      max-width: 900px;
+      margin: auto;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 28px;
+    }
+
+    h1 {
+      font-size: 23px;
+      margin: 0;
+    }
+
+    .balance-card {
+      padding: 25px;
+      border-radius: 20px;
+      background: #033D2D;
+      color: white;
+      margin-bottom: 24px;
+    }
+
+    .balance-label {
+      color: #C5D8CD;
+      font-size: 14px;
+    }
+
+    .balance {
+      font-size: 32px;
+      font-weight: 700;
+      margin-top: 12px;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .tab {
+      flex: 1;
+      padding: 14px;
+      border: 0;
+      border-radius: 12px;
+      background: #E4EBE5;
+      color: #123D2D;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .tab.active {
+      background: #033D2D;
+      color: white;
+    }
+
+    .panel {
+      padding: 20px;
+      border-radius: 18px;
+      background: white;
+      margin-bottom: 18px;
+      box-shadow: 0 3px 15px rgba(0,0,0,.04);
+    }
+
+    .panel h2 {
+      margin-top: 0;
+      font-size: 18px;
+    }
+
+    .status {
+      color: #708C78;
+      font-size: 14px;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+  <main class="dashboard">
+
+    <header>
+      <h1 id="admin-title">Liora Admin Dashboard</h1>
+      <button id="refresh-button" type="button">Refresh</button>
+    </header>
+
+    <section class="balance-card">
+      <div class="balance-label">Available Balance</div>
+      <div class="balance" id="balance">₦0.00</div>
+    </section>
+
+    <nav class="tabs">
+      <button class="tab active" data-tab="payments">Payments</button>
+      <button class="tab" data-tab="management">Management</button>
+    </nav>
+
+    <section id="payments-section">
+      <div class="panel">
+        <h2>Payment Requests</h2>
+        <p class="status">Payment requests will appear here.</p>
+      </div>
+    </section>
+
+    <section id="management-section" class="hidden">
+      <div class="panel">
+        <h2>Payment Management</h2>
+        <p class="status">
+          Payment settings will appear here.
+        </p>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    document.querySelectorAll(".tab").forEach(button => {
+      button.addEventListener("click", () => {
+        document.querySelectorAll(".tab").forEach(tab => {
+          tab.classList.remove("active");
+        });
+
+        button.classList.add("active");
+
+        document.getElementById("payments-section")
+          .classList.toggle("hidden", button.dataset.tab !== "payments");
+
+        document.getElementById("management-section")
+          .classList.toggle("hidden", button.dataset.tab !== "management");
+      });
+    });
+  </script>
+</body>
+</html>
