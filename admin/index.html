@@ -2,14 +2,12 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#033D2D">
   <title>Liora Admin Dashboard</title>
 
   <style>
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
@@ -20,7 +18,6 @@
     }
 
     .dashboard {
-      width: 100%;
       max-width: 900px;
       margin: auto;
     }
@@ -32,9 +29,14 @@
       margin-bottom: 28px;
     }
 
-    h1 {
-      font-size: 23px;
-      margin: 0;
+    h1 { font-size: 22px; margin: 0; }
+
+    button, input {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
     }
 
     .balance-card {
@@ -70,7 +72,6 @@
       background: #E4EBE5;
       color: #123D2D;
       font-weight: 700;
-      cursor: pointer;
     }
 
     .tab.active {
@@ -91,14 +92,58 @@
       font-size: 18px;
     }
 
-    .status {
-      color: #708C78;
+    .field {
+      margin: 16px 0;
+    }
+
+    .field label {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 7px;
+    }
+
+    .field input {
+      width: 100%;
+      padding: 13px;
+      border: 1px solid #DCE5DD;
+      border-radius: 10px;
+      outline: none;
+    }
+
+    .save-button {
+      width: 100%;
+      padding: 14px;
+      border: 0;
+      border-radius: 11px;
+      background: #033D2D;
+      color: white;
+      font-weight: 700;
+    }
+
+    .toggle-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 0;
+      border-bottom: 1px solid #E9EEE9;
+    }
+
+    .toggle-row input {
+      width: 20px;
+      height: 20px;
+      accent-color: #033D2D;
+    }
+
+    .hidden { display: none !important; }
+
+    #message {
+      margin: 15px 0;
       font-size: 14px;
     }
 
-    .hidden {
-      display: none;
-    }
+    .success { color: #16834A; }
+    .error { color: #C0392B; }
   </style>
 </head>
 
@@ -120,40 +165,247 @@
       <button class="tab" data-tab="management">Management</button>
     </nav>
 
+    <div id="message"></div>
+
     <section id="payments-section">
       <div class="panel">
         <h2>Payment Requests</h2>
-        <p class="status">Payment requests will appear here.</p>
+        <p>Payment request management will be connected next.</p>
       </div>
     </section>
 
     <section id="management-section" class="hidden">
+
       <div class="panel">
-        <h2>Payment Management</h2>
-        <p class="status">
-          Payment settings will appear here.
-        </p>
+        <h2>Admin Profile</h2>
+
+        <div class="field">
+          <label for="adminName">Admin name</label>
+          <input id="adminName" type="text">
+        </div>
       </div>
+
+      <div class="panel">
+        <h2>Payment Amount</h2>
+
+        <div class="field">
+          <label for="paymentAmount">Amount (₦)</label>
+          <input id="paymentAmount" type="number" min="100">
+        </div>
+      </div>
+
+      <div class="panel">
+        <h2>Available Payment Methods</h2>
+
+        <div class="toggle-row">
+          <span>Paga Virtual Accounts</span>
+          <input id="paga" type="checkbox">
+        </div>
+
+        <div class="toggle-row">
+          <span>Manual Bank Transfer</span>
+          <input id="manualBankEnabled" type="checkbox">
+        </div>
+      </div>
+
+      <div class="panel" id="bank-panel">
+        <h2>Manual Bank Details</h2>
+
+        <div class="field">
+          <label for="accountNumber">Account Number</label>
+          <input id="accountNumber" type="text" inputmode="numeric">
+        </div>
+
+        <div class="field">
+          <label for="bankName">Bank Name</label>
+          <input id="bankName" type="text">
+        </div>
+
+        <div class="field">
+          <label for="accountName">Account Name</label>
+          <input id="accountName" type="text">
+        </div>
+      </div>
+
+      <button class="save-button" id="save-settings">
+        Update & Save
+      </button>
+
     </section>
 
   </main>
 
   <script>
+    const API = "/api";
+    let settings = null;
+    let adminSecret = sessionStorage.getItem("liora_admin_secret");
+
+    const $ = id => document.getElementById(id);
+
+    function showMessage(text, type = "success") {
+      $("message").textContent = text;
+      $("message").className = type;
+    }
+
+    function money(value) {
+      return new Intl.NumberFormat("en-NG", {
+        style: "currency",
+        currency: "NGN"
+      }).format(value);
+    }
+
+    function authorizationHeaders() {
+      return {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${adminSecret}`
+      };
+    }
+
+    async function loadSettings() {
+      if (!adminSecret) {
+        adminSecret = prompt("Enter your admin access secret:");
+
+        if (!adminSecret) return;
+
+        sessionStorage.setItem("liora_admin_secret", adminSecret);
+      }
+
+      try {
+        const response = await fetch(
+          `${API}/admin/settings`,
+          {
+            headers: authorizationHeaders(),
+            cache: "no-store"
+          }
+        );
+
+        if (response.status === 401) {
+          sessionStorage.removeItem("liora_admin_secret");
+          adminSecret = null;
+          showMessage("Invalid admin secret. Refresh and try again.", "error");
+          return;
+        }
+
+        const result = await response.json();
+
+        if (!response.ok) {
+          throw new Error(result.message || "Unable to load settings");
+        }
+
+        settings = result.settings;
+
+        $("admin-title").textContent =
+          `${settings.adminName || "Liora"}'s Admin Dashboard`;
+
+        $("adminName").value = settings.adminName || "";
+        $("paymentAmount").value = settings.paymentAmount;
+
+        $("paga").checked = settings.paymentMethods.paga;
+        $("manualBankEnabled").checked =
+          settings.paymentMethods.manualBank;
+
+        $("accountNumber").value =
+          settings.manualBank.accountNumber || "";
+
+        $("bankName").value =
+          settings.manualBank.bankName || "";
+
+        $("accountName").value =
+          settings.manualBank.accountName || "";
+
+        $("bank-panel").classList.toggle(
+          "hidden",
+          !$("manualBankEnabled").checked
+        );
+
+        showMessage("Settings loaded.");
+      } catch (error) {
+        showMessage(error.message, "error");
+      }
+    }
+
+    async function saveSettings() {
+      if (!$("paga").checked && !$("manualBankEnabled").checked) {
+        showMessage("Enable at least one payment method.", "error");
+        return;
+      }
+
+      const payload = {
+        adminName: $("adminName").value,
+        paymentAmount: Number($("paymentAmount").value),
+
+        paymentMethods: {
+          paga: $("paga").checked,
+          manualBank: $("manualBankEnabled").checked
+        },
+
+        manualBank: {
+          accountNumber: $("accountNumber").value.trim(),
+          bankName: $("bankName").value.trim(),
+          accountName: $("accountName").value.trim()
+        }
+      };
+
+      try {
+        $("save-settings").disabled = true;
+        showMessage("Saving settings...");
+
+        const response = await fetch(`${API}/admin/settings`, {
+          method: "PUT",
+          headers: authorizationHeaders(),
+          body: JSON.stringify(payload)
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+          throw new Error(result.message || "Save failed");
+        }
+
+        settings = result.settings;
+
+        $("admin-title").textContent =
+          `${settings.adminName || "Liora"}'s Admin Dashboard`;
+
+        showMessage("Settings saved successfully.");
+      } catch (error) {
+        showMessage(error.message, "error");
+      } finally {
+        $("save-settings").disabled = false;
+      }
+    }
+
     document.querySelectorAll(".tab").forEach(button => {
       button.addEventListener("click", () => {
-        document.querySelectorAll(".tab").forEach(tab => {
-          tab.classList.remove("active");
-        });
+        document.querySelectorAll(".tab").forEach(tab =>
+          tab.classList.remove("active")
+        );
 
         button.classList.add("active");
 
-        document.getElementById("payments-section")
-          .classList.toggle("hidden", button.dataset.tab !== "payments");
+        $("payments-section").classList.toggle(
+          "hidden",
+          button.dataset.tab !== "payments"
+        );
 
-        document.getElementById("management-section")
-          .classList.toggle("hidden", button.dataset.tab !== "management");
+        $("management-section").classList.toggle(
+          "hidden",
+          button.dataset.tab !== "management"
+        );
       });
     });
+
+    $("manualBankEnabled").addEventListener("change", () => {
+      $("bank-panel").classList.toggle(
+        "hidden",
+        !$("manualBankEnabled").checked
+      );
+    });
+
+    $("save-settings").addEventListener("click", saveSettings);
+    $("refresh-button").addEventListener("click", loadSettings);
+
+    loadSettings();
   </script>
 </body>
 </html>
