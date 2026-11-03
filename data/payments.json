@@ -27,8 +27,9 @@
       "proofPath": "uploads/payment-proofs/PAY-1793710790449-2C09EI-IMG_2951.jpeg",
       "proofFileName": "IMG_2951.jpeg",
       "proofFileType": "image/jpeg",
-      "status": "pending",
-      "createdAt": "2026-11-03T12:59:51.978Z"
+      "status": "rejected",
+      "createdAt": "2026-11-03T12:59:51.978Z",
+      "processedAt": "2026-11-03T13:52:44.675Z"
     },
     {
       "id": "PAY-1793710399951-C6A2ZU",
