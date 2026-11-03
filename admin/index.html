@@ -26,9 +26,7 @@
       --success: #16834A;
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
@@ -37,22 +35,15 @@
       font-family: 'Inter', sans-serif;
     }
 
-    button, input {
-      font: inherit;
-    }
-
-    button {
-      cursor: pointer;
-    }
+    button, input { font: inherit; }
+    button { cursor: pointer; }
 
     button:disabled {
       cursor: not-allowed;
       opacity: .55;
     }
 
-    .hidden {
-      display: none !important;
-    }
+    .hidden { display: none !important; }
 
     /* LOGIN */
 
@@ -161,9 +152,7 @@
       padding: 26px 17px 60px;
     }
 
-    #dashboard.unlocked {
-      display: block;
-    }
+    #dashboard.unlocked { display: block; }
 
     .topbar {
       display: flex;
@@ -264,9 +253,7 @@
       line-height: 1.6;
     }
 
-    .field {
-      margin: 17px 0;
-    }
+    .field { margin: 17px 0; }
 
     .field label {
       display: block;
@@ -285,9 +272,7 @@
       color: var(--dark);
     }
 
-    .field input:focus {
-      border-color: var(--sage);
-    }
+    .field input:focus { border-color: var(--sage); }
 
     .toggle-row {
       display: flex;
@@ -300,9 +285,7 @@
       font-weight: 600;
     }
 
-    .toggle-row:last-child {
-      border-bottom: 0;
-    }
+    .toggle-row:last-child { border-bottom: 0; }
 
     .toggle-row input {
       width: 21px;
@@ -339,9 +322,7 @@
       margin-bottom: 18px;
     }
 
-    .payment-heading-row h2 {
-      margin: 0;
-    }
+    .payment-heading-row h2 { margin: 0; }
 
     .refresh-button {
       padding: 10px 13px;
@@ -485,6 +466,13 @@
       font-weight: 700;
     }
 
+    .proof-viewer {
+      min-height: 30px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
     .proof-image {
       display: block;
       width: 100%;
@@ -556,29 +544,12 @@
     }
 
     @media (max-width: 480px) {
-      #dashboard {
-        padding: 20px 13px 45px;
-      }
-
-      .admin-heading {
-        font-size: 15px;
-      }
-
-      .balance-value {
-        font-size: 22px;
-      }
-
-      .panel {
-        padding: 19px 15px;
-      }
-
-      .payment-details {
-        grid-template-columns: 1fr 1fr;
-      }
-
-      .payment-tab {
-        font-size: 10px;
-      }
+      #dashboard { padding: 20px 13px 45px; }
+      .admin-heading { font-size: 15px; }
+      .balance-value { font-size: 22px; }
+      .panel { padding: 19px 15px; }
+      .payment-details { grid-template-columns: 1fr 1fr; }
+      .payment-tab { font-size: 10px; }
     }
   </style>
 </head>
@@ -748,7 +719,9 @@
     let settings = null;
     let allPayments = [];
     let activePaymentStatus = "pending";
-    let balanceVisible = true;
+
+    // Keep generated receipt URLs so they can be released later.
+    let proofObjectURLs = [];
 
     function showMessage(text, type = "success") {
       $("message").textContent = text;
@@ -867,7 +840,14 @@
       $("toggle-password").textContent = visible ? "SHOW" : "HIDE";
     });
 
+    function clearProofObjectURLs() {
+      proofObjectURLs.forEach(url => URL.revokeObjectURL(url));
+      proofObjectURLs = [];
+    }
+
     $("logout-button").addEventListener("click", () => {
+      clearProofObjectURLs();
+
       adminSecret = null;
       settings = null;
       allPayments = [];
@@ -1010,15 +990,15 @@
         "Reference unavailable";
     }
 
+    // The backend stores the receipt's GitHub path in proofPath.
     function getProofURL(payment) {
-      return payment.proofImageUrl ||
-        payment.proofUrl ||
-        payment.proof ||
-        payment.paymentProof ||
-        "";
+      return payment.proofPath || "";
     }
 
     function renderPayments() {
+      // Release previous receipt URLs before replacing the payment cards.
+      clearProofObjectURLs();
+
       const filtered = allPayments.filter(payment =>
         getPaymentStatus(payment) === activePaymentStatus
       );
@@ -1051,25 +1031,18 @@
         const proof = getProofURL(payment);
         const status = getPaymentStatus(payment);
 
-        const safeProof = safeURL(proof);
         const statusClass = `status-${status}`;
 
-        const proofHTML = safeProof
+        const proofHTML = proof
           ? `
             <div class="proof-section">
               <div class="proof-title">Payment Proof</div>
-              <a href="${escapeHTML(safeProof)}" target="_blank" rel="noopener noreferrer">
-                <img
-                  class="proof-image"
-                  src="${escapeHTML(safeProof)}"
-                  alt="Payment proof"
-                  loading="lazy"
-                  onerror="this.style.display='none'; this.parentElement.insertAdjacentHTML('beforeend','<span class=&quot;disabled-note&quot;>Proof preview unavailable.</span>')"
-                >
-              </a>
-              <a class="proof-link" href="${escapeHTML(safeProof)}" target="_blank" rel="noopener noreferrer">
-                Open proof
-              </a>
+              <div
+                class="proof-viewer"
+                data-proof-path="${escapeHTML(proof)}"
+              >
+                Loading receipt...
+              </div>
             </div>
           `
           : `
@@ -1084,8 +1057,7 @@
             <div class="payment-actions">
               <button
                 class="action-button approve-button"
-                disabled
-                title="Approvals are temporarily disabled"
+                data-approve-id="${escapeHTML(id)}"
               >
                 Approve
               </button>
@@ -1096,10 +1068,6 @@
               >
                 Reject
               </button>
-            </div>
-
-            <div class="disabled-note">
-              Approval is temporarily disabled while balance processing is being secured.
             </div>
           `
           : "";
@@ -1140,6 +1108,14 @@
           rejectPayment(button.dataset.rejectId, button);
         });
       });
+
+      document.querySelectorAll("[data-approve-id]").forEach(button => {
+        button.addEventListener("click", () => {
+          approvePayment(button.dataset.approveId, button);
+        });
+      });
+
+      loadPaymentProofs();
     }
 
     function safeURL(value) {
@@ -1156,6 +1132,74 @@
       } catch {
         return "";
       }
+    }
+
+    // Load receipts through the authenticated backend endpoint.
+    async function loadPaymentProofs() {
+      const viewers = document.querySelectorAll("[data-proof-path]");
+
+      viewers.forEach(async viewer => {
+        const path = viewer.dataset.proofPath;
+        const extension = path.split(".").pop().toLowerCase();
+
+        try {
+          const response = await fetch(
+            `${API}/payments/proof?path=${encodeURIComponent(path)}`,
+            {
+              headers: {
+                "Authorization": `Bearer ${adminSecret}`
+              },
+              cache: "no-store"
+            }
+          );
+
+          if (!response.ok) {
+            throw new Error("Receipt unavailable");
+          }
+
+          const blob = await response.blob();
+
+          const url = URL.createObjectURL(blob);
+          proofObjectURLs.push(url);
+
+          const isImage = ["jpg", "jpeg", "png", "webp"].includes(extension);
+
+          if (isImage) {
+            viewer.innerHTML = `
+              <a href="${url}" target="_blank" rel="noopener noreferrer">
+                <img
+                  class="proof-image"
+                  src="${url}"
+                  alt="Payment receipt"
+                >
+              </a>
+
+              <a
+                class="proof-link"
+                href="${url}"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Open receipt
+              </a>
+            `;
+          } else {
+            viewer.innerHTML = `
+              <a
+                class="proof-link"
+                href="${url}"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Open or download receipt
+              </a>
+            `;
+          }
+
+        } catch (error) {
+          viewer.textContent = "Unable to load receipt.";
+        }
+      });
     }
 
     async function rejectPayment(id, button) {
@@ -1189,6 +1233,41 @@
         showMessage(error.message, "error");
         button.disabled = false;
         button.textContent = "Reject";
+      }
+    }
+
+    // Approve only after the administrator confirms the payment was received.
+    async function approvePayment(id, button) {
+      if (!id || !confirm("Have you confirmed this payment in your bank?")) {
+        return;
+      }
+
+      button.disabled = true;
+      button.textContent = "Approving...";
+
+      try {
+        const response = await fetch(`${API}/admin/payments`, {
+          method: "POST",
+          headers: authHeaders(),
+          body: JSON.stringify({
+            id,
+            action: "approve"
+          })
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+          throw new Error(result.message || "Unable to approve payment.");
+        }
+
+        showMessage("Payment approved and balance updated.");
+        await refreshPayments();
+
+      } catch (error) {
+        showMessage(error.message, "error");
+        button.disabled = false;
+        button.textContent = "Approve";
       }
     }
 
