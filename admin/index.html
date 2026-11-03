@@ -4,32 +4,36 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#033D2D">
-  <title>Liora Admin Dashboard</title>
+  <title>Liora Admin</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
-    * { box-sizing: border-box; }
+    :root {
+      --dark: #033D2D;
+      --green: #064D38;
+      --sage: #708C78;
+      --light: #E5EDE6;
+      --cream: #FFFBEA;
+      --yellow: #F8B91D;
+      --white: #FFFFFF;
+      --text: #173C2E;
+      --muted: #718078;
+      --border: #DCE6DC;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
 
     body {
       margin: 0;
-      padding: 24px 16px;
-      background: #F5F7F3;
-      color: #123D2D;
-      font-family: Inter, Arial, sans-serif;
+      background: var(--cream);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
     }
-
-    .dashboard {
-      max-width: 900px;
-      margin: auto;
-    }
-
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 28px;
-    }
-
-    h1 { font-size: 22px; margin: 0; }
 
     button, input {
       font: inherit;
@@ -39,23 +43,182 @@
       cursor: pointer;
     }
 
-    .balance-card {
-      padding: 25px;
-      border-radius: 20px;
-      background: #033D2D;
+    .hidden {
+      display: none !important;
+    }
+
+    /* LOGIN */
+
+    #login-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      background:
+        radial-gradient(circle at top right, #0B5B40, transparent 48%),
+        linear-gradient(145deg, #021F18, #033D2D 65%, #064D38);
+    }
+
+    .login-card {
+      width: 100%;
+      max-width: 410px;
+      padding: 34px 26px;
+      border: 1px solid rgba(255,255,255,.15);
+      border-radius: 25px;
+      background: rgba(255,251,234,.98);
+      box-shadow: 0 25px 80px rgba(0,0,0,.25);
+    }
+
+    .login-brand {
+      font-family: 'Unbounded', sans-serif;
+      font-size: 27px;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 9px;
+    }
+
+    .login-subtitle {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.6;
+      margin-bottom: 28px;
+    }
+
+    .login-label {
+      display: block;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 9px;
+    }
+
+    .password-box {
+      display: flex;
+      align-items: center;
+      border: 1.5px solid var(--border);
+      border-radius: 13px;
+      background: white;
+      overflow: hidden;
+      transition: .2s;
+    }
+
+    .password-box:focus-within {
+      border-color: var(--sage);
+      box-shadow: 0 0 0 4px rgba(112,140,120,.12);
+    }
+
+    .password-box input {
+      width: 100%;
+      min-width: 0;
+      padding: 16px;
+      border: 0;
+      outline: 0;
+      background: transparent;
+      color: var(--dark);
+    }
+
+    .password-box button {
+      border: 0;
+      padding: 14px;
+      background: transparent;
+      color: var(--sage);
+      font-weight: 700;
+    }
+
+    .login-button {
+      width: 100%;
+      padding: 16px;
+      margin-top: 20px;
+      border: 0;
+      border-radius: 13px;
+      background: var(--dark);
       color: white;
-      margin-bottom: 24px;
+      font-weight: 700;
+    }
+
+    .login-button:disabled {
+      opacity: .6;
+    }
+
+    #login-message {
+      min-height: 20px;
+      margin-top: 14px;
+      font-size: 13px;
+      color: #B33A32;
+      line-height: 1.5;
+    }
+
+    /* DASHBOARD */
+
+    #dashboard {
+      display: none;
+      max-width: 850px;
+      margin: auto;
+      padding: 26px 17px 60px;
+    }
+
+    #dashboard.unlocked {
+      display: block;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 25px;
+    }
+
+    .admin-heading {
+      font-family: 'Unbounded', sans-serif;
+      font-size: 18px;
+      line-height: 1.5;
+      font-weight: 600;
+    }
+
+    .icon-button {
+      border: 1px solid var(--border);
+      background: white;
+      color: var(--dark);
+      border-radius: 12px;
+      padding: 11px 14px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .balance-card {
+      position: relative;
+      padding: 27px 23px;
+      margin-bottom: 25px;
+      border-radius: 21px;
+      background: linear-gradient(135deg, #033D2D, #07533B);
+      color: white;
+      overflow: hidden;
+    }
+
+    .balance-card::after {
+      content: "";
+      position: absolute;
+      width: 180px;
+      height: 180px;
+      right: -65px;
+      top: -90px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.06);
     }
 
     .balance-label {
-      color: #C5D8CD;
-      font-size: 14px;
+      color: #D1DFD4;
+      font-size: 13px;
     }
 
-    .balance {
-      font-size: 32px;
-      font-weight: 700;
-      margin-top: 12px;
+    .balance-value {
+      margin-top: 14px;
+      font-family: 'Unbounded', sans-serif;
+      font-size: 27px;
+      font-weight: 600;
     }
 
     .tabs {
@@ -66,98 +229,160 @@
 
     .tab {
       flex: 1;
-      padding: 14px;
-      border: 0;
-      border-radius: 12px;
-      background: #E4EBE5;
-      color: #123D2D;
+      padding: 15px 9px;
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      background: var(--light);
+      color: var(--dark);
       font-weight: 700;
     }
 
     .tab.active {
-      background: #033D2D;
+      background: var(--dark);
       color: white;
+      border-color: var(--dark);
     }
 
     .panel {
-      padding: 20px;
-      border-radius: 18px;
+      padding: 23px 20px;
+      margin-bottom: 17px;
+      border: 1px solid rgba(112,140,120,.12);
+      border-radius: 20px;
       background: white;
-      margin-bottom: 18px;
-      box-shadow: 0 3px 15px rgba(0,0,0,.04);
+      box-shadow: 0 8px 25px rgba(3,61,45,.035);
     }
 
     .panel h2 {
-      margin-top: 0;
-      font-size: 18px;
+      margin: 0 0 22px;
+      font-family: 'Unbounded', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      line-height: 1.6;
     }
 
     .field {
-      margin: 16px 0;
+      margin: 17px 0;
     }
 
     .field label {
       display: block;
-      font-size: 14px;
-      font-weight: 600;
-      margin-bottom: 7px;
+      margin-bottom: 9px;
+      font-size: 13px;
+      font-weight: 700;
     }
 
     .field input {
       width: 100%;
-      padding: 13px;
-      border: 1px solid #DCE5DD;
-      border-radius: 10px;
+      padding: 15px;
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      background: #FFFEF8;
       outline: none;
+      color: var(--dark);
     }
 
-    .save-button {
-      width: 100%;
-      padding: 14px;
-      border: 0;
-      border-radius: 11px;
-      background: #033D2D;
-      color: white;
-      font-weight: 700;
+    .field input:focus {
+      border-color: var(--sage);
     }
 
     .toggle-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 14px 0;
-      border-bottom: 1px solid #E9EEE9;
+      gap: 15px;
+      padding: 17px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .toggle-row:last-child {
+      border-bottom: 0;
     }
 
     .toggle-row input {
-      width: 20px;
-      height: 20px;
-      accent-color: #033D2D;
+      width: 21px;
+      height: 21px;
+      accent-color: var(--dark);
     }
 
-    .hidden { display: none !important; }
+    .save-button {
+      width: 100%;
+      padding: 16px;
+      border: 0;
+      border-radius: 13px;
+      background: var(--dark);
+      color: white;
+      font-weight: 700;
+    }
 
     #message {
-      margin: 15px 0;
-      font-size: 14px;
+      margin: 12px 0;
+      font-size: 13px;
     }
 
     .success { color: #16834A; }
-    .error { color: #C0392B; }
+    .error { color: #B33A32; }
   </style>
 </head>
 
 <body>
-  <main class="dashboard">
 
-    <header>
-      <h1 id="admin-title">Liora Admin Dashboard</h1>
-      <button id="refresh-button" type="button">Refresh</button>
+  <!-- LOGIN SCREEN -->
+  <section id="login-screen">
+    <div class="login-card">
+
+      <div class="login-brand">LIORA</div>
+
+      <div class="login-subtitle">
+        Welcome to your administration portal.
+        Enter your admin password to continue.
+      </div>
+
+      <form id="login-form">
+        <label class="login-label" for="admin-password">
+          Admin Password
+        </label>
+
+        <div class="password-box">
+          <input
+            id="admin-password"
+            type="password"
+            placeholder="Enter your admin password"
+            autocomplete="current-password"
+            required
+          >
+          <button type="button" id="toggle-password">
+            SHOW
+          </button>
+        </div>
+
+        <button class="login-button" id="login-button" type="submit">
+          Unlock Dashboard
+        </button>
+
+        <div id="login-message" role="alert"></div>
+      </form>
+
+    </div>
+  </section>
+
+  <!-- DASHBOARD: HIDDEN UNTIL AUTHENTICATED -->
+  <main id="dashboard">
+
+    <header class="topbar">
+      <div class="admin-heading" id="admin-title">
+        Liora Admin Dashboard
+      </div>
+
+      <button class="icon-button" id="logout-button">
+        Log out
+      </button>
     </header>
 
     <section class="balance-card">
       <div class="balance-label">Available Balance</div>
-      <div class="balance" id="balance">₦0.00</div>
+      <div class="balance-value" id="balance">₦0.00</div>
     </section>
 
     <nav class="tabs">
@@ -237,143 +462,122 @@
 
   <script>
     const API = "/api";
-    let settings = null;
-    let adminSecret = sessionStorage.getItem("liora_admin_secret");
-
     const $ = id => document.getElementById(id);
+
+    let adminSecret = null;
+    let settings = null;
 
     function showMessage(text, type = "success") {
       $("message").textContent = text;
       $("message").className = type;
     }
 
-    function money(value) {
-      return new Intl.NumberFormat("en-NG", {
-        style: "currency",
-        currency: "NGN"
-      }).format(value);
-    }
-
-    function authorizationHeaders() {
+    function authHeaders() {
       return {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${adminSecret}`
       };
     }
 
-    async function loadSettings() {
-      if (!adminSecret) {
-        adminSecret = prompt("Enter your admin access secret:");
-
-        if (!adminSecret) return;
-
-        sessionStorage.setItem("liora_admin_secret", adminSecret);
-      }
-
-      try {
-        const response = await fetch(
-          `${API}/admin/settings`,
-          {
-            headers: authorizationHeaders(),
-            cache: "no-store"
-          }
-        );
-
-        if (response.status === 401) {
-          sessionStorage.removeItem("liora_admin_secret");
-          adminSecret = null;
-          showMessage("Invalid admin secret. Refresh and try again.", "error");
-          return;
-        }
-
-        const result = await response.json();
-
-        if (!response.ok) {
-          throw new Error(result.message || "Unable to load settings");
-        }
-
-        settings = result.settings;
-
-        $("admin-title").textContent =
-          `${settings.adminName || "Liora"}'s Admin Dashboard`;
-
-        $("adminName").value = settings.adminName || "";
-        $("paymentAmount").value = settings.paymentAmount;
-
-        $("paga").checked = settings.paymentMethods.paga;
-        $("manualBankEnabled").checked =
-          settings.paymentMethods.manualBank;
-
-        $("accountNumber").value =
-          settings.manualBank.accountNumber || "";
-
-        $("bankName").value =
-          settings.manualBank.bankName || "";
-
-        $("accountName").value =
-          settings.manualBank.accountName || "";
-
-        $("bank-panel").classList.toggle(
-          "hidden",
-          !$("manualBankEnabled").checked
-        );
-
-        showMessage("Settings loaded.");
-      } catch (error) {
-        showMessage(error.message, "error");
-      }
-    }
-
-    async function saveSettings() {
-      if (!$("paga").checked && !$("manualBankEnabled").checked) {
-        showMessage("Enable at least one payment method.", "error");
-        return;
-      }
-
-      const payload = {
-        adminName: $("adminName").value,
-        paymentAmount: Number($("paymentAmount").value),
-
-        paymentMethods: {
-          paga: $("paga").checked,
-          manualBank: $("manualBankEnabled").checked
+    async function verifySecret(secret) {
+      const response = await fetch(`${API}/admin/settings`, {
+        method: "GET",
+        headers: {
+          "Authorization": `Bearer ${secret}`
         },
+        cache: "no-store"
+      });
 
-        manualBank: {
-          accountNumber: $("accountNumber").value.trim(),
-          bankName: $("bankName").value.trim(),
-          accountName: $("accountName").value.trim()
-        }
-      };
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(
+          result.message || "Incorrect admin password."
+        );
+      }
+
+      return result.settings;
+    }
+
+    function unlockDashboard(data) {
+      settings = data;
+      adminSecret = $("admin-password").value;
+
+      $("login-screen").classList.add("hidden");
+      $("dashboard").classList.add("unlocked");
+
+      loadForm(data);
+    }
+
+    function loadForm(data) {
+      $("admin-title").textContent =
+        `${data.adminName || "Liora"}'s Admin Dashboard`;
+
+      $("adminName").value = data.adminName || "";
+      $("paymentAmount").value = data.paymentAmount;
+
+      $("paga").checked = data.paymentMethods.paga;
+      $("manualBankEnabled").checked =
+        data.paymentMethods.manualBank;
+
+      $("accountNumber").value =
+        data.manualBank.accountNumber || "";
+
+      $("bankName").value =
+        data.manualBank.bankName || "";
+
+      $("accountName").value =
+        data.manualBank.accountName || "";
+
+      $("bank-panel").classList.toggle(
+        "hidden",
+        !$("manualBankEnabled").checked
+      );
+    }
+
+    $("login-form").addEventListener("submit", async event => {
+      event.preventDefault();
+
+      const secret = $("admin-password").value.trim();
+
+      if (!secret) return;
+
+      $("login-button").disabled = true;
+      $("login-button").textContent = "Verifying...";
+      $("login-message").textContent = "";
 
       try {
-        $("save-settings").disabled = true;
-        showMessage("Saving settings...");
-
-        const response = await fetch(`${API}/admin/settings`, {
-          method: "PUT",
-          headers: authorizationHeaders(),
-          body: JSON.stringify(payload)
-        });
-
-        const result = await response.json();
-
-        if (!response.ok) {
-          throw new Error(result.message || "Save failed");
-        }
-
-        settings = result.settings;
-
-        $("admin-title").textContent =
-          `${settings.adminName || "Liora"}'s Admin Dashboard`;
-
-        showMessage("Settings saved successfully.");
+        const data = await verifySecret(secret);
+        unlockDashboard(data);
       } catch (error) {
-        showMessage(error.message, "error");
+        $("login-message").textContent =
+          "Access denied. Check your password and try again.";
+        $("admin-password").value = "";
       } finally {
-        $("save-settings").disabled = false;
+        $("login-button").disabled = false;
+        $("login-button").textContent = "Unlock Dashboard";
       }
-    }
+    });
+
+    $("toggle-password").addEventListener("click", () => {
+      const input = $("admin-password");
+      const visible = input.type === "text";
+
+      input.type = visible ? "password" : "text";
+      $("toggle-password").textContent =
+        visible ? "SHOW" : "HIDE";
+    });
+
+    $("logout-button").addEventListener("click", () => {
+      adminSecret = null;
+      settings = null;
+
+      $("dashboard").classList.remove("unlocked");
+      $("login-screen").classList.remove("hidden");
+
+      $("admin-password").value = "";
+      $("login-message").textContent = "";
+    });
 
     document.querySelectorAll(".tab").forEach(button => {
       button.addEventListener("click", () => {
@@ -402,10 +606,54 @@
       );
     });
 
-    $("save-settings").addEventListener("click", saveSettings);
-    $("refresh-button").addEventListener("click", loadSettings);
+    $("save-settings").addEventListener("click", async () => {
+      if (!$("paga").checked && !$("manualBankEnabled").checked) {
+        showMessage("Enable at least one payment method.", "error");
+        return;
+      }
 
-    loadSettings();
+      const payload = {
+        adminName: $("adminName").value.trim(),
+        paymentAmount: Number($("paymentAmount").value),
+
+        paymentMethods: {
+          paga: $("paga").checked,
+          manualBank: $("manualBankEnabled").checked
+        },
+
+        manualBank: {
+          accountNumber: $("accountNumber").value.trim(),
+          bankName: $("bankName").value.trim(),
+          accountName: $("accountName").value.trim()
+        }
+      };
+
+      try {
+        $("save-settings").disabled = true;
+        showMessage("Saving settings...");
+
+        const response = await fetch(`${API}/admin/settings`, {
+          method: "PUT",
+          headers: authHeaders(),
+          body: JSON.stringify(payload)
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+          throw new Error(result.message || "Unable to save.");
+        }
+
+        settings = result.settings;
+        loadForm(settings);
+        showMessage("Settings saved successfully.");
+      } catch (error) {
+        showMessage(error.message, "error");
+      } finally {
+        $("save-settings").disabled = false;
+      }
+    });
   </script>
+
 </body>
 </html>
