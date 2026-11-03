@@ -1,10 +1,38 @@
-const { readJSON, writeJSON, writeFile } = require("../../lib/github-storage");
+const {
+  readJSON,
+  writeJSON,
+  writeFile
+} = require("../../lib/github-storage");
+
+const ALLOWED_ORIGIN = "*";
+
+function setCors(req, res) {
+  res.setHeader("Access-Control-Allow-Origin", ALLOWED_ORIGIN);
+  res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "Content-Type, Authorization"
+  );
+  res.setHeader("Access-Control-Max-Age", "86400");
+  res.setHeader("Vary", "Origin");
+  res.setHeader("Cache-Control", "no-store");
+}
+
+function send(res, status, data) {
+  return res.status(status).json(data);
+}
 
 module.exports = async (req, res) => {
-  res.setHeader("Cache-Control", "no-store");
+  setCors(req, res);
+
+  if (req.method === "OPTIONS") {
+    return res.status(204).end();
+  }
 
   if (req.method !== "POST") {
-    return res.status(405).json({
+    res.setHeader("Allow", "POST, OPTIONS");
+
+    return send(res, 405, {
       ok: false,
       message: "Method not allowed"
     });
@@ -23,9 +51,16 @@ module.exports = async (req, res) => {
       fileData
     } = req.body || {};
 
-    if (!customerName || !email || !amount || !method ||
-        !fileName || !fileType || !fileData) {
-      return res.status(400).json({
+    if (
+      !customerName ||
+      !email ||
+      !amount ||
+      !method ||
+      !fileName ||
+      !fileType ||
+      !fileData
+    ) {
+      return send(res, 400, {
         ok: false,
         message: "Please provide your details and payment receipt."
       });
@@ -36,19 +71,23 @@ module.exports = async (req, res) => {
       "pdf", "doc", "docx"
     ];
 
-    const extension = String(fileName).split(".").pop().toLowerCase();
+    const extension = String(fileName)
+      .split(".")
+      .pop()
+      .toLowerCase();
 
     if (!allowedExtensions.includes(extension)) {
-      return res.status(400).json({
+      return send(res, 400, {
         ok: false,
         message: "Unsupported receipt file."
       });
     }
 
-    const base64 = String(fileData).replace(/^data:[^;]+;base64,/, "");
+    const base64 = String(fileData)
+      .replace(/^data:[^;]+;base64,/, "");
 
     if (!base64 || base64.length > 4 * 1024 * 1024) {
-      return res.status(413).json({
+      return send(res, 413, {
         ok: false,
         message: "Receipt must not exceed 3 MB."
       });
@@ -57,14 +96,16 @@ module.exports = async (req, res) => {
     const buffer = Buffer.from(base64, "base64");
 
     if (buffer.length > 3 * 1024 * 1024) {
-      return res.status(413).json({
+      return send(res, 413, {
         ok: false,
         message: "Receipt must not exceed 3 MB."
       });
     }
 
     const paymentId =
-      "PAY-" + Date.now() + "-" +
+      "PAY-" +
+      Date.now() +
+      "-" +
       Math.random().toString(36).slice(2, 8).toUpperCase();
 
     const safeName = String(fileName)
@@ -80,8 +121,10 @@ module.exports = async (req, res) => {
       payments: []
     });
 
-    const payments = Array.isArray(stored.data.payments)
-      ? stored.data.payments
+    const paymentData = stored.data || {};
+
+    const payments = Array.isArray(paymentData.payments)
+      ? paymentData.payments
       : [];
 
     const payment = {
@@ -103,11 +146,14 @@ module.exports = async (req, res) => {
 
     await writeJSON(
       "data/payments.json",
-      { ...stored.data, payments },
+      {
+        ...paymentData,
+        payments
+      },
       stored.sha
     );
 
-    return res.status(201).json({
+    return send(res, 201, {
       ok: true,
       message: "Payment proof submitted successfully.",
       paymentId
@@ -116,7 +162,7 @@ module.exports = async (req, res) => {
   } catch (error) {
     console.error("[Payment Submission]", error);
 
-    return res.status(500).json({
+    return send(res, 500, {
       ok: false,
       message: "Unable to submit payment proof. Please try again."
     });
