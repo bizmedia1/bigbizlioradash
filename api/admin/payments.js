@@ -2,8 +2,7 @@ const { readJSON, writeJSON } = require("../../lib/github-storage");
 
 const FILES = {
   payments: "data/payments.json",
-  balance: "data/balance.json",
-  transactions: "data/transactions.json"
+  balance: "data/balance.json"
 };
 
 function send(res, status, data) {
@@ -21,6 +20,24 @@ function authenticate(req) {
 
 function paymentId(payment) {
   return String(payment.id || payment.reference || "");
+}
+
+function getCounts(payments) {
+  const counts = {
+    pending: 0,
+    approved: 0,
+    rejected: 0
+  };
+
+  payments.forEach(payment => {
+    const status = String(payment.status || "pending").toLowerCase();
+
+    if (Object.prototype.hasOwnProperty.call(counts, status)) {
+      counts[status]++;
+    }
+  });
+
+  return counts;
 }
 
 module.exports = async function handler(req, res) {
@@ -44,24 +61,19 @@ module.exports = async function handler(req, res) {
       : [];
 
     if (req.method === "GET") {
-      const counts = {
-        pending: 0,
-        approved: 0,
-        rejected: 0
-      };
-
-      payments.forEach(payment => {
-        const status = String(payment.status || "pending").toLowerCase();
-
-        if (counts[status] !== undefined) {
-          counts[status]++;
-        }
+      const balanceFile = await readJSON(FILES.balance, {
+        balance: 0,
+        currency: "NGN"
       });
+
+      const balanceData = balanceFile.data || {};
 
       return send(res, 200, {
         ok: true,
         payments,
-        counts
+        counts: getCounts(payments),
+        balance: Number(balanceData.balance || 0),
+        currency: balanceData.currency || "NGN"
       });
     }
 
@@ -103,36 +115,35 @@ module.exports = async function handler(req, res) {
       });
     }
 
-    const processedAt = new Date().toISOString();
-
-    const updatedPayments = [...payments];
-
-    if (action === "reject") {
-      updatedPayments[index] = {
-        ...payment,
-        status: "rejected",
-        processedAt
-      };
-
-      await writeJSON(
-        FILES.payments,
-        {
-          ...paymentData,
-          payments: updatedPayments
-        },
-        paymentFile.sha
-      );
-
-      return send(res, 200, {
-        ok: true,
-        message: "Payment rejected.",
-        payment: updatedPayments[index]
+    if (action === "approve") {
+      return send(res, 501, {
+        ok: false,
+        message: "Payment approvals are temporarily disabled."
       });
     }
 
-    return send(res, 501, {
-      ok: false,
-      message: "Approvals are temporarily disabled until balance updates are made safe."
+    const processedAt = new Date().toISOString();
+    const updatedPayments = [...payments];
+
+    updatedPayments[index] = {
+      ...payment,
+      status: "rejected",
+      processedAt
+    };
+
+    await writeJSON(
+      FILES.payments,
+      {
+        ...paymentData,
+        payments: updatedPayments
+      },
+      paymentFile.sha
+    );
+
+    return send(res, 200, {
+      ok: true,
+      message: "Payment rejected.",
+      payment: updatedPayments[index]
     });
 
   } catch (error) {
