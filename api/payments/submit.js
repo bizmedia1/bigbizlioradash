@@ -1,3 +1,5 @@
+const crypto = require("crypto");
+
 const {
   readJSON,
   writeJSON,
@@ -108,6 +110,14 @@ module.exports = async (req, res) => {
       "-" +
       Math.random().toString(36).slice(2, 8).toUpperCase();
 
+    // Generate a private token for customer-side payment tracking.
+    const statusToken = crypto.randomBytes(32).toString("hex");
+
+    const statusTokenHash = crypto
+      .createHash("sha256")
+      .update(statusToken)
+      .digest("hex");
+
     const safeName = String(fileName)
       .replace(/[^a-zA-Z0-9._-]/g, "_")
       .slice(-100);
@@ -138,6 +148,7 @@ module.exports = async (req, res) => {
       proofPath,
       proofFileName: safeName,
       proofFileType: String(fileType),
+      statusTokenHash,
       status: "pending",
       createdAt: new Date().toISOString()
     };
@@ -156,7 +167,8 @@ module.exports = async (req, res) => {
     return send(res, 201, {
       ok: true,
       message: "Payment proof submitted successfully.",
-      paymentId
+      paymentId,
+      statusToken
     });
 
   } catch (error) {
