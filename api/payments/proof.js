@@ -1,5 +1,21 @@
 const { readFile } = require("../../lib/github-storage");
 
+function getMimeType(path) {
+  const extension = path.split(".").pop().toLowerCase();
+
+  const mimeTypes = {
+    jpg: "image/jpeg",
+    jpeg: "image/jpeg",
+    png: "image/png",
+    webp: "image/webp",
+    pdf: "application/pdf",
+    doc: "application/msword",
+    docx: "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+  };
+
+  return mimeTypes[extension] || "application/octet-stream";
+}
+
 module.exports = async (req, res) => {
   res.setHeader("Cache-Control", "no-store");
 
@@ -24,7 +40,7 @@ module.exports = async (req, res) => {
 
   if (
     typeof path !== "string" ||
-   !/^uploads\/payment-proofs\/PAY-[A-Z0-9-]+-[a-zA-Z0-9._-]+$/.test(path)
+    !/^uploads\/payment-proofs\/PAY-[A-Z0-9-]+-[a-zA-Z0-9._-]+$/.test(path)
   ) {
     return res.status(400).json({
       ok: false,
@@ -36,11 +52,13 @@ module.exports = async (req, res) => {
     const file = await readFile(path);
     const content = Buffer.from(file.content, "base64");
 
-    res.setHeader("Content-Type", "application/octet-stream");
+    res.setHeader("Content-Type", getMimeType(path));
     res.setHeader("Content-Disposition", "inline");
     res.setHeader("Content-Length", content.length);
+    res.setHeader("X-Content-Type-Options", "nosniff");
 
     return res.status(200).send(content);
+
   } catch (error) {
     console.error("[Payment Proof]", error);
 
