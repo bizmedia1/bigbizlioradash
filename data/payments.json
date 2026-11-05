@@ -74,8 +74,9 @@
       "proofFileName": "IMG_3057.png",
       "proofFileType": "image/png",
       "statusTokenHash": "2d61160555efcd8f266ad37f87bcdfa4db92268dda24af901c63e340a603e817",
-      "status": "pending",
-      "createdAt": "2026-11-03T15:02:47.792Z"
+      "status": "rejected",
+      "createdAt": "2026-11-03T15:02:47.792Z",
+      "processedAt": "2026-11-05T00:50:38.507Z"
     },
     {
       "id": "PAY-1793717968341-X46LGS",
