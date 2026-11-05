@@ -59,8 +59,9 @@
       "proofFileName": "image.jpg",
       "proofFileType": "image/jpeg",
       "statusTokenHash": "b248fff5d988fdcce5f2362b184875f1356eaf8632ae72498af1e3a049ed9c7f",
-      "status": "pending",
-      "createdAt": "2026-11-05T00:30:43.743Z"
+      "status": "rejected",
+      "createdAt": "2026-11-05T00:30:43.743Z",
+      "processedAt": "2026-11-05T00:50:44.514Z"
     },
     {
       "id": "PAY-1793718165887-HDU2ZA",
