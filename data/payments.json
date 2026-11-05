@@ -12,8 +12,9 @@
       "proofFileName": "IMG_3112.png",
       "proofFileType": "image/png",
       "statusTokenHash": "efd7b079a475f546d5ad2f2bc58234d6128cb4fcf4aa242268652537ccd1745e",
-      "status": "pending",
-      "createdAt": "2026-11-05T01:06:29.666Z"
+      "status": "rejected",
+      "createdAt": "2026-11-05T01:06:29.666Z",
+      "processedAt": "2026-11-05T01:09:04.758Z"
     },
     {
       "id": "PAY-1793840429105-2KJAPM",
