@@ -12,8 +12,9 @@
       "proofFileName": "IMG_3146.png",
       "proofFileType": "image/png",
       "statusTokenHash": "1fc9d075750befb9085fe30e52ecbd4ac26973ccde9935eafcbab8e9e3bdeb66",
-      "status": "pending",
-      "createdAt": "2026-11-05T01:12:31.293Z"
+      "status": "rejected",
+      "createdAt": "2026-11-05T01:12:31.293Z",
+      "processedAt": "2026-11-05T01:12:47.171Z"
     },
     {
       "id": "PAY-1793840969809-7QJN50",
