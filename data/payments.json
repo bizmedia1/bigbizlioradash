@@ -122,8 +122,9 @@
       "proofFileName": "IMG_3130.png",
       "proofFileType": "image/png",
       "statusTokenHash": "429785b87ccc220406df57d97a9e8cfc102ceef2508c0be4edbd7db5113ff661",
-      "status": "pending",
-      "createdAt": "2026-11-05T00:55:00.992Z"
+      "status": "rejected",
+      "createdAt": "2026-11-05T00:55:00.992Z",
+      "processedAt": "2026-11-05T12:40:50.548Z"
     },
     {
       "id": "PAY-1793839811484-ILMNRX",
