@@ -3,9 +3,9 @@
   "enabled": true,
   "creators": [
     {
-      "id": "creator-mw4wd5qj-it5gy",
-      "name": "Adebamis",
-      "imageUrl": "https://i.postimg.cc/cLmVfb37/IMG-3192.jpg",
+      "id": "creator-mw55ecf4-uhcn2",
+      "name": "Akajan",
+      "imageUrl": "https://i.postimg.cc/HWfjrHfb/IMG-3218.jpg",
       "verified": true,
       "active": true
     }
@@ -15,18 +15,18 @@
   ],
   "stories": [
     {
-      "id": "story-mw4wdv29-mh3p5",
+      "id": "story-mw55fsho-ppog5",
       "category": "Job Design",
-      "creatorId": "creator-mw4wd5qj-it5gy",
-      "title": "Bamiauaj 12:35",
-      "caption": "@/@2! Kqjsnsns w sjs sjsbs",
-      "videoUrl": "https://vt.tiktok.com/ZSp6Vq77T/",
+      "creatorId": "creator-mw55ecf4-uhcn2",
+      "title": "Wowiwb owhwebs",
+      "caption": "Oskwwwbsbs ssisishsjenejwwjwhebeb",
+      "videoUrl": "https://vt.tiktok.com/ZSpM2WyA5/",
       "videoFormat": "landscape",
-      "thumbnail": "https://i.postimg.cc/cLmVfb37/IMG-3192.jpg",
+      "thumbnail": "https://i.postimg.cc/HWfjrHfb/IMG-3218.jpg",
       "reward": 2750,
-      "duration": 10,
-      "views": 91820,
-      "time": "11:23",
+      "duration": 30,
+      "views": 0,
+      "time": "",
       "active": true
     }
   ],
@@ -45,5 +45,5 @@
     "seconds": "seconds",
     "live": "LOVE"
   },
-  "updatedAt": "2026-11-06T11:36:51.452Z"
+  "updatedAt": "2026-11-06T15:52:44.986Z"
 }
