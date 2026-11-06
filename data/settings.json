@@ -2,12 +2,12 @@
   "paymentAmount": 20000,
   "paymentMethods": {
     "paga": true,
-    "manualBank": false
+    "manualBank": true
   },
   "manualBank": {
-    "accountNumber": "",
-    "bankName": "",
-    "accountName": ""
+    "accountNumber": "8494840404",
+    "bankName": "Qoqiwba a kwka",
+    "accountName": "Lwkwkwkwmw"
   },
   "adminName": "BIGBIZ"
 }
