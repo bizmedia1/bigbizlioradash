@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "enabled": true,
+  "creators": [],
+  "categories": [
+    "Job Design"
+  ],
+  "stories": [],
+  "labels": {
+    "add": "Add",
+    "nowWatching": "NOW WATCHING",
+    "playWatchEarn": "Play Watch & Earn",
+    "watchUnlock": "Watch to unlock reward",
+    "claimReward": "Claim my Reward",
+    "claimed": "Reward Claimed ",
+    "alreadyClaimed": "Reward already claimed",
+    "completed": "Viewing complete",
+    "loading": "Video loading...",
+    "noVideo": "Video unavailable",
+    "noStories": "No stories available",
+    "seconds": "seconds",
+    "live": "LIVE"
+  },
+  "updatedAt": "2026-11-06T10:25:40.735Z"
+}
