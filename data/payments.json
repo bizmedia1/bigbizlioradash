@@ -1,6 +1,21 @@
 {
   "payments": [
     {
+      "id": "PAY-1793989556704-1Z57C7",
+      "customerName": "Akwkwkwnwn",
+      "email": "jaja@gmail.com",
+      "phone": "08104648498",
+      "amount": 20000,
+      "method": "manualBank",
+      "reference": "",
+      "proofPath": "uploads/payment-proofs/PAY-1793989556704-1Z57C7-IMG_3251.png",
+      "proofFileName": "IMG_3251.png",
+      "proofFileType": "image/png",
+      "statusTokenHash": "b9b88a3e537115754cc835aff15816b61fefd78d7d3452c6b1ee284ac6b200d5",
+      "status": "pending",
+      "createdAt": "2026-11-06T18:25:58.126Z"
+    },
+    {
       "id": "PAY-1793870016358-0P4ZY0",
       "customerName": "Akasmsmwm",
       "email": "victorisrael539@gmail.com",
