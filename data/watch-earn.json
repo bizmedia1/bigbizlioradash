@@ -1,15 +1,39 @@
 {
   "version": 1,
   "enabled": true,
-  "creators": [],
+  "creators": [
+    {
+      "id": "creator-mw4v3slq-jwhyo",
+      "name": "Mr Babs",
+      "imageUrl": "https://i.postimg.cc/cLmVfb37/IMG-3192.jpg",
+      "verified": true,
+      "active": true
+    }
+  ],
   "categories": [
     "Job Design"
   ],
-  "stories": [],
+  "stories": [
+    {
+      "id": "story-mw4v5fls-cnfor",
+      "category": "Job Design",
+      "creatorId": "creator-mw4v3slq-jwhyo",
+      "title": "Imade Glory",
+      "caption": "Paiw psnsns skahssvs s",
+      "videoUrl": "https://vt.tiktok.com/ZSp6Q9QJE/",
+      "videoFormat": "portrait",
+      "thumbnail": "https://i.postimg.cc/cLmVfb37/IMG-3192.jpg",
+      "reward": 2750,
+      "duration": 10,
+      "views": 191692,
+      "time": "17:38",
+      "active": true
+    }
+  ],
   "labels": {
-    "add": "Add",
-    "nowWatching": "DOING THAT",
-    "playWatchEarn": "Play Watch & Earn",
+    "add": "Mr Babs video",
+    "nowWatching": "WATCH VIDEO",
+    "playWatchEarn": "Play Video",
     "watchUnlock": "Watch to unlock reward",
     "claimReward": "Claim my Reward",
     "claimed": "Reward Claimed ",
@@ -21,5 +45,5 @@
     "seconds": "seconds",
     "live": "LOVE"
   },
-  "updatedAt": "2026-11-06T10:26:13.196Z"
+  "updatedAt": "2026-11-06T11:02:26.450Z"
 }
