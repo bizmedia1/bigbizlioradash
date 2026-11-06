@@ -12,8 +12,9 @@
       "proofFileName": "IMG_3251.png",
       "proofFileType": "image/png",
       "statusTokenHash": "b9b88a3e537115754cc835aff15816b61fefd78d7d3452c6b1ee284ac6b200d5",
-      "status": "pending",
-      "createdAt": "2026-11-06T18:25:58.126Z"
+      "status": "approved",
+      "createdAt": "2026-11-06T18:25:58.126Z",
+      "processedAt": "2026-11-06T18:26:27.631Z"
     },
     {
       "id": "PAY-1793870016358-0P4ZY0",
