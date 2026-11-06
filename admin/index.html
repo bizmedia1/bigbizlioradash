@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,1318 +13,1788 @@
 
   <style>
     :root {
-      --dark: #033D2D;
-      --green: #064D38;
-      --sage: #708C78;
-      --light: #E5EDE6;
-      --cream: #FFFBEA;
-      --yellow: #F8B91D;
-      --white: #FFFFFF;
-      --text: #173C2E;
-      --muted: #718078;
-      --border: #DCE6DC;
-      --red: #B33A32;
-      --success: #16834A;
+      --dark:#033D2D;
+      --green:#064D38;
+      --sage:#708C78;
+      --light:#E5EDE6;
+      --cream:#FFFBEA;
+      --yellow:#F8B91D;
+      --white:#FFFFFF;
+      --text:#173C2E;
+      --muted:#718078;
+      --border:#DCE6DC;
+      --red:#B33A32;
+      --success:#16834A;
     }
 
-    * { box-sizing: border-box; }
+    * { box-sizing:border-box; }
 
     body {
-      margin: 0;
-      background: var(--cream);
-      color: var(--text);
-      font-family: 'Inter', sans-serif;
+      margin:0;
+      background:var(--cream);
+      color:var(--text);
+      font-family:'Inter',sans-serif;
     }
 
-    button, input { font: inherit; }
-    button { cursor: pointer; }
-
-    button:disabled {
-      cursor: not-allowed;
-      opacity: .55;
-    }
-
-    .hidden { display: none !important; }
-
-    /* LOGIN */
+    button,input,textarea,select { font:inherit; }
+    button { cursor:pointer; }
+    button:disabled { cursor:not-allowed; opacity:.55; }
+    .hidden { display:none !important; }
 
     #login-screen {
-      position: fixed;
-      inset: 0;
-      z-index: 9999;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 24px;
+      position:fixed;
+      inset:0;
+      z-index:9999;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:24px;
       background:
-        radial-gradient(circle at top right, #0B5B40, transparent 48%),
-        linear-gradient(145deg, #021F18, #033D2D 65%, #064D38);
+        radial-gradient(circle at top right,#0B5B40,transparent 48%),
+        linear-gradient(145deg,#021F18,#033D2D 65%,#064D38);
     }
 
     .login-card {
-      width: 100%;
-      max-width: 410px;
-      padding: 34px 26px;
-      border: 1px solid rgba(255,255,255,.15);
-      border-radius: 25px;
-      background: rgba(255,251,234,.98);
-      box-shadow: 0 25px 80px rgba(0,0,0,.25);
+      width:100%;
+      max-width:410px;
+      padding:34px 26px;
+      border:1px solid rgba(255,255,255,.15);
+      border-radius:25px;
+      background:rgba(255,251,234,.98);
+      box-shadow:0 25px 80px rgba(0,0,0,.25);
     }
 
     .login-brand {
-      font-family: 'Unbounded', sans-serif;
-      font-size: 27px;
-      font-weight: 700;
-      color: var(--dark);
-      margin-bottom: 9px;
+      font-family:'Unbounded',sans-serif;
+      font-size:27px;
+      font-weight:700;
+      color:var(--dark);
+      margin-bottom:9px;
     }
 
     .login-subtitle {
-      color: var(--muted);
-      font-size: 14px;
-      line-height: 1.6;
-      margin-bottom: 28px;
+      color:var(--muted);
+      font-size:14px;
+      line-height:1.6;
+      margin-bottom:28px;
     }
 
     .login-label {
-      display: block;
-      font-size: 13px;
-      font-weight: 700;
-      margin-bottom: 9px;
+      display:block;
+      font-size:13px;
+      font-weight:700;
+      margin-bottom:9px;
     }
 
     .password-box {
-      display: flex;
-      align-items: center;
-      border: 1.5px solid var(--border);
-      border-radius: 13px;
-      background: white;
-      overflow: hidden;
+      display:flex;
+      align-items:center;
+      border:1.5px solid var(--border);
+      border-radius:13px;
+      background:white;
+      overflow:hidden;
     }
 
     .password-box:focus-within {
-      border-color: var(--sage);
-      box-shadow: 0 0 0 4px rgba(112,140,120,.12);
+      border-color:var(--sage);
+      box-shadow:0 0 0 4px rgba(112,140,120,.12);
     }
 
     .password-box input {
-      width: 100%;
-      min-width: 0;
-      padding: 16px;
-      border: 0;
-      outline: 0;
-      background: transparent;
-      color: var(--dark);
+      width:100%;
+      min-width:0;
+      padding:16px;
+      border:0;
+      outline:0;
+      background:transparent;
+      color:var(--dark);
     }
 
     .password-box button {
-      border: 0;
-      padding: 14px;
-      background: transparent;
-      color: var(--sage);
-      font-weight: 700;
+      border:0;
+      padding:14px;
+      background:transparent;
+      color:var(--sage);
+      font-weight:700;
     }
 
     .login-button {
-      width: 100%;
-      padding: 16px;
-      margin-top: 20px;
-      border: 0;
-      border-radius: 13px;
-      background: var(--dark);
-      color: white;
-      font-weight: 700;
+      width:100%;
+      padding:16px;
+      margin-top:20px;
+      border:0;
+      border-radius:13px;
+      background:var(--dark);
+      color:white;
+      font-weight:700;
     }
 
     #login-message {
-      min-height: 20px;
-      margin-top: 14px;
-      font-size: 13px;
-      color: var(--red);
-      line-height: 1.5;
+      min-height:20px;
+      margin-top:14px;
+      font-size:13px;
+      color:var(--red);
+      line-height:1.5;
     }
-
-    /* DASHBOARD */
 
     #dashboard {
-      display: none;
-      max-width: 900px;
-      margin: auto;
-      padding: 26px 17px 60px;
+      display:none;
+      max-width:900px;
+      margin:auto;
+      padding:26px 17px 60px;
     }
 
-    #dashboard.unlocked { display: block; }
+    #dashboard.unlocked { display:block; }
 
     .topbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 25px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      margin-bottom:25px;
     }
 
     .admin-heading {
-      font-family: 'Unbounded', sans-serif;
-      font-size: 18px;
-      line-height: 1.5;
-      font-weight: 600;
+      font-family:'Unbounded',sans-serif;
+      font-size:18px;
+      line-height:1.5;
+      font-weight:600;
     }
 
     .icon-button {
-      border: 1px solid var(--border);
-      background: white;
-      color: var(--dark);
-      border-radius: 12px;
-      padding: 11px 14px;
-      font-size: 13px;
-      font-weight: 700;
+      border:1px solid var(--border);
+      background:white;
+      color:var(--dark);
+      border-radius:12px;
+      padding:11px 14px;
+      font-size:13px;
+      font-weight:700;
     }
 
     .balance-card {
-      position: relative;
-      padding: 27px 23px;
-      margin-bottom: 25px;
-      border-radius: 21px;
-      background: linear-gradient(135deg, #033D2D, #07533B);
-      color: white;
-      overflow: hidden;
+      position:relative;
+      padding:27px 23px;
+      margin-bottom:25px;
+      border-radius:21px;
+      background:linear-gradient(135deg,#033D2D,#07533B);
+      color:white;
+      overflow:hidden;
     }
 
     .balance-card::after {
-      content: "";
-      position: absolute;
-      width: 180px;
-      height: 180px;
-      right: -65px;
-      top: -90px;
-      border-radius: 50%;
-      background: rgba(255,255,255,.06);
-      pointer-events: none;
+      content:"";
+      position:absolute;
+      width:180px;
+      height:180px;
+      right:-65px;
+      top:-90px;
+      border-radius:50%;
+      background:rgba(255,255,255,.06);
+      pointer-events:none;
     }
 
-    .balance-label {
-      color: #D1DFD4;
-      font-size: 13px;
-    }
+    .balance-label { color:#D1DFD4; font-size:13px; }
 
     .balance-value {
-      margin-top: 14px;
-      font-family: 'Unbounded', sans-serif;
-      font-size: 27px;
-      font-weight: 600;
-      overflow-wrap: anywhere;
+      margin-top:14px;
+      font-family:'Unbounded',sans-serif;
+      font-size:27px;
+      font-weight:600;
+      overflow-wrap:anywhere;
     }
 
-    .tabs {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 20px;
-    }
+    .tabs { display:flex; gap:10px; margin-bottom:20px; }
 
     .tab {
-      flex: 1;
-      padding: 15px 9px;
-      border: 1px solid var(--border);
-      border-radius: 13px;
-      background: var(--light);
-      color: var(--dark);
-      font-weight: 700;
+      flex:1;
+      padding:15px 9px;
+      border:1px solid var(--border);
+      border-radius:13px;
+      background:var(--light);
+      color:var(--dark);
+      font-weight:700;
     }
 
     .tab.active {
-      background: var(--dark);
-      color: white;
-      border-color: var(--dark);
+      background:var(--dark);
+      color:white;
+      border-color:var(--dark);
     }
 
     .panel {
-      padding: 23px 20px;
-      margin-bottom: 17px;
-      border: 1px solid rgba(112,140,120,.12);
-      border-radius: 20px;
-      background: white;
-      box-shadow: 0 8px 25px rgba(3,61,45,.035);
+      padding:23px 20px;
+      margin-bottom:17px;
+      border:1px solid rgba(112,140,120,.12);
+      border-radius:20px;
+      background:white;
+      box-shadow:0 8px 25px rgba(3,61,45,.035);
     }
 
     .panel h2 {
-      margin: 0 0 22px;
-      font-family: 'Unbounded', sans-serif;
-      font-size: 15px;
-      font-weight: 600;
-      line-height: 1.6;
+      margin:0 0 22px;
+      font-family:'Unbounded',sans-serif;
+      font-size:15px;
+      font-weight:600;
+      line-height:1.6;
     }
 
-    .field { margin: 17px 0; }
+    .field { margin:17px 0; }
 
     .field label {
-      display: block;
-      margin-bottom: 9px;
-      font-size: 13px;
-      font-weight: 700;
+      display:block;
+      margin-bottom:9px;
+      font-size:13px;
+      font-weight:700;
     }
 
-    .field input {
-      width: 100%;
-      padding: 15px;
-      border: 1.5px solid var(--border);
-      border-radius: 12px;
-      background: #FFFEF8;
-      outline: none;
-      color: var(--dark);
+    .field input,
+    .field textarea,
+    .field select {
+      width:100%;
+      padding:14px;
+      border:1.5px solid var(--border);
+      border-radius:12px;
+      background:#FFFEF8;
+      outline:none;
+      color:var(--dark);
     }
 
-    .field input:focus { border-color: var(--sage); }
+    .field textarea {
+      min-height:85px;
+      resize:vertical;
+      line-height:1.5;
+    }
+
+    .field input:focus,
+    .field textarea:focus,
+    .field select:focus { border-color:var(--sage); }
 
     .toggle-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 15px;
-      padding: 17px 0;
-      border-bottom: 1px solid var(--border);
-      font-size: 14px;
-      font-weight: 600;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:15px;
+      padding:17px 0;
+      border-bottom:1px solid var(--border);
+      font-size:14px;
+      font-weight:600;
     }
 
-    .toggle-row:last-child { border-bottom: 0; }
+    .toggle-row:last-child { border-bottom:0; }
 
     .toggle-row input {
-      width: 21px;
-      height: 21px;
-      accent-color: var(--dark);
+      width:21px;
+      height:21px;
+      accent-color:var(--dark);
     }
 
     .save-button {
-      width: 100%;
-      padding: 16px;
-      border: 0;
-      border-radius: 13px;
-      background: var(--dark);
-      color: white;
-      font-weight: 700;
+      width:100%;
+      padding:16px;
+      border:0;
+      border-radius:13px;
+      background:var(--dark);
+      color:white;
+      font-weight:700;
     }
 
     #message {
-      margin: 12px 0;
-      font-size: 13px;
-      line-height: 1.5;
+      margin:12px 0;
+      font-size:13px;
+      line-height:1.5;
     }
 
-    .success { color: var(--success); }
-    .error { color: var(--red); }
-
-    /* PAYMENT MANAGEMENT */
+    .success { color:var(--success); }
+    .error { color:var(--red); }
 
     .payment-heading-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 18px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      margin-bottom:18px;
     }
 
-    .payment-heading-row h2 { margin: 0; }
+    .payment-heading-row h2 { margin:0; }
 
     .refresh-button {
-      padding: 10px 13px;
-      border: 1px solid var(--border);
-      border-radius: 11px;
-      background: var(--light);
-      color: var(--dark);
-      font-size: 12px;
-      font-weight: 700;
+      padding:10px 13px;
+      border:1px solid var(--border);
+      border-radius:11px;
+      background:var(--light);
+      color:var(--dark);
+      font-size:12px;
+      font-weight:700;
     }
 
     .payment-tabs {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
-      margin-bottom: 18px;
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:8px;
+      margin-bottom:18px;
     }
 
     .payment-tab {
-      padding: 12px 5px;
-      border: 1px solid var(--border);
-      border-radius: 11px;
-      background: #F7F9F5;
-      color: var(--dark);
-      font-size: 12px;
-      font-weight: 700;
+      padding:12px 5px;
+      border:1px solid var(--border);
+      border-radius:11px;
+      background:#F7F9F5;
+      color:var(--dark);
+      font-size:12px;
+      font-weight:700;
     }
 
     .payment-tab.active {
-      background: var(--dark);
-      border-color: var(--dark);
-      color: white;
+      background:var(--dark);
+      border-color:var(--dark);
+      color:white;
     }
 
     .count {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-width: 21px;
-      height: 21px;
-      padding: 0 5px;
-      margin-left: 3px;
-      border-radius: 20px;
-      background: rgba(112,140,120,.17);
-      font-size: 10px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-width:21px;
+      height:21px;
+      padding:0 5px;
+      margin-left:3px;
+      border-radius:20px;
+      background:rgba(112,140,120,.17);
+      font-size:10px;
     }
 
-    .payment-tab.active .count {
-      background: rgba(255,255,255,.18);
-    }
+    .payment-tab.active .count { background:rgba(255,255,255,.18); }
 
-    .payment-list {
-      display: grid;
-      gap: 14px;
-    }
+    .payment-list { display:grid; gap:14px; }
 
     .payment-card {
-      padding: 17px;
-      border: 1px solid var(--border);
-      border-radius: 15px;
-      background: #FFFEFA;
+      padding:17px;
+      border:1px solid var(--border);
+      border-radius:15px;
+      background:#FFFEFA;
     }
 
     .payment-card-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 10px;
-      margin-bottom: 15px;
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:10px;
+      margin-bottom:15px;
     }
 
     .customer-name {
-      font-weight: 700;
-      font-size: 15px;
-      overflow-wrap: anywhere;
+      font-weight:700;
+      font-size:15px;
+      overflow-wrap:anywhere;
     }
 
     .customer-email {
-      margin-top: 5px;
-      color: var(--muted);
-      font-size: 12px;
-      overflow-wrap: anywhere;
+      margin-top:5px;
+      color:var(--muted);
+      font-size:12px;
+      overflow-wrap:anywhere;
     }
 
     .status-badge {
-      flex-shrink: 0;
-      padding: 7px 9px;
-      border-radius: 30px;
-      font-size: 10px;
-      font-weight: 700;
-      text-transform: uppercase;
+      flex-shrink:0;
+      padding:7px 9px;
+      border-radius:30px;
+      font-size:10px;
+      font-weight:700;
+      text-transform:uppercase;
     }
 
-    .status-pending {
-      color: #946000;
-      background: #FFF1C9;
-    }
-
-    .status-approved {
-      color: #147344;
-      background: #DDF3E5;
-    }
-
-    .status-rejected {
-      color: #A32D2D;
-      background: #FBE4E1;
-    }
+    .status-pending { color:#946000; background:#FFF1C9; }
+    .status-approved { color:#147344; background:#DDF3E5; }
+    .status-rejected { color:#A32D2D; background:#FBE4E1; }
 
     .payment-details {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 13px;
-      margin-bottom: 15px;
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:13px;
+      margin-bottom:15px;
     }
 
     .detail-label {
-      display: block;
-      margin-bottom: 5px;
-      color: var(--muted);
-      font-size: 10px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: .04em;
+      display:block;
+      margin-bottom:5px;
+      color:var(--muted);
+      font-size:10px;
+      font-weight:700;
+      text-transform:uppercase;
+      letter-spacing:.04em;
     }
 
     .detail-value {
-      font-size: 13px;
-      font-weight: 600;
-      overflow-wrap: anywhere;
+      font-size:13px;
+      font-weight:600;
+      overflow-wrap:anywhere;
     }
 
-    .proof-section {
-      padding-top: 13px;
-      border-top: 1px solid var(--border);
-    }
-
-    .proof-title {
-      margin-bottom: 9px;
-      color: var(--muted);
-      font-size: 11px;
-      font-weight: 700;
-    }
-
-    .proof-viewer {
-      min-height: 30px;
-      color: var(--muted);
-      font-size: 12px;
-      line-height: 1.6;
-    }
+    .proof-section { padding-top:13px; border-top:1px solid var(--border); }
+    .proof-title { margin-bottom:9px; color:var(--muted); font-size:11px; font-weight:700; }
+    .proof-viewer { min-height:30px; color:var(--muted); font-size:12px; line-height:1.6; }
 
     .proof-image {
-      display: block;
-      width: 100%;
-      max-width: 260px;
-      max-height: 280px;
-      object-fit: contain;
-      object-position: left center;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      background: white;
+      display:block;
+      width:100%;
+      max-width:260px;
+      max-height:280px;
+      object-fit:contain;
+      object-position:left center;
+      border:1px solid var(--border);
+      border-radius:10px;
+      background:white;
     }
 
     .proof-link {
-      display: inline-block;
-      margin-top: 8px;
-      color: var(--green);
-      font-size: 12px;
-      font-weight: 700;
+      display:inline-block;
+      margin-top:8px;
+      color:var(--green);
+      font-size:12px;
+      font-weight:700;
     }
 
-    .payment-actions {
-      display: flex;
-      gap: 9px;
-      margin-top: 16px;
-    }
+    .payment-actions { display:flex; gap:9px; margin-top:16px; }
 
     .action-button {
-      flex: 1;
-      padding: 12px 8px;
-      border: 0;
-      border-radius: 10px;
-      font-size: 12px;
-      font-weight: 700;
+      flex:1;
+      padding:12px 8px;
+      border:0;
+      border-radius:10px;
+      font-size:12px;
+      font-weight:700;
     }
 
-    .approve-button {
-      background: #DDF3E5;
-      color: #147344;
-    }
-
-    .reject-button {
-      background: #FBE4E1;
-      color: #A32D2D;
-    }
+    .approve-button { background:#DDF3E5; color:#147344; }
+    .reject-button { background:#FBE4E1; color:#A32D2D; }
 
     .disabled-note {
-      margin-top: 9px;
-      color: var(--muted);
-      font-size: 11px;
-      line-height: 1.5;
+      margin-top:9px;
+      color:var(--muted);
+      font-size:11px;
+      line-height:1.5;
     }
 
-    .empty-state,
-    .loading-state {
-      padding: 35px 15px;
-      text-align: center;
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.7;
-      border: 1px dashed var(--border);
-      border-radius: 14px;
-      background: #FFFEFA;
+    .empty-state,.loading-state {
+      padding:35px 15px;
+      text-align:center;
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.7;
+      border:1px dashed var(--border);
+      border-radius:14px;
+      background:#FFFEFA;
     }
 
-    .empty-icon {
-      display: block;
-      margin-bottom: 10px;
-      font-size: 27px;
+    .empty-icon { display:block; margin-bottom:10px; font-size:27px; }
+
+    /* WATCH & EARN ADMIN */
+
+    .section-note {
+      margin:-10px 0 18px;
+      color:var(--muted);
+      font-size:12px;
+      line-height:1.6;
     }
 
-    @media (max-width: 480px) {
-      #dashboard { padding: 20px 13px 45px; }
-      .admin-heading { font-size: 15px; }
-      .balance-value { font-size: 22px; }
-      .panel { padding: 19px 15px; }
-      .payment-details { grid-template-columns: 1fr 1fr; }
-      .payment-tab { font-size: 10px; }
+    .watch-toolbar {
+      display:flex;
+      flex-wrap:wrap;
+      gap:9px;
+      margin-bottom:17px;
+    }
+
+    .small-button {
+      padding:11px 13px;
+      border:1px solid var(--border);
+      border-radius:10px;
+      background:var(--light);
+      color:var(--dark);
+      font-size:12px;
+      font-weight:700;
+    }
+
+    .danger-button {
+      border-color:#F0D5D1;
+      background:#FBE4E1;
+      color:#A32D2D;
+    }
+
+    .watch-item {
+      padding:16px;
+      margin:14px 0;
+      border:1px solid var(--border);
+      border-radius:15px;
+      background:#FFFEFA;
+    }
+
+    .watch-item-head {
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+      margin-bottom:14px;
+    }
+
+    .watch-item-head strong {
+      font-size:13px;
+      overflow-wrap:anywhere;
+    }
+
+    .watch-grid {
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:0 12px;
+    }
+
+    .watch-grid .field { min-width:0; }
+
+    .watch-checks {
+      display:flex;
+      flex-wrap:wrap;
+      gap:18px;
+      margin:10px 0;
+    }
+
+    .watch-checks label {
+      display:flex;
+      align-items:center;
+      gap:8px;
+      font-size:12px;
+      font-weight:700;
+    }
+
+    .watch-checks input {
+      width:19px;
+      height:19px;
+      accent-color:var(--dark);
+    }
+
+    .watch-preview {
+      width:58px;
+      height:58px;
+      margin-top:8px;
+      border-radius:12px;
+      border:1px solid var(--border);
+      object-fit:cover;
+      background:var(--light);
+    }
+
+    .watch-status {
+      min-height:20px;
+      margin-top:12px;
+      font-size:12px;
+      line-height:1.5;
+    }
+
+    .watch-subheading {
+      margin:22px 0 8px;
+      font-family:'Unbounded',sans-serif;
+      font-size:12px;
+      line-height:1.6;
+    }
+
+    .watch-label-row {
+      display:grid;
+      grid-template-columns:1fr 1.4fr;
+      gap:10px;
+      align-items:center;
+      margin:10px 0;
+    }
+
+    .watch-label-row span {
+      font-size:12px;
+      font-weight:700;
+      overflow-wrap:anywhere;
+    }
+
+    .watch-label-row input {
+      width:100%;
+      min-width:0;
+      padding:12px;
+      border:1px solid var(--border);
+      border-radius:10px;
+      background:#FFFEF8;
+      color:var(--dark);
+    }
+
+    @media (max-width:480px) {
+      #dashboard { padding:20px 13px 45px; }
+      .admin-heading { font-size:15px; }
+      .balance-value { font-size:22px; }
+      .panel { padding:19px 15px; }
+      .payment-details { grid-template-columns:1fr 1fr; }
+      .payment-tab { font-size:10px; }
+      .watch-grid { grid-template-columns:1fr; }
+      .watch-label-row { grid-template-columns:1fr; gap:6px; }
     }
   </style>
 </head>
 
 <body>
 
-  <!-- LOGIN -->
-  <section id="login-screen">
-    <div class="login-card">
-      <div class="login-brand">LIORA</div>
+<section id="login-screen">
+  <div class="login-card">
+    <div class="login-brand">LIORA</div>
+    <div class="login-subtitle">
+      Welcome to your administration portal.
+      Enter your admin password to continue.
+    </div>
 
-      <div class="login-subtitle">
-        Welcome to your administration portal.
-        Enter your admin password to continue.
+    <form id="login-form">
+      <label class="login-label" for="admin-password">Admin Password</label>
+      <div class="password-box">
+        <input id="admin-password" type="password"
+          placeholder="Enter your admin password"
+          autocomplete="current-password" required>
+        <button type="button" id="toggle-password">SHOW</button>
+      </div>
+      <button class="login-button" id="login-button" type="submit">
+        Unlock Dashboard
+      </button>
+      <div id="login-message" role="alert"></div>
+    </form>
+  </div>
+</section>
+
+<main id="dashboard">
+  <header class="topbar">
+    <div class="admin-heading" id="admin-title">Liora Admin Dashboard</div>
+    <button class="icon-button" id="logout-button">Log out</button>
+  </header>
+
+  <section class="balance-card">
+    <div class="balance-label">Available Balance</div>
+    <div class="balance-value" id="balance">₦0.00</div>
+  </section>
+
+  <nav class="tabs">
+    <button class="tab active" data-tab="payments">Payments</button>
+    <button class="tab" data-tab="management">Management</button>
+  </nav>
+
+  <div id="message"></div>
+
+  <section id="payments-section">
+    <div class="panel">
+      <div class="payment-heading-row">
+        <h2>Payment Requests</h2>
+        <button class="refresh-button" id="refresh-payments">↻ Refresh</button>
       </div>
 
-      <form id="login-form">
-        <label class="login-label" for="admin-password">
-          Admin Password
-        </label>
-
-        <div class="password-box">
-          <input
-            id="admin-password"
-            type="password"
-            placeholder="Enter your admin password"
-            autocomplete="current-password"
-            required
-          >
-          <button type="button" id="toggle-password">SHOW</button>
-        </div>
-
-        <button class="login-button" id="login-button" type="submit">
-          Unlock Dashboard
+      <div class="payment-tabs">
+        <button class="payment-tab active" data-status="pending">
+          Pending <span class="count" id="pending-count">0</span>
         </button>
+        <button class="payment-tab" data-status="approved">
+          Approved <span class="count" id="approved-count">0</span>
+        </button>
+        <button class="payment-tab" data-status="rejected">
+          Rejected <span class="count" id="rejected-count">0</span>
+        </button>
+      </div>
 
-        <div id="login-message" role="alert"></div>
-      </form>
+      <div id="payment-list" class="payment-list">
+        <div class="loading-state">Loading payment requests...</div>
+      </div>
     </div>
   </section>
 
-  <!-- DASHBOARD -->
-  <main id="dashboard">
+  <section id="management-section" class="hidden">
 
-    <header class="topbar">
-      <div class="admin-heading" id="admin-title">
-        Liora Admin Dashboard
+    <div class="panel">
+      <h2>Admin Profile</h2>
+      <div class="field">
+        <label for="adminName">Admin name</label>
+        <input id="adminName" type="text">
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>Payment Amount</h2>
+      <div class="field">
+        <label for="paymentAmount">Amount (₦)</label>
+        <input id="paymentAmount" type="number" min="100">
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>Available Payment Methods</h2>
+      <div class="toggle-row">
+        <span>Paga Virtual Accounts</span>
+        <input id="paga" type="checkbox">
+      </div>
+      <div class="toggle-row">
+        <span>Manual Bank Transfer</span>
+        <input id="manualBankEnabled" type="checkbox">
+      </div>
+    </div>
+
+    <div class="panel" id="bank-panel">
+      <h2>Manual Bank Details</h2>
+      <div class="field">
+        <label for="accountNumber">Account Number</label>
+        <input id="accountNumber" type="text" inputmode="numeric">
+      </div>
+      <div class="field">
+        <label for="bankName">Bank Name</label>
+        <input id="bankName" type="text">
+      </div>
+      <div class="field">
+        <label for="accountName">Account Name</label>
+        <input id="accountName" type="text">
+      </div>
+    </div>
+
+    <button class="save-button" id="save-settings">Update & Save</button>
+
+    <!-- WATCH & EARN MANAGEMENT -->
+
+    <div class="panel" style="margin-top:25px">
+      <h2>Watch & Earn Settings</h2>
+      <p class="section-note">
+        Control whether Watch & Earn is available to users.
+      </p>
+
+      <div class="toggle-row">
+        <span>Enable Watch & Earn</span>
+        <input id="we-enabled" type="checkbox" checked>
       </div>
 
-      <button class="icon-button" id="logout-button">
-        Log out
-      </button>
-    </header>
+      <div class="watch-status" id="we-status"></div>
+    </div>
 
-    <section class="balance-card">
-      <div class="balance-label">Available Balance</div>
-      <div class="balance-value" id="balance">₦0.00</div>
-    </section>
-
-    <nav class="tabs">
-      <button class="tab active" data-tab="payments">Payments</button>
-      <button class="tab" data-tab="management">Management</button>
-    </nav>
-
-    <div id="message"></div>
-
-    <!-- PAYMENTS -->
-    <section id="payments-section">
-      <div class="panel">
-
-        <div class="payment-heading-row">
-          <h2>Payment Requests</h2>
-
-          <button class="refresh-button" id="refresh-payments">
-            ↻ Refresh
-          </button>
-        </div>
-
-        <div class="payment-tabs">
-          <button class="payment-tab active" data-status="pending">
-            Pending <span class="count" id="pending-count">0</span>
-          </button>
-
-          <button class="payment-tab" data-status="approved">
-            Approved <span class="count" id="approved-count">0</span>
-          </button>
-
-          <button class="payment-tab" data-status="rejected">
-            Rejected <span class="count" id="rejected-count">0</span>
-          </button>
-        </div>
-
-        <div id="payment-list" class="payment-list">
-          <div class="loading-state">Loading payment requests...</div>
-        </div>
-
+    <div class="panel">
+      <div class="payment-heading-row">
+        <h2>Creators</h2>
+        <button class="small-button" id="we-add-creator">+ Add creator</button>
       </div>
-    </section>
+      <p class="section-note">
+        Manage creator names, profile pictures and verification badges.
+        Maximum 10 creators.
+      </p>
+      <div id="we-creators"></div>
+    </div>
 
-    <!-- MANAGEMENT -->
-    <section id="management-section" class="hidden">
-
-      <div class="panel">
-        <h2>Admin Profile</h2>
-
-        <div class="field">
-          <label for="adminName">Admin name</label>
-          <input id="adminName" type="text">
-        </div>
+    <div class="panel">
+      <div class="payment-heading-row">
+        <h2>Categories</h2>
       </div>
-
-      <div class="panel">
-        <h2>Payment Amount</h2>
-
-        <div class="field">
-          <label for="paymentAmount">Amount (₦)</label>
-          <input id="paymentAmount" type="number" min="100">
-        </div>
+      <p class="section-note">
+        Enter one category per line. Existing stories use these category names.
+      </p>
+      <div class="field">
+        <label for="we-categories">Category names</label>
+        <textarea id="we-categories" placeholder="Job Design&#10;Design Posts&#10;Fashion&#10;Lifestyle"></textarea>
       </div>
+    </div>
 
-      <div class="panel">
-        <h2>Available Payment Methods</h2>
-
-        <div class="toggle-row">
-          <span>Paga Virtual Accounts</span>
-          <input id="paga" type="checkbox">
-        </div>
-
-        <div class="toggle-row">
-          <span>Manual Bank Transfer</span>
-          <input id="manualBankEnabled" type="checkbox">
-        </div>
+    <div class="panel">
+      <div class="payment-heading-row">
+        <h2>Stories</h2>
+        <button class="small-button" id="we-add-story">+ Add story</button>
       </div>
+      <p class="section-note">
+        Add video links, assign creators and categories, and set each reward
+        and viewing duration. TikTok, Instagram and direct video links are supported
+        by the frontend player when their embed format is compatible.
+      </p>
+      <div id="we-stories"></div>
+    </div>
 
-      <div class="panel" id="bank-panel">
-        <h2>Manual Bank Details</h2>
+    <div class="panel">
+      <h2>Watch & Earn Display Labels</h2>
+      <p class="section-note">
+        Change the wording displayed in the Watch & Earn interface.
+      </p>
+      <div id="we-labels"></div>
+    </div>
 
-        <div class="field">
-          <label for="accountNumber">Account Number</label>
-          <input id="accountNumber" type="text" inputmode="numeric">
-        </div>
+    <button class="save-button" id="we-save">Save Watch & Earn Changes</button>
+    <div id="we-save-status" class="watch-status"></div>
 
-        <div class="field">
-          <label for="bankName">Bank Name</label>
-          <input id="bankName" type="text">
-        </div>
+  </section>
+</main>
 
-        <div class="field">
-          <label for="accountName">Account Name</label>
-          <input id="accountName" type="text">
-        </div>
-      </div>
+<script>
+"use strict";
 
-      <button class="save-button" id="save-settings">
-        Update & Save
-      </button>
+const API = "/api";
+const $ = id => document.getElementById(id);
 
-    </section>
+let adminSecret = null;
+let settings = null;
+let allPayments = [];
+let activePaymentStatus = "pending";
+let proofObjectURLs = [];
 
-  </main>
+let watchContent = {
+  version:1,
+  enabled:true,
+  creators:[],
+  categories:[],
+  stories:[],
+  labels:{}
+};
 
-  <script>
-    const API = "/api";
-    const $ = id => document.getElementById(id);
+const DEFAULT_LABELS = {
+  add:"Add",
+  nowWatching:"NOW WATCHING",
+  playWatchEarn:"Play Watch & Earn",
+  watchUnlock:"Watch to unlock reward",
+  claimReward:"Claim my Reward",
+  claimed:"Reward Claimed ✓",
+  alreadyClaimed:"Reward already claimed",
+  completed:"Viewing complete",
+  loading:"Video loading...",
+  noVideo:"Video unavailable",
+  noStories:"No stories available",
+  seconds:"seconds",
+  live:"LIVE"
+};
 
-    let adminSecret = null;
-    let settings = null;
-    let allPayments = [];
-    let activePaymentStatus = "pending";
+const LABEL_NAMES = {
+  add:"Add",
+  nowWatching:"Now watching",
+  playWatchEarn:"Play Watch & Earn",
+  watchUnlock:"Watch to unlock reward",
+  claimReward:"Claim reward button",
+  claimed:"Claimed message",
+  alreadyClaimed:"Already claimed message",
+  completed:"Viewing complete message",
+  loading:"Loading message",
+  noVideo:"Video unavailable message",
+  noStories:"No stories message",
+  seconds:"Timer unit",
+  live:"Live label"
+};
 
-    // Keep generated receipt URLs so they can be released later.
-    let proofObjectURLs = [];
+function showMessage(text,type="success") {
+  $("message").textContent = text;
+  $("message").className = type;
+}
 
-    function showMessage(text, type = "success") {
-      $("message").textContent = text;
-      $("message").className = type;
-    }
+function authHeaders() {
+  return {
+    "Content-Type":"application/json",
+    "Authorization":`Bearer ${adminSecret}`
+  };
+}
 
-    function authHeaders() {
-      return {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${adminSecret}`
-      };
-    }
+function formatMoney(amount,currency="NGN") {
+  const value = Number(amount);
+  if (!Number.isFinite(value)) return "₦0.00";
+  return new Intl.NumberFormat("en-NG",{
+    style:"currency",currency,
+    minimumFractionDigits:2
+  }).format(value);
+}
 
-    function formatMoney(amount, currency = "NGN") {
-      const value = Number(amount);
+async function verifySecret(secret) {
+  const response = await fetch(`${API}/admin/settings`,{
+    method:"GET",
+    headers:{"Authorization":`Bearer ${secret}`},
+    cache:"no-store"
+  });
+  const result = await response.json();
+  if (!response.ok) throw new Error(result.message || "Incorrect admin password.");
+  return result.settings;
+}
 
-      if (!Number.isFinite(value)) return "₦0.00";
+function unlockDashboard(data,secret) {
+  settings = data;
+  adminSecret = secret;
+  $("login-screen").classList.add("hidden");
+  $("dashboard").classList.add("unlocked");
+  loadForm(data);
+  refreshPayments();
+  loadWatchEarn();
+}
 
-      return new Intl.NumberFormat("en-NG", {
-        style: "currency",
-        currency,
-        minimumFractionDigits: 2
-      }).format(value);
-    }
+function loadForm(data) {
+  $("admin-title").textContent =
+    `${data.adminName || "Liora"}'s Admin Dashboard`;
+  $("adminName").value = data.adminName || "";
+  $("paymentAmount").value = data.paymentAmount || 15000;
+  $("paga").checked = Boolean(data.paymentMethods?.paga);
+  $("manualBankEnabled").checked = Boolean(data.paymentMethods?.manualBank);
+  $("accountNumber").value = data.manualBank?.accountNumber || "";
+  $("bankName").value = data.manualBank?.bankName || "";
+  $("accountName").value = data.manualBank?.accountName || "";
+  updateBankPanel();
+}
 
-    async function verifySecret(secret) {
-      const response = await fetch(`${API}/admin/settings`, {
-        method: "GET",
-        headers: {
-          "Authorization": `Bearer ${secret}`
-        },
-        cache: "no-store"
-      });
+function updateBankPanel() {
+  $("bank-panel").classList.toggle("hidden",!$("manualBankEnabled").checked);
+}
 
-      const result = await response.json();
+$("login-form").addEventListener("submit",async event=>{
+  event.preventDefault();
+  const secret = $("admin-password").value.trim();
+  if (!secret) return;
 
-      if (!response.ok) {
-        throw new Error(result.message || "Incorrect admin password.");
-      }
+  $("login-button").disabled = true;
+  $("login-button").textContent = "Verifying...";
+  $("login-message").textContent = "";
 
-      return result.settings;
-    }
+  try {
+    const data = await verifySecret(secret);
+    unlockDashboard(data,secret);
+    $("admin-password").value = "";
+  } catch(error) {
+    $("login-message").textContent =
+      "Access denied. Check your password and try again.";
+    $("admin-password").value = "";
+  } finally {
+    $("login-button").disabled = false;
+    $("login-button").textContent = "Unlock Dashboard";
+  }
+});
 
-    function unlockDashboard(data, secret) {
-      settings = data;
-      adminSecret = secret;
+$("toggle-password").addEventListener("click",()=>{
+  const input = $("admin-password");
+  const visible = input.type === "text";
+  input.type = visible ? "password" : "text";
+  $("toggle-password").textContent = visible ? "SHOW" : "HIDE";
+});
 
-      $("login-screen").classList.add("hidden");
-      $("dashboard").classList.add("unlocked");
+function clearProofObjectURLs() {
+  proofObjectURLs.forEach(url=>URL.revokeObjectURL(url));
+  proofObjectURLs = [];
+}
 
-      loadForm(data);
-      refreshPayments();
-    }
+$("logout-button").addEventListener("click",()=>{
+  clearProofObjectURLs();
+  adminSecret = null;
+  settings = null;
+  allPayments = [];
+  $("dashboard").classList.remove("unlocked");
+  $("login-screen").classList.remove("hidden");
+  $("admin-password").value = "";
+  $("login-message").textContent = "";
+  $("balance").textContent = "₦0.00";
+  $("payment-list").innerHTML = "";
+  $("we-status").textContent = "";
+  $("we-save-status").textContent = "";
+});
 
-    function loadForm(data) {
-      $("admin-title").textContent =
-        `${data.adminName || "Liora"}'s Admin Dashboard`;
+document.querySelectorAll(".tab").forEach(button=>{
+  button.addEventListener("click",()=>{
+    document.querySelectorAll(".tab").forEach(tab=>tab.classList.remove("active"));
+    button.classList.add("active");
 
-      $("adminName").value = data.adminName || "";
-      $("paymentAmount").value = data.paymentAmount || 15000;
+    $("payments-section").classList.toggle("hidden",button.dataset.tab!=="payments");
+    $("management-section").classList.toggle("hidden",button.dataset.tab!=="management");
 
-      $("paga").checked = Boolean(data.paymentMethods?.paga);
-      $("manualBankEnabled").checked =
-        Boolean(data.paymentMethods?.manualBank);
+    if (button.dataset.tab==="payments") refreshPayments();
+  });
+});
 
-      $("accountNumber").value =
-        data.manualBank?.accountNumber || "";
+document.querySelectorAll(".payment-tab").forEach(button=>{
+  button.addEventListener("click",()=>{
+    document.querySelectorAll(".payment-tab").forEach(tab=>tab.classList.remove("active"));
+    button.classList.add("active");
+    activePaymentStatus = button.dataset.status;
+    renderPayments();
+  });
+});
 
-      $("bankName").value =
-        data.manualBank?.bankName || "";
+$("manualBankEnabled").addEventListener("change",updateBankPanel);
 
-      $("accountName").value =
-        data.manualBank?.accountName || "";
+async function refreshPayments() {
+  if (!adminSecret) return;
 
-      updateBankPanel();
-    }
+  $("refresh-payments").disabled = true;
+  $("refresh-payments").textContent = "Loading...";
+  $("payment-list").innerHTML =
+    '<div class="loading-state">Loading payment requests...</div>';
 
-    function updateBankPanel() {
-      $("bank-panel").classList.toggle(
-        "hidden",
-        !$("manualBankEnabled").checked
-      );
-    }
-
-    $("login-form").addEventListener("submit", async event => {
-      event.preventDefault();
-
-      const secret = $("admin-password").value.trim();
-
-      if (!secret) return;
-
-      $("login-button").disabled = true;
-      $("login-button").textContent = "Verifying...";
-      $("login-message").textContent = "";
-
-      try {
-        const data = await verifySecret(secret);
-        unlockDashboard(data, secret);
-        $("admin-password").value = "";
-      } catch (error) {
-        $("login-message").textContent =
-          "Access denied. Check your password and try again.";
-
-        $("admin-password").value = "";
-      } finally {
-        $("login-button").disabled = false;
-        $("login-button").textContent = "Unlock Dashboard";
-      }
+  try {
+    const response = await fetch(`${API}/admin/payments`,{
+      method:"GET",headers:authHeaders(),cache:"no-store"
     });
+    const result = await response.json();
+    if (!response.ok) throw new Error(result.message || "Could not load payments.");
 
-    $("toggle-password").addEventListener("click", () => {
-      const input = $("admin-password");
-      const visible = input.type === "text";
+    allPayments = Array.isArray(result.payments) ? result.payments : [];
+    const counts = result.counts || {};
 
-      input.type = visible ? "password" : "text";
-      $("toggle-password").textContent = visible ? "SHOW" : "HIDE";
-    });
+    $("pending-count").textContent = counts.pending || 0;
+    $("approved-count").textContent = counts.approved || 0;
+    $("rejected-count").textContent = counts.rejected || 0;
+    $("balance").textContent = formatMoney(result.balance,result.currency || "NGN");
+    renderPayments();
+  } catch(error) {
+    $("payment-list").innerHTML =
+      `<div class="empty-state">${escapeHTML(error.message)}</div>`;
+    showMessage(error.message,"error");
+  } finally {
+    $("refresh-payments").disabled = false;
+    $("refresh-payments").textContent = "↻ Refresh";
+  }
+}
 
-    function clearProofObjectURLs() {
-      proofObjectURLs.forEach(url => URL.revokeObjectURL(url));
-      proofObjectURLs = [];
-    }
+function escapeHTML(value) {
+  return String(value ?? "").replace(/[&<>"']/g,character=>({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+  })[character]);
+}
 
-    $("logout-button").addEventListener("click", () => {
-      clearProofObjectURLs();
+function getPaymentStatus(payment) {
+  return String(payment.status || "pending").toLowerCase();
+}
 
-      adminSecret = null;
-      settings = null;
-      allPayments = [];
+function getCustomerName(payment) {
+  return payment.customerName || payment.name ||
+    payment.customer?.name || "Customer name unavailable";
+}
 
-      $("dashboard").classList.remove("unlocked");
-      $("login-screen").classList.remove("hidden");
+function getCustomerEmail(payment) {
+  return payment.customerEmail || payment.email ||
+    payment.customer?.email || "Email unavailable";
+}
 
-      $("admin-password").value = "";
-      $("login-message").textContent = "";
+function getPaymentAmount(payment) {
+  return payment.amount ?? payment.paymentAmount ?? 0;
+}
 
-      $("balance").textContent = "₦0.00";
-      $("payment-list").innerHTML = "";
-    });
+function getPaymentReference(payment) {
+  return payment.reference || payment.id || "Reference unavailable";
+}
 
-    document.querySelectorAll(".tab").forEach(button => {
-      button.addEventListener("click", () => {
-        document.querySelectorAll(".tab").forEach(tab =>
-          tab.classList.remove("active")
-        );
+function getProofURL(payment) {
+  return payment.proofPath || "";
+}
 
-        button.classList.add("active");
+function renderPayments() {
+  clearProofObjectURLs();
 
-        $("payments-section").classList.toggle(
-          "hidden",
-          button.dataset.tab !== "payments"
-        );
+  const filtered = allPayments.filter(payment=>
+    getPaymentStatus(payment)===activePaymentStatus
+  );
 
-        $("management-section").classList.toggle(
-          "hidden",
-          button.dataset.tab !== "management"
-        );
+  if (!filtered.length) {
+    const labels = {
+      pending:"No pending payment requests yet.",
+      approved:"No approved payments yet.",
+      rejected:"No rejected payments yet."
+    };
 
-        if (button.dataset.tab === "payments") {
-          refreshPayments();
-        }
-      });
-    });
+    $("payment-list").innerHTML = `
+      <div class="empty-state">
+        <span class="empty-icon">◌</span>
+        ${labels[activePaymentStatus]}
+        <br>Payment requests will appear here when your frontend is connected.
+      </div>`;
+    return;
+  }
 
-    document.querySelectorAll(".payment-tab").forEach(button => {
-      button.addEventListener("click", () => {
-        document.querySelectorAll(".payment-tab").forEach(tab =>
-          tab.classList.remove("active")
-        );
+  $("payment-list").innerHTML = filtered.map(payment=>{
+    const id = payment.id || payment.reference || "";
+    const name = getCustomerName(payment);
+    const email = getCustomerEmail(payment);
+    const amount = getPaymentAmount(payment);
+    const reference = getPaymentReference(payment);
+    const proof = getProofURL(payment);
+    const status = getPaymentStatus(payment);
 
-        button.classList.add("active");
-        activePaymentStatus = button.dataset.status;
+    const proofHTML = proof ? `
+      <div class="proof-section">
+        <div class="proof-title">Payment Proof</div>
+        <div class="proof-viewer" data-proof-path="${escapeHTML(proof)}">
+          Loading receipt...
+        </div>
+      </div>` : `
+      <div class="proof-section">
+        <div class="proof-title">Payment Proof</div>
+        <div class="disabled-note">No proof uploaded.</div>
+      </div>`;
 
-        renderPayments();
-      });
-    });
+    const actionsHTML = status==="pending" ? `
+      <div class="payment-actions">
+        <button class="action-button approve-button"
+          data-approve-id="${escapeHTML(id)}">Approve</button>
+        <button class="action-button reject-button"
+          data-reject-id="${escapeHTML(id)}">Reject</button>
+      </div>` : "";
 
-    $("manualBankEnabled").addEventListener("change", updateBankPanel);
-
-    async function refreshPayments() {
-      if (!adminSecret) return;
-
-      $("refresh-payments").disabled = true;
-      $("refresh-payments").textContent = "Loading...";
-
-      $("payment-list").innerHTML =
-        '<div class="loading-state">Loading payment requests...</div>';
-
-      try {
-        const response = await fetch(`${API}/admin/payments`, {
-          method: "GET",
-          headers: authHeaders(),
-          cache: "no-store"
-        });
-
-        const result = await response.json();
-
-        if (!response.ok) {
-          throw new Error(result.message || "Could not load payments.");
-        }
-
-        allPayments = Array.isArray(result.payments)
-          ? result.payments
-          : [];
-
-        const counts = result.counts || {};
-
-        $("pending-count").textContent = counts.pending || 0;
-        $("approved-count").textContent = counts.approved || 0;
-        $("rejected-count").textContent = counts.rejected || 0;
-
-        $("balance").textContent = formatMoney(
-          result.balance,
-          result.currency || "NGN"
-        );
-
-        renderPayments();
-
-      } catch (error) {
-        $("payment-list").innerHTML =
-          `<div class="empty-state">${escapeHTML(error.message)}</div>`;
-
-        showMessage(error.message, "error");
-
-      } finally {
-        $("refresh-payments").disabled = false;
-        $("refresh-payments").textContent = "↻ Refresh";
-      }
-    }
-
-    function escapeHTML(value) {
-      return String(value ?? "").replace(/[&<>"']/g, character => ({
-        "&": "&amp;",
-        "<": "&lt;",
-        ">": "&gt;",
-        '"': "&quot;",
-        "'": "&#039;"
-      })[character]);
-    }
-
-    function getPaymentStatus(payment) {
-      return String(payment.status || "pending").toLowerCase();
-    }
-
-    function getCustomerName(payment) {
-      return payment.customerName ||
-        payment.name ||
-        payment.customer?.name ||
-        "Customer name unavailable";
-    }
-
-    function getCustomerEmail(payment) {
-      return payment.customerEmail ||
-        payment.email ||
-        payment.customer?.email ||
-        "Email unavailable";
-    }
-
-    function getPaymentAmount(payment) {
-      return payment.amount ?? payment.paymentAmount ?? 0;
-    }
-
-    function getPaymentReference(payment) {
-      return payment.reference ||
-        payment.id ||
-        "Reference unavailable";
-    }
-
-    // The backend stores the receipt's GitHub path in proofPath.
-    function getProofURL(payment) {
-      return payment.proofPath || "";
-    }
-
-    function renderPayments() {
-      // Release previous receipt URLs before replacing the payment cards.
-      clearProofObjectURLs();
-
-      const filtered = allPayments.filter(payment =>
-        getPaymentStatus(payment) === activePaymentStatus
-      );
-
-      if (!filtered.length) {
-        const labels = {
-          pending: "No pending payment requests yet.",
-          approved: "No approved payments yet.",
-          rejected: "No rejected payments yet."
-        };
-
-        $("payment-list").innerHTML = `
-          <div class="empty-state">
-            <span class="empty-icon">◌</span>
-            ${labels[activePaymentStatus]}
-            <br>
-            Payment requests will appear here when your frontend is connected.
+    return `
+      <article class="payment-card">
+        <div class="payment-card-top">
+          <div>
+            <div class="customer-name">${escapeHTML(name)}</div>
+            <div class="customer-email">${escapeHTML(email)}</div>
           </div>
-        `;
+          <span class="status-badge status-${escapeHTML(status)}">
+            ${escapeHTML(status)}
+          </span>
+        </div>
+        <div class="payment-details">
+          <div>
+            <span class="detail-label">Amount</span>
+            <span class="detail-value">${escapeHTML(formatMoney(amount))}</span>
+          </div>
+          <div>
+            <span class="detail-label">Reference</span>
+            <span class="detail-value">${escapeHTML(reference)}</span>
+          </div>
+        </div>
+        ${proofHTML}
+        ${actionsHTML}
+      </article>`;
+  }).join("");
 
-        return;
-      }
+  document.querySelectorAll("[data-reject-id]").forEach(button=>{
+    button.addEventListener("click",()=>rejectPayment(button.dataset.rejectId,button));
+  });
 
-      $("payment-list").innerHTML = filtered.map(payment => {
-        const id = payment.id || payment.reference || "";
-        const name = getCustomerName(payment);
-        const email = getCustomerEmail(payment);
-        const amount = getPaymentAmount(payment);
-        const reference = getPaymentReference(payment);
-        const proof = getProofURL(payment);
-        const status = getPaymentStatus(payment);
+  document.querySelectorAll("[data-approve-id]").forEach(button=>{
+    button.addEventListener("click",()=>approvePayment(button.dataset.approveId,button));
+  });
 
-        const statusClass = `status-${status}`;
+  loadPaymentProofs();
+}
 
-        const proofHTML = proof
-          ? `
-            <div class="proof-section">
-              <div class="proof-title">Payment Proof</div>
-              <div
-                class="proof-viewer"
-                data-proof-path="${escapeHTML(proof)}"
-              >
-                Loading receipt...
-              </div>
-            </div>
-          `
-          : `
-            <div class="proof-section">
-              <div class="proof-title">Payment Proof</div>
-              <div class="disabled-note">No proof uploaded.</div>
-            </div>
-          `;
+async function loadPaymentProofs() {
+  document.querySelectorAll("[data-proof-path]").forEach(async viewer=>{
+    const path = viewer.dataset.proofPath;
+    const extension = path.split(".").pop().toLowerCase();
 
-        const actionsHTML = status === "pending"
-          ? `
-            <div class="payment-actions">
-              <button
-                class="action-button approve-button"
-                data-approve-id="${escapeHTML(id)}"
-              >
-                Approve
-              </button>
+    try {
+      const response = await fetch(
+        `${API}/payments/proof?path=${encodeURIComponent(path)}`,
+        {headers:{"Authorization":`Bearer ${adminSecret}`},cache:"no-store"}
+      );
+      if (!response.ok) throw new Error("Receipt unavailable");
 
-              <button
-                class="action-button reject-button"
-                data-reject-id="${escapeHTML(id)}"
-              >
-                Reject
-              </button>
-            </div>
-          `
-          : "";
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+      proofObjectURLs.push(url);
 
-        return `
-          <article class="payment-card">
-            <div class="payment-card-top">
-              <div>
-                <div class="customer-name">${escapeHTML(name)}</div>
-                <div class="customer-email">${escapeHTML(email)}</div>
-              </div>
+      const isImage = ["jpg","jpeg","png","webp"].includes(extension);
 
-              <span class="status-badge ${statusClass}">
-                ${escapeHTML(status)}
-              </span>
-            </div>
+      viewer.innerHTML = isImage ? `
+        <a href="${url}" target="_blank" rel="noopener noreferrer">
+          <img class="proof-image" src="${url}" alt="Payment receipt">
+        </a>
+        <a class="proof-link" href="${url}" target="_blank"
+          rel="noopener noreferrer">Open receipt</a>` : `
+        <a class="proof-link" href="${url}" target="_blank"
+          rel="noopener noreferrer">Open or download receipt</a>`;
+    } catch(error) {
+      viewer.textContent = "Unable to load receipt.";
+    }
+  });
+}
 
-            <div class="payment-details">
-              <div>
-                <span class="detail-label">Amount</span>
-                <span class="detail-value">${escapeHTML(formatMoney(amount))}</span>
-              </div>
+async function rejectPayment(id,button) {
+  if (!id || !confirm("Are you sure you want to reject this payment?")) return;
 
-              <div>
-                <span class="detail-label">Reference</span>
-                <span class="detail-value">${escapeHTML(reference)}</span>
-              </div>
-            </div>
+  button.disabled = true;
+  button.textContent = "Rejecting...";
 
-            ${proofHTML}
-            ${actionsHTML}
-          </article>
-        `;
-      }).join("");
+  try {
+    const response = await fetch(`${API}/admin/payments`,{
+      method:"POST",headers:authHeaders(),
+      body:JSON.stringify({id,action:"reject"})
+    });
+    const result = await response.json();
+    if (!response.ok) throw new Error(result.message || "Unable to reject payment.");
 
-      document.querySelectorAll("[data-reject-id]").forEach(button => {
-        button.addEventListener("click", () => {
-          rejectPayment(button.dataset.rejectId, button);
-        });
+    showMessage("Payment rejected successfully.");
+    await refreshPayments();
+  } catch(error) {
+    showMessage(error.message,"error");
+    button.disabled = false;
+    button.textContent = "Reject";
+  }
+}
+
+async function approvePayment(id,button) {
+  if (!id || !confirm("Have you confirmed this payment in your bank?")) return;
+
+  button.disabled = true;
+  button.textContent = "Approving...";
+
+  try {
+    const response = await fetch(`${API}/admin/payments`,{
+      method:"POST",headers:authHeaders(),
+      body:JSON.stringify({id,action:"approve"})
+    });
+    const result = await response.json();
+    if (!response.ok) throw new Error(result.message || "Unable to approve payment.");
+
+    showMessage("Payment approved and balance updated.");
+    await refreshPayments();
+  } catch(error) {
+    showMessage(error.message,"error");
+    button.disabled = false;
+    button.textContent = "Approve";
+  }
+}
+
+$("refresh-payments").addEventListener("click",refreshPayments);
+
+$("save-settings").addEventListener("click",async()=>{
+  if (!$("paga").checked && !$("manualBankEnabled").checked) {
+    showMessage("Enable at least one payment method.","error");
+    return;
+  }
+
+  const payload = {
+    adminName:$("adminName").value.trim(),
+    paymentAmount:Number($("paymentAmount").value),
+    paymentMethods:{
+      paga:$("paga").checked,
+      manualBank:$("manualBankEnabled").checked
+    },
+    manualBank:{
+      accountNumber:$("accountNumber").value.trim(),
+      bankName:$("bankName").value.trim(),
+      accountName:$("accountName").value.trim()
+    }
+  };
+
+  try {
+    $("save-settings").disabled = true;
+    showMessage("Saving settings...");
+
+    const response = await fetch(`${API}/admin/settings`,{
+      method:"PUT",headers:authHeaders(),body:JSON.stringify(payload)
+    });
+    const result = await response.json();
+    if (!response.ok) throw new Error(result.message || "Unable to save.");
+
+    settings = result.settings;
+    loadForm(settings);
+    showMessage("Settings saved successfully.");
+  } catch(error) {
+    showMessage(error.message,"error");
+  } finally {
+    $("save-settings").disabled = false;
+  }
+});
+
+/* WATCH & EARN ADMIN EDITOR */
+
+function makeId(prefix) {
+  return prefix + "-" + Date.now().toString(36) +
+    "-" + Math.random().toString(36).slice(2,7);
+}
+
+function normalizeWatchContent(data) {
+  const content = data && typeof data==="object" ? data : {};
+
+  const creators = Array.isArray(content.creators)
+    ? content.creators.slice(0,10).map((creator,index)=>({
+        id:String(creator.id || makeId("creator")),
+        name:String(creator.name || `Creator ${index+1}`),
+        image:String(creator.image || creator.imageUrl || ""),
+        verified:creator.verified !== false,
+        active:creator.active !== false
+      }))
+    : [];
+
+  const categories = Array.isArray(content.categories)
+    ? content.categories.map(String).filter(Boolean).slice(0,20)
+    : [];
+
+  const stories = Array.isArray(content.stories)
+    ? content.stories.slice(0,200).map((story,index)=>({
+        id:String(story.id || makeId("story")),
+        category:String(story.category || categories[0] || ""),
+        creatorId:String(story.creatorId || creators[0]?.id || ""),
+        title:String(story.title || `Story ${index+1}`),
+        caption:String(story.caption || ""),
+        videoUrl:String(story.videoUrl || ""),
+        videoFormat:story.videoFormat==="portrait" ? "portrait" : "landscape",
+        thumbnail:String(story.thumbnail || ""),
+        reward:Number(story.reward ?? 2750),
+        duration:Number(story.duration ?? 30),
+        views:Number(story.views ?? 0),
+        time:String(story.time || ""),
+        active:story.active !== false
+      }))
+    : [];
+
+  return {
+    version:1,
+    enabled:content.enabled !== false,
+    creators,
+    categories,
+    stories,
+    labels:{...DEFAULT_LABELS,...(content.labels || {})}
+  };
+}
+
+async function loadWatchEarn() {
+  if (!adminSecret) return;
+
+  $("we-status").textContent = "Loading Watch & Earn settings...";
+
+  try {
+    const response = await fetch(`${API}/admin/watch-earn`,{
+      method:"GET",
+      headers:{"Authorization":`Bearer ${adminSecret}`},
+      cache:"no-store"
+    });
+
+    const result = await response.json();
+    if (!response.ok) throw new Error(result.message || "Could not load Watch & Earn.");
+
+    watchContent = normalizeWatchContent(result.content || result);
+    renderWatchEditor();
+    $("we-status").textContent = "Watch & Earn settings loaded.";
+    $("we-status").className = "watch-status success";
+  } catch(error) {
+    $("we-status").textContent =
+      "Could not load Watch & Earn. Check that the admin API file is installed. " +
+      error.message;
+    $("we-status").className = "watch-status error";
+  }
+}
+
+function renderWatchEditor() {
+  $("we-enabled").checked = watchContent.enabled;
+
+  $("we-categories").value = watchContent.categories.join("\n");
+
+  renderCreatorsEditor();
+  renderStoriesEditor();
+  renderLabelsEditor();
+}
+
+function renderCreatorsEditor() {
+  const host = $("we-creators");
+
+  if (!watchContent.creators.length) {
+    host.innerHTML = '<div class="empty-state">No creators added yet.</div>';
+    return;
+  }
+
+  host.innerHTML = watchContent.creators.map((creator,index)=>`
+    <div class="watch-item" data-creator-index="${index}">
+      <div class="watch-item-head">
+        <strong>Creator ${index+1}</strong>
+        <button type="button" class="small-button danger-button"
+          data-remove-creator="${index}">Remove</button>
+      </div>
+
+      <div class="field">
+        <label>Creator name</label>
+        <input data-creator-field="name"
+          value="${escapeHTML(creator.name)}">
+      </div>
+
+      <div class="field">
+        <label>Profile image URL</label>
+        <input data-creator-field="image"
+          value="${escapeHTML(creator.image)}"
+          placeholder="https://...">
+        ${creator.image ? `<img class="watch-preview"
+          src="${escapeHTML(creator.image)}" alt="Creator preview"
+          onerror="this.style.display='none'">` : ""}
+      </div>
+
+      <div class="watch-checks">
+        <label>
+          <input type="checkbox" data-creator-field="verified"
+            ${creator.verified ? "checked" : ""}>
+          Verified
+        </label>
+        <label>
+          <input type="checkbox" data-creator-field="active"
+            ${creator.active ? "checked" : ""}>
+          Active
+        </label>
+      </div>
+    </div>
+  `).join("");
+
+  host.querySelectorAll("[data-remove-creator]").forEach(button=>{
+    button.addEventListener("click",()=>{
+      const index = Number(button.dataset.removeCreator);
+      const creator = watchContent.creators[index];
+      if (!creator) return;
+
+      if (!confirm(`Remove ${creator.name}? Stories assigned to this creator will need another creator.`)) return;
+
+      watchContent.creators.splice(index,1);
+      renderCreatorsEditor();
+      renderStoriesEditor();
+    });
+  });
+
+  host.querySelectorAll("[data-creator-index]").forEach(card=>{
+    const index = Number(card.dataset.creatorIndex);
+    card.querySelectorAll("[data-creator-field]").forEach(input=>{
+      input.addEventListener("input",()=>{
+        const key = input.dataset.creatorField;
+        if (key==="verified" || key==="active") {
+          watchContent.creators[index][key] = input.checked;
+        } else {
+          watchContent.creators[index][key] = input.value;
+        }
       });
-
-      document.querySelectorAll("[data-approve-id]").forEach(button => {
-        button.addEventListener("click", () => {
-          approvePayment(button.dataset.approveId, button);
-        });
-      });
-
-      loadPaymentProofs();
-    }
-
-    function safeURL(value) {
-      if (!value) return "";
-
-      try {
-        const url = new URL(String(value), window.location.origin);
-
-        if (!["http:", "https:"].includes(url.protocol)) {
-          return "";
-        }
-
-        return url.href;
-      } catch {
-        return "";
-      }
-    }
-
-    // Load receipts through the authenticated backend endpoint.
-    async function loadPaymentProofs() {
-      const viewers = document.querySelectorAll("[data-proof-path]");
-
-      viewers.forEach(async viewer => {
-        const path = viewer.dataset.proofPath;
-        const extension = path.split(".").pop().toLowerCase();
-
-        try {
-          const response = await fetch(
-            `${API}/payments/proof?path=${encodeURIComponent(path)}`,
-            {
-              headers: {
-                "Authorization": `Bearer ${adminSecret}`
-              },
-              cache: "no-store"
-            }
-          );
-
-          if (!response.ok) {
-            throw new Error("Receipt unavailable");
-          }
-
-          const blob = await response.blob();
-
-          const url = URL.createObjectURL(blob);
-          proofObjectURLs.push(url);
-
-          const isImage = ["jpg", "jpeg", "png", "webp"].includes(extension);
-
-          if (isImage) {
-            viewer.innerHTML = `
-              <a href="${url}" target="_blank" rel="noopener noreferrer">
-                <img
-                  class="proof-image"
-                  src="${url}"
-                  alt="Payment receipt"
-                >
-              </a>
-
-              <a
-                class="proof-link"
-                href="${url}"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Open receipt
-              </a>
-            `;
-          } else {
-            viewer.innerHTML = `
-              <a
-                class="proof-link"
-                href="${url}"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Open or download receipt
-              </a>
-            `;
-          }
-
-        } catch (error) {
-          viewer.textContent = "Unable to load receipt.";
+      input.addEventListener("change",()=>{
+        const key = input.dataset.creatorField;
+        if (key==="verified" || key==="active") {
+          watchContent.creators[index][key] = input.checked;
+        } else {
+          watchContent.creators[index][key] = input.value;
         }
       });
-    }
+    });
+  });
+}
 
-    async function rejectPayment(id, button) {
-      if (!id || !confirm("Are you sure you want to reject this payment?")) {
-        return;
-      }
+function renderStoriesEditor() {
+  const host = $("we-stories");
 
-      button.disabled = true;
-      button.textContent = "Rejecting...";
+  if (!watchContent.stories.length) {
+    host.innerHTML = '<div class="empty-state">No stories added yet.</div>';
+    return;
+  }
 
-      try {
-        const response = await fetch(`${API}/admin/payments`, {
-          method: "POST",
-          headers: authHeaders(),
-          body: JSON.stringify({
-            id,
-            action: "reject"
-          })
-        });
+  host.innerHTML = watchContent.stories.map((story,index)=>{
+    const creatorOptions = watchContent.creators.map(creator=>`
+      <option value="${escapeHTML(creator.id)}"
+        ${story.creatorId===creator.id ? "selected" : ""}>
+        ${escapeHTML(creator.name)}
+      </option>
+    `).join("");
 
-        const result = await response.json();
+    const categoryOptions = watchContent.categories.map(category=>`
+      <option value="${escapeHTML(category)}"
+        ${story.category===category ? "selected" : ""}>
+        ${escapeHTML(category)}
+      </option>
+    `).join("");
 
-        if (!response.ok) {
-          throw new Error(result.message || "Unable to reject payment.");
+    return `
+      <div class="watch-item" data-story-index="${index}">
+        <div class="watch-item-head">
+          <strong>Story ${index+1}: ${escapeHTML(story.title)}</strong>
+          <button type="button" class="small-button danger-button"
+            data-remove-story="${index}">Remove</button>
+        </div>
+
+        <div class="field">
+          <label>Story title</label>
+          <input data-story-field="title" value="${escapeHTML(story.title)}">
+        </div>
+
+        <div class="field">
+          <label>Caption</label>
+          <textarea data-story-field="caption">${escapeHTML(story.caption)}</textarea>
+        </div>
+
+        <div class="watch-grid">
+          <div class="field">
+            <label>Category</label>
+            <select data-story-field="category">
+              ${categoryOptions}
+            </select>
+          </div>
+
+          <div class="field">
+            <label>Creator</label>
+            <select data-story-field="creatorId">
+              ${creatorOptions}
+            </select>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Video URL (TikTok, Instagram or direct video)</label>
+          <input data-story-field="videoUrl"
+            value="${escapeHTML(story.videoUrl)}"
+            placeholder="https://...">
+        </div>
+
+        <div class="watch-grid">
+          <div class="field">
+            <label>Video format</label>
+            <select data-story-field="videoFormat">
+              <option value="landscape"
+                ${story.videoFormat==="landscape" ? "selected" : ""}>Landscape</option>
+              <option value="portrait"
+                ${story.videoFormat==="portrait" ? "selected" : ""}>Portrait</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>Thumbnail image URL</label>
+            <input data-story-field="thumbnail"
+              value="${escapeHTML(story.thumbnail)}"
+              placeholder="https://...">
+          </div>
+        </div>
+
+        <div class="watch-grid">
+          <div class="field">
+            <label>Reward (₦)</label>
+            <input type="number" min="0" step="1"
+              data-story-field="reward" value="${escapeHTML(story.reward)}">
+          </div>
+
+          <div class="field">
+            <label>Viewing duration (seconds)</label>
+            <input type="number" min="1" max="3600"
+              data-story-field="duration" value="${escapeHTML(story.duration)}">
+          </div>
+        </div>
+
+        <div class="watch-grid">
+          <div class="field">
+            <label>Views</label>
+            <input type="number" min="0"
+              data-story-field="views" value="${escapeHTML(story.views)}">
+          </div>
+
+          <div class="field">
+            <label>Time label</label>
+            <input data-story-field="time"
+              value="${escapeHTML(story.time)}"
+              placeholder="e.g. 2 hours ago">
+          </div>
+        </div>
+
+        <div class="watch-checks">
+          <label>
+            <input type="checkbox" data-story-field="active"
+              ${story.active ? "checked" : ""}>
+            Story active
+          </label>
+        </div>
+      </div>
+    `;
+  }).join("");
+
+  host.querySelectorAll("[data-remove-story]").forEach(button=>{
+    button.addEventListener("click",()=>{
+      const index = Number(button.dataset.removeStory);
+      if (!confirm("Remove this story?")) return;
+      watchContent.stories.splice(index,1);
+      renderStoriesEditor();
+    });
+  });
+
+  host.querySelectorAll("[data-story-index]").forEach(card=>{
+    const index = Number(card.dataset.storyIndex);
+
+    card.querySelectorAll("[data-story-field]").forEach(input=>{
+      const update = ()=>{
+        const key = input.dataset.storyField;
+        let value = input.type==="checkbox" ? input.checked : input.value;
+
+        if (["reward","duration","views"].includes(key)) {
+          value = Number(value);
         }
 
-        showMessage("Payment rejected successfully.");
-        await refreshPayments();
-
-      } catch (error) {
-        showMessage(error.message, "error");
-        button.disabled = false;
-        button.textContent = "Reject";
-      }
-    }
-
-    // Approve only after the administrator confirms the payment was received.
-    async function approvePayment(id, button) {
-      if (!id || !confirm("Have you confirmed this payment in your bank?")) {
-        return;
-      }
-
-      button.disabled = true;
-      button.textContent = "Approving...";
-
-      try {
-        const response = await fetch(`${API}/admin/payments`, {
-          method: "POST",
-          headers: authHeaders(),
-          body: JSON.stringify({
-            id,
-            action: "approve"
-          })
-        });
-
-        const result = await response.json();
-
-        if (!response.ok) {
-          throw new Error(result.message || "Unable to approve payment.");
-        }
-
-        showMessage("Payment approved and balance updated.");
-        await refreshPayments();
-
-      } catch (error) {
-        showMessage(error.message, "error");
-        button.disabled = false;
-        button.textContent = "Approve";
-      }
-    }
-
-    $("refresh-payments").addEventListener("click", refreshPayments);
-
-    $("save-settings").addEventListener("click", async () => {
-      if (!$("paga").checked && !$("manualBankEnabled").checked) {
-        showMessage("Enable at least one payment method.", "error");
-        return;
-      }
-
-      const payload = {
-        adminName: $("adminName").value.trim(),
-        paymentAmount: Number($("paymentAmount").value),
-
-        paymentMethods: {
-          paga: $("paga").checked,
-          manualBank: $("manualBankEnabled").checked
-        },
-
-        manualBank: {
-          accountNumber: $("accountNumber").value.trim(),
-          bankName: $("bankName").value.trim(),
-          accountName: $("accountName").value.trim()
-        }
+        watchContent.stories[index][key] = value;
       };
 
-      try {
-        $("save-settings").disabled = true;
-        showMessage("Saving settings...");
-
-        const response = await fetch(`${API}/admin/settings`, {
-          method: "PUT",
-          headers: authHeaders(),
-          body: JSON.stringify(payload)
-        });
-
-        const result = await response.json();
-
-        if (!response.ok) {
-          throw new Error(result.message || "Unable to save.");
-        }
-
-        settings = result.settings;
-        loadForm(settings);
-
-        showMessage("Settings saved successfully.");
-
-      } catch (error) {
-        showMessage(error.message, "error");
-
-      } finally {
-        $("save-settings").disabled = false;
-      }
+      input.addEventListener("input",update);
+      input.addEventListener("change",update);
     });
-  </script>
+  });
+}
+
+function renderLabelsEditor() {
+  const host = $("we-labels");
+
+  host.innerHTML = Object.keys(DEFAULT_LABELS).map(key=>`
+    <div class="watch-label-row">
+      <span>${escapeHTML(LABEL_NAMES[key] || key)}</span>
+      <input data-label-key="${escapeHTML(key)}"
+        value="${escapeHTML(watchContent.labels[key] ?? DEFAULT_LABELS[key])}">
+    </div>
+  `).join("");
+
+  host.querySelectorAll("[data-label-key]").forEach(input=>{
+    input.addEventListener("input",()=>{
+      watchContent.labels[input.dataset.labelKey] = input.value;
+    });
+  });
+}
+
+$("we-add-creator").addEventListener("click",()=>{
+  if (watchContent.creators.length>=10) {
+    $("we-save-status").textContent = "Maximum of 10 creators allowed.";
+    $("we-save-status").className = "watch-status error";
+    return;
+  }
+
+  watchContent.creators.push({
+    id:makeId("creator"),
+    name:`Creator ${watchContent.creators.length+1}`,
+    image:"",
+    verified:false,
+    active:true
+  });
+
+  renderCreatorsEditor();
+  renderStoriesEditor();
+});
+
+$("we-add-story").addEventListener("click",()=>{
+  if (!watchContent.categories.length) {
+    $("we-save-status").textContent = "Add at least one category first.";
+    $("we-save-status").className = "watch-status error";
+    return;
+  }
+
+  if (!watchContent.creators.length) {
+    $("we-save-status").textContent = "Add at least one creator first.";
+    $("we-save-status").className = "watch-status error";
+    return;
+  }
+
+  if (watchContent.stories.length>=200) {
+    $("we-save-status").textContent = "Maximum of 200 stories allowed.";
+    $("we-save-status").className = "watch-status error";
+    return;
+  }
+
+  watchContent.stories.push({
+    id:makeId("story"),
+    category:watchContent.categories[0],
+    creatorId:watchContent.creators[0].id,
+    title:`Story ${watchContent.stories.length+1}`,
+    caption:"",
+    videoUrl:"",
+    videoFormat:"landscape",
+    thumbnail:"",
+    reward:2750,
+    duration:30,
+    views:0,
+    time:"",
+    active:true
+  });
+
+  renderStoriesEditor();
+});
+
+$("we-categories").addEventListener("input",()=>{
+  watchContent.categories = $("we-categories").value
+    .split("\n").map(value=>value.trim()).filter(Boolean).slice(0,20);
+  renderStoriesEditor();
+});
+
+$("we-enabled").addEventListener("change",()=>{
+  watchContent.enabled = $("we-enabled").checked;
+});
+
+$("we-save").addEventListener("click",async()=>{
+  if (!adminSecret) return;
+
+  watchContent.enabled = $("we-enabled").checked;
+  watchContent.categories = $("we-categories").value
+    .split("\n").map(value=>value.trim()).filter(Boolean).slice(0,20);
+
+  if (watchContent.creators.length>10) {
+    $("we-save-status").textContent = "Maximum of 10 creators allowed.";
+    $("we-save-status").className = "watch-status error";
+    return;
+  }
+
+  if (watchContent.categories.length===0) {
+    $("we-save-status").textContent = "Add at least one category.";
+    $("we-save-status").className = "watch-status error";
+    return;
+  }
+
+  const categorySet = new Set(watchContent.categories);
+  const creatorSet = new Set(watchContent.creators.map(item=>item.id));
+
+  for (const story of watchContent.stories) {
+    if (!categorySet.has(story.category)) {
+      $("we-save-status").textContent =
+        `Story "${story.title}" has a category that no longer exists.`;
+      $("we-save-status").className = "watch-status error";
+      return;
+    }
+
+    if (!creatorSet.has(story.creatorId)) {
+      $("we-save-status").textContent =
+        `Story "${story.title}" needs a valid creator.`;
+      $("we-save-status").className = "watch-status error";
+      return;
+    }
+
+    if (!story.title.trim() || !story.videoUrl.trim()) {
+      $("we-save-status").textContent =
+        `Add a title and video URL for "${story.title || "an untitled story"}".`;
+      $("we-save-status").className = "watch-status error";
+      return;
+    }
+
+    if (!Number.isFinite(Number(story.reward)) || Number(story.reward)<0) {
+      $("we-save-status").textContent =
+        `Check the reward amount for "${story.title}".`;
+      $("we-save-status").className = "watch-status error";
+      return;
+    }
+
+    if (!Number.isFinite(Number(story.duration)) ||
+        Number(story.duration)<1 || Number(story.duration)>3600) {
+      $("we-save-status").textContent =
+        `Check the viewing duration for "${story.title}".`;
+      $("we-save-status").className = "watch-status error";
+      return;
+    }
+  }
+
+  const payload = {
+    version:1,
+    enabled:watchContent.enabled,
+    creators:watchContent.creators.map(creator=>({
+      id:creator.id,
+      name:creator.name.trim(),
+      image:creator.image.trim(),
+      verified:Boolean(creator.verified),
+      active:creator.active!==false
+    })),
+    categories:watchContent.categories,
+    stories:watchContent.stories,
+    labels:watchContent.labels
+  };
+
+  $("we-save").disabled = true;
+  $("we-save").textContent = "Saving...";
+  $("we-save-status").textContent = "Saving Watch & Earn content...";
+  $("we-save-status").className = "watch-status";
+
+  try {
+    const response = await fetch(`${API}/admin/watch-earn`,{
+      method:"PUT",
+      headers:authHeaders(),
+      body:JSON.stringify(payload)
+    });
+
+    const result = await response.json();
+
+    if (!response.ok) {
+      throw new Error(result.message || "Unable to save Watch & Earn.");
+    }
+
+    watchContent = normalizeWatchContent(result.content || payload);
+    renderWatchEditor();
+
+    $("we-save-status").textContent = "Watch & Earn content saved successfully.";
+    $("we-save-status").className = "watch-status success";
+
+  } catch(error) {
+    $("we-save-status").textContent = error.message;
+    $("we-save-status").className = "watch-status error";
+  } finally {
+    $("we-save").disabled = false;
+    $("we-save").textContent = "Save Watch & Earn Changes";
+  }
+});
+</script>
 
 </body>
 </html>
