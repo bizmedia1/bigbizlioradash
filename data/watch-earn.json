@@ -3,9 +3,9 @@
   "enabled": true,
   "creators": [
     {
-      "id": "creator-mw563h73-cun9u",
-      "name": "Paoa ajabsj",
-      "imageUrl": "https://i.postimg.cc/HWfjrHfb/IMG-3218.jpg",
+      "id": "creator-mw57q223-b3jeu",
+      "name": "Creator 1",
+      "imageUrl": "https://i.postimg.cc/wBkYpKmb/IMG-3201.jpg",
       "verified": true,
       "active": true
     }
@@ -15,14 +15,14 @@
   ],
   "stories": [
     {
-      "id": "story-mw563v2r-lsuqm",
+      "id": "story-mw57re6w-qiblt",
       "category": "Job Design",
-      "creatorId": "creator-mw563h73-cun9u",
-      "title": "Oaojaab",
-      "caption": "Skksjssjsns ",
-      "videoUrl": "https://vt.tiktok.com/ZSpM6PE7E/",
+      "creatorId": "creator-mw57q223-b3jeu",
+      "title": "Story 1",
+      "caption": "Jswkwkwwne",
+      "videoUrl": "https://i.postimg.cc/wBkYpKmb/IMG-3201.jpg",
       "videoFormat": "landscape",
-      "thumbnail": "https://i.postimg.cc/HWfjrHfb/IMG-3218.jpg",
+      "thumbnail": "https://i.postimg.cc/wBkYpKmb/IMG-3201.jpg",
       "reward": 2750,
       "duration": 30,
       "views": 0,
@@ -31,7 +31,7 @@
     }
   ],
   "labels": {
-    "add": "Mr Babs video",
+    "add": "Qudus ohsb video",
     "nowWatching": "WATCH VIDEO",
     "playWatchEarn": "Play Video",
     "watchUnlock": "Watch to unlock reward",
@@ -45,5 +45,5 @@
     "seconds": "seconds",
     "live": "LOVE"
   },
-  "updatedAt": "2026-11-06T16:19:25.742Z"
+  "updatedAt": "2026-11-06T16:54:01.441Z"
 }
