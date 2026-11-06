@@ -1753,7 +1753,7 @@ $("we-save").addEventListener("click",async()=>{
     creators:watchContent.creators.map(creator=>({
       id:creator.id,
       name:creator.name.trim(),
-      image:creator.image.trim(),
+      imageUrl:creator.image.trim(),
       verified:Boolean(creator.verified),
       active:creator.active!==false
     })),
