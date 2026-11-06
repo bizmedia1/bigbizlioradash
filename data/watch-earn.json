@@ -3,15 +3,8 @@
   "enabled": true,
   "creators": [
     {
-      "id": "creator-mw4v3slq-jwhyo",
-      "name": "Mr Babs",
-      "imageUrl": "https://i.postimg.cc/cLmVfb37/IMG-3192.jpg",
-      "verified": true,
-      "active": true
-    },
-    {
-      "id": "creator-mw4vwxr8-nrpkl",
-      "name": "Adebams",
+      "id": "creator-mw4wd5qj-it5gy",
+      "name": "Adebamis",
       "imageUrl": "https://i.postimg.cc/cLmVfb37/IMG-3192.jpg",
       "verified": true,
       "active": true
@@ -22,33 +15,18 @@
   ],
   "stories": [
     {
-      "id": "story-mw4v5fls-cnfor",
+      "id": "story-mw4wdv29-mh3p5",
       "category": "Job Design",
-      "creatorId": "creator-mw4v3slq-jwhyo",
-      "title": "Imade Glory",
-      "caption": "Paiw psnsns skahssvs s",
-      "videoUrl": "https://vt.tiktok.com/ZSp6Q9QJE/",
-      "videoFormat": "portrait",
+      "creatorId": "creator-mw4wd5qj-it5gy",
+      "title": "Bamiauaj 12:35",
+      "caption": "@/@2! Kqjsnsns w sjs sjsbs",
+      "videoUrl": "https://vt.tiktok.com/ZSp6Vq77T/",
+      "videoFormat": "landscape",
       "thumbnail": "https://i.postimg.cc/cLmVfb37/IMG-3192.jpg",
       "reward": 2750,
       "duration": 10,
-      "views": 191692,
-      "time": "17:38",
-      "active": true
-    },
-    {
-      "id": "story-mw4vxkg9-96ovs",
-      "category": "Job Design",
-      "creatorId": "creator-mw4vwxr8-nrpkl",
-      "title": "Pqowjww",
-      "caption": "Kwkwneeb",
-      "videoUrl": "https://vt.tiktok.com/ZSp6Q9QJE/",
-      "videoFormat": "portrait",
-      "thumbnail": "https://i.postimg.cc/cLmVfb37/IMG-3192.jpg",
-      "reward": 2750,
-      "duration": 30,
-      "views": 0,
-      "time": "",
+      "views": 91820,
+      "time": "11:23",
       "active": true
     }
   ],
@@ -67,5 +45,5 @@
     "seconds": "seconds",
     "live": "LOVE"
   },
-  "updatedAt": "2026-11-06T11:23:16.942Z"
+  "updatedAt": "2026-11-06T11:36:51.452Z"
 }
