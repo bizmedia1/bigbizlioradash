@@ -2,6 +2,15 @@
   "version": 1,
   "posts": [
     {
+      "id": "2e4d0961-83ee-4ee2-9a9c-e117acab4725",
+      "brandId": "chowdeck",
+      "mediaType": "video",
+      "mediaUrl": "https://vt.tiktok.com/ZSpB9DXnK/",
+      "caption": "Akan",
+      "active": true,
+      "createdAt": "2026-11-08T07:23:34.138Z"
+    },
+    {
       "id": "ddb00949-1a1a-45eb-a720-51607e96826f",
       "brandId": "infinix",
       "mediaType": "image",
