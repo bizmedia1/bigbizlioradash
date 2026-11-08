@@ -2,667 +2,728 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#033D2D">
-  <title>Liora Admin</title>
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-  <style>
-    :root {
-      --dark:#033D2D;
-      --green:#064D38;
-      --sage:#708C78;
-      --light:#E5EDE6;
-      --cream:#FFFBEA;
-      --yellow:#F8B91D;
-      --white:#FFFFFF;
-      --text:#173C2E;
-      --muted:#718078;
-      --border:#DCE6DC;
-      --red:#B33A32;
-      --success:#16834A;
-    }
-
-    * { box-sizing:border-box; }
-
-    body {
-      margin:0;
-      background:var(--cream);
-      color:var(--text);
-      font-family:'Inter',sans-serif;
-    }
-
-    button,input,textarea,select { font:inherit; }
-    button { cursor:pointer; }
-    button:disabled { cursor:not-allowed; opacity:.55; }
-    .hidden { display:none !important; }
-
-    #login-screen {
-      position:fixed;
-      inset:0;
-      z-index:9999;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:24px;
-      background:
-        radial-gradient(circle at top right,#0B5B40,transparent 48%),
-        linear-gradient(145deg,#021F18,#033D2D 65%,#064D38);
-    }
-
-    .login-card {
-      width:100%;
-      max-width:410px;
-      padding:34px 26px;
-      border:1px solid rgba(255,255,255,.15);
-      border-radius:25px;
-      background:rgba(255,251,234,.98);
-      box-shadow:0 25px 80px rgba(0,0,0,.25);
-    }
-
-    .login-brand {
-      font-family:'Unbounded',sans-serif;
-      font-size:27px;
-      font-weight:700;
-      color:var(--dark);
-      margin-bottom:9px;
-    }
-
-    .login-subtitle {
-      color:var(--muted);
-      font-size:14px;
-      line-height:1.6;
-      margin-bottom:28px;
-    }
-
-    .login-label {
-      display:block;
-      font-size:13px;
-      font-weight:700;
-      margin-bottom:9px;
-    }
-
-    .password-box {
-      display:flex;
-      align-items:center;
-      border:1.5px solid var(--border);
-      border-radius:13px;
-      background:white;
-      overflow:hidden;
-    }
-
-    .password-box:focus-within {
-      border-color:var(--sage);
-      box-shadow:0 0 0 4px rgba(112,140,120,.12);
-    }
-
-    .password-box input {
-      width:100%;
-      min-width:0;
-      padding:16px;
-      border:0;
-      outline:0;
-      background:transparent;
-      color:var(--dark);
-    }
-
-    .password-box button {
-      border:0;
-      padding:14px;
-      background:transparent;
-      color:var(--sage);
-      font-weight:700;
-    }
-
-    .login-button {
-      width:100%;
-      padding:16px;
-      margin-top:20px;
-      border:0;
-      border-radius:13px;
-      background:var(--dark);
-      color:white;
-      font-weight:700;
-    }
-
-    #login-message {
-      min-height:20px;
-      margin-top:14px;
-      font-size:13px;
-      color:var(--red);
-      line-height:1.5;
-    }
-
-    #dashboard {
-      display:none;
-      max-width:900px;
-      margin:auto;
-      padding:26px 17px 60px;
-    }
-
-    #dashboard.unlocked { display:block; }
-
-    .topbar {
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:12px;
-      margin-bottom:25px;
-    }
-
-    .admin-heading {
-      font-family:'Unbounded',sans-serif;
-      font-size:18px;
-      line-height:1.5;
-      font-weight:600;
-    }
-
-    .icon-button {
-      border:1px solid var(--border);
-      background:white;
-      color:var(--dark);
-      border-radius:12px;
-      padding:11px 14px;
-      font-size:13px;
-      font-weight:700;
-    }
-
-    .balance-card {
-      position:relative;
-      padding:27px 23px;
-      margin-bottom:25px;
-      border-radius:21px;
-      background:linear-gradient(135deg,#033D2D,#07533B);
-      color:white;
-      overflow:hidden;
-    }
-
-    .balance-card::after {
-      content:"";
-      position:absolute;
-      width:180px;
-      height:180px;
-      right:-65px;
-      top:-90px;
-      border-radius:50%;
-      background:rgba(255,255,255,.06);
-      pointer-events:none;
-    }
-
-    .balance-label { color:#D1DFD4; font-size:13px; }
-
-    .balance-value {
-      margin-top:14px;
-      font-family:'Unbounded',sans-serif;
-      font-size:27px;
-      font-weight:600;
-      overflow-wrap:anywhere;
-    }
-
-    .tabs {
-      display:flex;
-      gap:10px;
-      margin-bottom:20px;
-    }
-
-    .tab {
-      flex:1;
-      padding:15px 9px;
-      border:1px solid var(--border);
-      border-radius:13px;
-      background:var(--light);
-      color:var(--dark);
-      font-weight:700;
-    }
-
-    .tab.active {
-      background:var(--dark);
-      color:white;
-      border-color:var(--dark);
-    }
-
-    .panel {
-      padding:23px 20px;
-      margin-bottom:17px;
-      border:1px solid rgba(112,140,120,.12);
-      border-radius:20px;
-      background:white;
-      box-shadow:0 8px 25px rgba(3,61,45,.035);
-    }
-
-    .panel h2 {
-      margin:0 0 22px;
-      font-family:'Unbounded',sans-serif;
-      font-size:15px;
-      font-weight:600;
-      line-height:1.6;
-    }
-
-    .field { margin:17px 0; }
-
-    .field label {
-      display:block;
-      margin-bottom:9px;
-      font-size:13px;
-      font-weight:700;
-    }
-
-    .field input,
-    .field textarea,
-    .field select {
-      width:100%;
-      padding:14px;
-      border:1.5px solid var(--border);
-      border-radius:12px;
-      background:#FFFEF8;
-      outline:none;
-      color:var(--dark);
-    }
-
-    .field textarea {
-      min-height:85px;
-      resize:vertical;
-      line-height:1.5;
-    }
-
-    .field input:focus,
-    .field textarea:focus,
-    .field select:focus {
-      border-color:var(--sage);
-    }
-
-    .toggle-row {
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:15px;
-      padding:17px 0;
-      border-bottom:1px solid var(--border);
-      font-size:14px;
-      font-weight:600;
-    }
-
-    .toggle-row:last-child { border-bottom:0; }
-
-    .toggle-row input {
-      width:21px;
-      height:21px;
-      accent-color:var(--dark);
-    }
-
-    .save-button {
-      width:100%;
-      padding:16px;
-      border:0;
-      border-radius:13px;
-      background:var(--dark);
-      color:white;
-      font-weight:700;
-    }
-
-    #message {
-      margin:12px 0;
-      font-size:13px;
-      line-height:1.5;
-    }
-
-    .success { color:var(--success); }
-    .error { color:var(--red); }
-
-    .payment-heading-row {
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:12px;
-      margin-bottom:18px;
-    }
-
-    .payment-heading-row h2 { margin:0; }
-
-    .refresh-button {
-      padding:10px 13px;
-      border:1px solid var(--border);
-      border-radius:11px;
-      background:var(--light);
-      color:var(--dark);
-      font-size:12px;
-      font-weight:700;
-    }
-
-    .payment-tabs {
-      display:grid;
-      grid-template-columns:repeat(3,1fr);
-      gap:8px;
-      margin-bottom:18px;
-    }
-
-    .payment-tab {
-      padding:12px 5px;
-      border:1px solid var(--border);
-      border-radius:11px;
-      background:#F7F9F5;
-      color:var(--dark);
-      font-size:12px;
-      font-weight:700;
-    }
-
-    .payment-tab.active {
-      background:var(--dark);
-      border-color:var(--dark);
-      color:white;
-    }
-
-    .count {
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      min-width:21px;
-      height:21px;
-      padding:0 5px;
-      margin-left:3px;
-      border-radius:20px;
-      background:rgba(112,140,120,.17);
-      font-size:10px;
-    }
-
-    .payment-tab.active .count {
-      background:rgba(255,255,255,.18);
-    }
-
-    .payment-list { display:grid; gap:14px; }
-
-    .payment-card {
-      padding:17px;
-      border:1px solid var(--border);
-      border-radius:15px;
-      background:#FFFEFA;
-    }
-
-    .payment-card-top {
-      display:flex;
-      justify-content:space-between;
-      align-items:flex-start;
-      gap:10px;
-      margin-bottom:15px;
-    }
-
-    .customer-name {
-      font-weight:700;
-      font-size:15px;
-      overflow-wrap:anywhere;
-    }
-
-    .customer-email {
-      margin-top:5px;
-      color:var(--muted);
-      font-size:12px;
-      overflow-wrap:anywhere;
-    }
-
-    .status-badge {
-      flex-shrink:0;
-      padding:7px 9px;
-      border-radius:30px;
-      font-size:10px;
-      font-weight:700;
-      text-transform:uppercase;
-    }
-
-    .status-pending { color:#946000; background:#FFF1C9; }
-    .status-approved { color:#147344; background:#DDF3E5; }
-    .status-rejected { color:#A32D2D; background:#FBE4E1; }
-
-    .payment-details {
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:13px;
-      margin-bottom:15px;
-    }
-
-    .detail-label {
-      display:block;
-      margin-bottom:5px;
-      color:var(--muted);
-      font-size:10px;
-      font-weight:700;
-      text-transform:uppercase;
-      letter-spacing:.04em;
-    }
-
-    .detail-value {
-      font-size:13px;
-      font-weight:600;
-      overflow-wrap:anywhere;
-    }
-
-    .proof-section {
-      padding-top:13px;
-      border-top:1px solid var(--border);
-    }
-
-    .proof-title {
-      margin-bottom:9px;
-      color:var(--muted);
-      font-size:11px;
-      font-weight:700;
-    }
-
-    .proof-viewer {
-      min-height:30px;
-      color:var(--muted);
-      font-size:12px;
-      line-height:1.6;
-    }
-
-    .proof-image {
-      display:block;
-      width:100%;
-      max-width:260px;
-      max-height:280px;
-      object-fit:contain;
-      object-position:left center;
-      border:1px solid var(--border);
-      border-radius:10px;
-      background:white;
-    }
-
-    .proof-link {
-      display:inline-block;
-      margin-top:8px;
-      color:var(--green);
-      font-size:12px;
-      font-weight:700;
-    }
-
-    .payment-actions {
-      display:flex;
-      gap:9px;
-      margin-top:16px;
-    }
-
-    .action-button {
-      flex:1;
-      padding:12px 8px;
-      border:0;
-      border-radius:10px;
-      font-size:12px;
-      font-weight:700;
-    }
-
-    .approve-button { background:#DDF3E5; color:#147344; }
-    .reject-button { background:#FBE4E1; color:#A32D2D; }
-
-    .disabled-note {
-      margin-top:9px;
-      color:var(--muted);
-      font-size:11px;
-      line-height:1.5;
-    }
-
-    .empty-state,.loading-state {
-      padding:35px 15px;
-      text-align:center;
-      color:var(--muted);
-      font-size:13px;
-      line-height:1.7;
-      border:1px dashed var(--border);
-      border-radius:14px;
-      background:#FFFEFA;
-    }
-
-    .empty-icon {
-      display:block;
-      margin-bottom:10px;
-      font-size:27px;
-    }
-
-    /* BRAND STATUS ADMIN */
-
-    .brand-admin-card {
-      padding:17px;
-      margin-bottom:13px;
-      border:1px solid var(--border);
-      border-radius:15px;
-      background:#FFFEFA;
-    }
-
-    .brand-admin-top {
-      display:flex;
-      align-items:center;
-      gap:12px;
-    }
-
-    .brand-admin-avatar {
-      width:52px;
-      height:52px;
-      flex-shrink:0;
-      object-fit:cover;
-      border-radius:14px;
-      background:var(--light);
-    }
-
-    .brand-admin-info {
-      flex:1;
-      min-width:0;
-    }
-
-    .brand-admin-name {
-      font-size:14px;
-      font-weight:700;
-      overflow-wrap:anywhere;
-    }
-
-    .brand-admin-username {
-      margin-top:5px;
-      color:var(--muted);
-      font-size:12px;
-    }
-
-    .brand-admin-actions {
-      display:flex;
-      flex-wrap:wrap;
-      gap:8px;
-      margin-top:15px;
-    }
-
-    .brand-action {
-      flex:1;
-      min-width:75px;
-      padding:11px 8px;
-      border:0;
-      border-radius:10px;
-      font-size:11px;
-      font-weight:700;
-    }
-
-    .brand-edit {
-      background:#E5EDE6;
-      color:var(--dark);
-    }
-
-    .brand-delete {
-      background:#FBE4E1;
-      color:#A32D2D;
-    }
-
-    .brand-toggle {
-      background:#DDF3E5;
-      color:#147344;
-    }
-
-    .brand-status-item {
-      padding:14px;
-      margin-bottom:12px;
-      border:1px solid var(--border);
-      border-radius:13px;
-      background:#FFFEFA;
-    }
-
-    .brand-status-heading {
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:8px;
-      margin-bottom:12px;
-      color:var(--green);
-      font-size:12px;
-      font-weight:700;
-    }
-
-    .brand-status-item .field { margin:12px 0; }
-
-    .brand-status-item .field:first-of-type { margin-top:0; }
-
-    .brand-status-remove {
-      width:100%;
-      padding:11px;
-      border:0;
-      border-radius:10px;
-      background:#FBE4E1;
-      color:#A32D2D;
-      font-size:12px;
-      font-weight:700;
-    }
-
-    .brand-meta {
-      display:flex;
-      flex-wrap:wrap;
-      gap:8px;
-      margin-top:12px;
-    }
-
-    .brand-meta span {
-      padding:6px 9px;
-      border-radius:20px;
-      background:var(--light);
-      color:var(--dark);
-      font-size:10px;
-      font-weight:700;
-    }
-
-    #brand-message {
-      margin:12px 0;
-      font-size:13px;
-      line-height:1.6;
-    }
-
-    @media (max-width:480px) {
-      #dashboard { padding:20px 13px 45px; }
-      .admin-heading { font-size:15px; }
-      .balance-value { font-size:22px; }
-      .panel { padding:19px 15px; }
-      .payment-details { grid-template-columns:1fr 1fr; }
-      .payment-tab { font-size:10px; }
-      .brand-admin-card { padding:14px; }
-      .brand-admin-actions { gap:7px; }
-      .tabs { gap:7px; }
-      .tab { padding:13px 5px; font-size:12px; }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#033D2D">
+<title>Liora Admin</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --dark:#033D2D;
+  --green:#064D38;
+  --sage:#708C78;
+  --light:#E5EDE6;
+  --cream:#FFFBEA;
+  --yellow:#F8B91D;
+  --white:#FFFFFF;
+  --text:#173C2E;
+  --muted:#718078;
+  --border:#DCE6DC;
+  --red:#B33A32;
+  --success:#16834A;
+}
+
+* { box-sizing:border-box; }
+
+body {
+  margin:0;
+  background:var(--cream);
+  color:var(--text);
+  font-family:'Inter',sans-serif;
+}
+
+button,input,textarea,select { font:inherit; }
+button { cursor:pointer; }
+button:disabled { cursor:not-allowed; opacity:.55; }
+.hidden { display:none !important; }
+
+#login-screen {
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:24px;
+  background:
+    radial-gradient(circle at top right,#0B5B40,transparent 48%),
+    linear-gradient(145deg,#021F18,#033D2D 65%,#064D38);
+}
+
+.login-card {
+  width:100%;
+  max-width:410px;
+  padding:34px 26px;
+  border:1px solid rgba(255,255,255,.15);
+  border-radius:25px;
+  background:rgba(255,251,234,.98);
+  box-shadow:0 25px 80px rgba(0,0,0,.25);
+}
+
+.login-brand {
+  font-family:'Unbounded',sans-serif;
+  font-size:27px;
+  font-weight:700;
+  color:var(--dark);
+  margin-bottom:9px;
+}
+
+.login-subtitle {
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.6;
+  margin-bottom:28px;
+}
+
+.login-label {
+  display:block;
+  font-size:13px;
+  font-weight:700;
+  margin-bottom:9px;
+}
+
+.password-box {
+  display:flex;
+  align-items:center;
+  border:1.5px solid var(--border);
+  border-radius:13px;
+  background:white;
+  overflow:hidden;
+}
+
+.password-box:focus-within {
+  border-color:var(--sage);
+  box-shadow:0 0 0 4px rgba(112,140,120,.12);
+}
+
+.password-box input {
+  width:100%;
+  min-width:0;
+  padding:16px;
+  border:0;
+  outline:0;
+  background:transparent;
+  color:var(--dark);
+}
+
+.password-box button {
+  border:0;
+  padding:14px;
+  background:transparent;
+  color:var(--sage);
+  font-weight:700;
+}
+
+.login-button {
+  width:100%;
+  padding:16px;
+  margin-top:20px;
+  border:0;
+  border-radius:13px;
+  background:var(--dark);
+  color:white;
+  font-weight:700;
+}
+
+#login-message {
+  min-height:20px;
+  margin-top:14px;
+  font-size:13px;
+  color:var(--red);
+  line-height:1.5;
+}
+
+#dashboard {
+  display:none;
+  max-width:900px;
+  margin:auto;
+  padding:26px 17px 60px;
+}
+
+#dashboard.unlocked { display:block; }
+
+.topbar {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  margin-bottom:25px;
+}
+
+.admin-heading {
+  font-family:'Unbounded',sans-serif;
+  font-size:18px;
+  line-height:1.5;
+  font-weight:600;
+}
+
+.icon-button {
+  border:1px solid var(--border);
+  background:white;
+  color:var(--dark);
+  border-radius:12px;
+  padding:11px 14px;
+  font-size:13px;
+  font-weight:700;
+}
+
+.balance-card {
+  position:relative;
+  padding:27px 23px;
+  margin-bottom:25px;
+  border-radius:21px;
+  background:linear-gradient(135deg,#033D2D,#07533B);
+  color:white;
+  overflow:hidden;
+}
+
+.balance-card::after {
+  content:"";
+  position:absolute;
+  width:180px;
+  height:180px;
+  right:-65px;
+  top:-90px;
+  border-radius:50%;
+  background:rgba(255,255,255,.06);
+  pointer-events:none;
+}
+
+.balance-label { color:#D1DFD4; font-size:13px; }
+
+.balance-value {
+  margin-top:14px;
+  font-family:'Unbounded',sans-serif;
+  font-size:27px;
+  font-weight:600;
+  overflow-wrap:anywhere;
+}
+
+.tabs {
+  display:flex;
+  gap:10px;
+  margin-bottom:20px;
+}
+
+.tab {
+  flex:1;
+  padding:15px 9px;
+  border:1px solid var(--border);
+  border-radius:13px;
+  background:var(--light);
+  color:var(--dark);
+  font-weight:700;
+}
+
+.tab.active {
+  background:var(--dark);
+  color:white;
+  border-color:var(--dark);
+}
+
+.panel {
+  padding:23px 20px;
+  margin-bottom:17px;
+  border:1px solid rgba(112,140,120,.12);
+  border-radius:20px;
+  background:white;
+  box-shadow:0 8px 25px rgba(3,61,45,.035);
+}
+
+.panel h2 {
+  margin:0 0 22px;
+  font-family:'Unbounded',sans-serif;
+  font-size:15px;
+  font-weight:600;
+  line-height:1.6;
+}
+
+.field { margin:17px 0; }
+
+.field label {
+  display:block;
+  margin-bottom:9px;
+  font-size:13px;
+  font-weight:700;
+}
+
+.field input,
+.field textarea,
+.field select {
+  width:100%;
+  padding:14px;
+  border:1.5px solid var(--border);
+  border-radius:12px;
+  background:#FFFEF8;
+  outline:none;
+  color:var(--dark);
+}
+
+.field textarea {
+  min-height:85px;
+  resize:vertical;
+  line-height:1.5;
+}
+
+.field input:focus,
+.field textarea:focus,
+.field select:focus {
+  border-color:var(--sage);
+}
+
+.toggle-row {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+  padding:17px 0;
+  border-bottom:1px solid var(--border);
+  font-size:14px;
+  font-weight:600;
+}
+
+.toggle-row:last-child { border-bottom:0; }
+
+.toggle-row input {
+  width:21px;
+  height:21px;
+  accent-color:var(--dark);
+}
+
+.save-button {
+  width:100%;
+  padding:16px;
+  border:0;
+  border-radius:13px;
+  background:var(--dark);
+  color:white;
+  font-weight:700;
+}
+
+#message {
+  margin:12px 0;
+  font-size:13px;
+  line-height:1.5;
+}
+
+.success { color:var(--success); }
+.error { color:var(--red); }
+
+.payment-heading-row {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  margin-bottom:18px;
+}
+
+.payment-heading-row h2 { margin:0; }
+
+.refresh-button {
+  padding:10px 13px;
+  border:1px solid var(--border);
+  border-radius:11px;
+  background:var(--light);
+  color:var(--dark);
+  font-size:12px;
+  font-weight:700;
+}
+
+.payment-tabs {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+  margin-bottom:18px;
+}
+
+.payment-tab {
+  padding:12px 5px;
+  border:1px solid var(--border);
+  border-radius:11px;
+  background:#F7F9F5;
+  color:var(--dark);
+  font-size:12px;
+  font-weight:700;
+}
+
+.payment-tab.active {
+  background:var(--dark);
+  border-color:var(--dark);
+  color:white;
+}
+
+.count {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-width:21px;
+  height:21px;
+  padding:0 5px;
+  margin-left:3px;
+  border-radius:20px;
+  background:rgba(112,140,120,.17);
+  font-size:10px;
+}
+
+.payment-tab.active .count {
+  background:rgba(255,255,255,.18);
+}
+
+.payment-list { display:grid; gap:14px; }
+
+.payment-card {
+  padding:17px;
+  border:1px solid var(--border);
+  border-radius:15px;
+  background:#FFFEFA;
+}
+
+.payment-card-top {
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:10px;
+  margin-bottom:15px;
+}
+
+.customer-name {
+  font-weight:700;
+  font-size:15px;
+  overflow-wrap:anywhere;
+}
+
+.customer-email {
+  margin-top:5px;
+  color:var(--muted);
+  font-size:12px;
+  overflow-wrap:anywhere;
+}
+
+.status-badge {
+  flex-shrink:0;
+  padding:7px 9px;
+  border-radius:30px;
+  font-size:10px;
+  font-weight:700;
+  text-transform:uppercase;
+}
+
+.status-pending { color:#946000; background:#FFF1C9; }
+.status-approved { color:#147344; background:#DDF3E5; }
+.status-rejected { color:#A32D2D; background:#FBE4E1; }
+
+.payment-details {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:13px;
+  margin-bottom:15px;
+}
+
+.detail-label {
+  display:block;
+  margin-bottom:5px;
+  color:var(--muted);
+  font-size:10px;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:.04em;
+}
+
+.detail-value {
+  font-size:13px;
+  font-weight:600;
+  overflow-wrap:anywhere;
+}
+
+.proof-section {
+  padding-top:13px;
+  border-top:1px solid var(--border);
+}
+
+.proof-title {
+  margin-bottom:9px;
+  color:var(--muted);
+  font-size:11px;
+  font-weight:700;
+}
+
+.proof-viewer {
+  min-height:30px;
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.6;
+}
+
+.proof-image {
+  display:block;
+  width:100%;
+  max-width:260px;
+  max-height:280px;
+  object-fit:contain;
+  object-position:left center;
+  border:1px solid var(--border);
+  border-radius:10px;
+  background:white;
+}
+
+.proof-link {
+  display:inline-block;
+  margin-top:8px;
+  color:var(--green);
+  font-size:12px;
+  font-weight:700;
+}
+
+.payment-actions {
+  display:flex;
+  gap:9px;
+  margin-top:16px;
+}
+
+.action-button {
+  flex:1;
+  padding:12px 8px;
+  border:0;
+  border-radius:10px;
+  font-size:12px;
+  font-weight:700;
+}
+
+.approve-button { background:#DDF3E5; color:#147344; }
+.reject-button { background:#FBE4E1; color:#A32D2D; }
+
+.disabled-note {
+  margin-top:9px;
+  color:var(--muted);
+  font-size:11px;
+  line-height:1.5;
+}
+
+.empty-state,.loading-state {
+  padding:35px 15px;
+  text-align:center;
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.7;
+  border:1px dashed var(--border);
+  border-radius:14px;
+  background:#FFFEFA;
+}
+
+.empty-icon {
+  display:block;
+  margin-bottom:10px;
+  font-size:27px;
+}
+
+/* BRAND STATUS PUBLISHER */
+
+.brand-publisher {
+  padding:20px;
+  margin-top:18px;
+  border:1px solid var(--border);
+  border-radius:16px;
+  background:var(--cream);
+}
+
+.brand-publisher .field {
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  margin:0 0 16px;
+}
+
+.brand-publisher .field label {
+  color:var(--dark);
+  font-size:13px;
+  font-weight:700;
+}
+
+.brand-publisher input,
+.brand-publisher select,
+.brand-publisher textarea {
+  width:100%;
+  min-height:46px;
+  padding:12px 14px;
+  border:1px solid var(--border);
+  border-radius:10px;
+  background:white;
+  color:var(--dark);
+  font:inherit;
+  font-size:14px;
+  outline:none;
+}
+
+.brand-publisher textarea {
+  min-height:90px;
+  resize:vertical;
+}
+
+.brand-publisher input:focus,
+.brand-publisher select:focus,
+.brand-publisher textarea:focus {
+  border-color:var(--green);
+  box-shadow:0 0 0 3px rgba(6,77,56,.08);
+}
+
+.brand-publisher-row {
+  display:grid;
+  grid-template-columns:1fr 2fr;
+  gap:14px;
+}
+
+.brand-status-message {
+  display:none;
+  padding:11px 13px;
+  margin-bottom:14px;
+  border-radius:9px;
+  font-size:13px;
+  font-weight:600;
+  line-height:1.5;
+}
+
+.brand-status-message.success {
+  display:block;
+  background:#E8F5EC;
+  color:#064D38;
+}
+
+.brand-status-message.error {
+  display:block;
+  background:#FCEBE8;
+  color:#A52B20;
+}
+
+.brand-publish-button {
+  width:100%;
+  padding:15px;
+  border:0;
+  border-radius:12px;
+  background:var(--dark);
+  color:white;
+  font-size:14px;
+  font-weight:700;
+}
+
+.brand-posts-heading {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin:28px 0 14px;
+}
+
+.brand-posts-heading h3 {
+  margin:0;
+  color:var(--dark);
+  font-size:16px;
+}
+
+#brand-post-count {
+  color:var(--sage);
+  font-size:12px;
+  font-weight:700;
+}
+
+.brand-posts-list {
+  display:grid;
+  gap:12px;
+}
+
+.brand-post-item {
+  display:flex;
+  align-items:center;
+  gap:14px;
+  min-width:0;
+  padding:13px;
+  border:1px solid var(--border);
+  border-radius:13px;
+  background:#FFFEFA;
+}
+
+.brand-post-thumb {
+  width:66px;
+  height:66px;
+  flex:0 0 66px;
+  object-fit:cover;
+  border-radius:10px;
+  background:var(--light);
+}
+
+.brand-post-video {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:var(--green);
+  font-size:11px;
+  font-weight:800;
+}
+
+.brand-post-info {
+  flex:1;
+  min-width:0;
+}
+
+.brand-post-info strong {
+  display:block;
+  margin-bottom:5px;
+  color:var(--dark);
+  font-size:13px;
+}
+
+.brand-post-info p {
+  margin:0 0 5px;
+  color:var(--muted);
+  font-size:12px;
+  overflow-wrap:anywhere;
+}
+
+.brand-post-info small {
+  color:#9A9F91;
+  font-size:10px;
+}
+
+.brand-post-delete {
+  flex-shrink:0;
+  padding:9px 12px;
+  border:0;
+  border-radius:8px;
+  background:#FBE4E1;
+  color:#A32D2D;
+  font-size:12px;
+  font-weight:700;
+}
+
+.brand-post-empty {
+  padding:25px 15px;
+  text-align:center;
+  color:var(--muted);
+  background:var(--cream);
+  border:1px dashed var(--border);
+  border-radius:12px;
+  font-size:13px;
+}
+
+@media (max-width:480px) {
+  #dashboard { padding:20px 13px 45px; }
+  .admin-heading { font-size:15px; }
+  .balance-value { font-size:22px; }
+  .panel { padding:19px 15px; }
+  .payment-details { grid-template-columns:1fr 1fr; }
+  .payment-tab { font-size:10px; }
+  .tabs { gap:7px; }
+  .tab { padding:13px 5px; font-size:12px; }
+  .brand-publisher { padding:15px; }
+  .brand-publisher-row { grid-template-columns:1fr; gap:0; }
+  .brand-post-item { gap:10px; padding:10px; }
+  .brand-post-thumb { width:54px; height:54px; flex-basis:54px; }
+  .brand-post-delete { padding:8px; }
+}
+</style>
 </head>
 
 <body>
@@ -740,7 +801,6 @@
   <!-- MANAGEMENT -->
 
   <section id="management-section" class="hidden">
-
     <div class="panel">
       <h2>Admin Profile</h2>
       <div class="field">
@@ -786,111 +846,129 @@
     </div>
 
     <button class="save-button" id="save-settings">Update & Save</button>
-
   </section>
 
-  <!-- BRAND STATUS -->
+  <!-- BRAND STATUS PUBLISHER -->
 
   <section id="brand-status-section" class="hidden">
-
     <div class="panel">
       <div class="payment-heading-row">
-        <h2>Brand Status Control</h2>
-        <span class="count" id="brand-count">0/50</span>
-      </div>
-
-      <div class="toggle-row">
-        <span>Enable Liora Bet brands</span>
-        <input type="checkbox" id="brand-system-enabled" checked>
-      </div>
-
-      <p class="disabled-note">
-        Control the brands and status content displayed in the Liora Bet tab.
-        Disabling this will hide all brands from the public brand-status API.
-      </p>
-
-      <button class="save-button" id="add-brand-button" type="button">
-        + Add New Brand
-      </button>
-    </div>
-
-    <!-- BRAND EDITOR -->
-
-    <div class="panel hidden" id="brand-editor">
-      <h2 id="brand-editor-title">Add New Brand</h2>
-
-      <input type="hidden" id="brand-id">
-
-      <div class="field">
-        <label for="brand-name">Brand Name</label>
-        <input id="brand-name" type="text" placeholder="e.g. Bet9ja">
-      </div>
-
-      <div class="field">
-        <label for="brand-username">Username</label>
-        <input id="brand-username" type="text" placeholder="@brandname">
-      </div>
-
-      <div class="field">
-        <label for="brand-image">Profile Image URL</label>
-        <input id="brand-image" type="url" placeholder="https://...">
-      </div>
-
-      <div class="field">
-        <label for="brand-reward-min">Minimum Reward (₦)</label>
-        <input id="brand-reward-min" type="number" min="0" step="0.01" value="0">
-      </div>
-
-      <div class="field">
-        <label for="brand-reward-max">Maximum Reward (₦)</label>
-        <input id="brand-reward-max" type="number" min="0" step="0.01" value="0">
-      </div>
-
-      <div class="toggle-row">
-        <span>Brand Active</span>
-        <input id="brand-active" type="checkbox" checked>
-      </div>
-
-      <div class="payment-heading-row" style="margin-top:25px">
-        <h2>Brand Statuses</h2>
-        <button type="button" class="refresh-button" id="add-status-button">
-          + Add Status
-        </button>
-      </div>
-
-      <div id="brand-status-editor-list"></div>
-
-      <button class="save-button" id="save-brand-button" type="button">
-        Save Brand
-      </button>
-
-      <button class="icon-button" id="cancel-brand-button"
-        type="button" style="width:100%;margin-top:10px">
-        Cancel
-      </button>
-    </div>
-
-    <!-- REGISTERED BRANDS -->
-
-    <div class="panel">
-      <div class="payment-heading-row">
-        <h2>Registered Brands</h2>
-        <button class="refresh-button" id="refresh-brands" type="button">
+        <h2>Publish Brand Status</h2>
+        <button class="refresh-button" id="refresh-brand-posts" type="button">
           ↻ Refresh
         </button>
       </div>
 
-      <div id="brand-list">
-        <div class="loading-state">Loading brands...</div>
+      <form id="brand-status-form" class="brand-publisher">
+
+        <div class="field">
+          <label for="status-brand">Select Existing Brand</label>
+          <select id="status-brand" required>
+            <option value="">Choose a brand</option>
+            <option value="chowdeck">Chowdeck</option>
+            <option value="opay">OPay</option>
+            <option value="moniepoint">Moniepoint</option>
+            <option value="okash">OKash</option>
+            <option value="sun-king">Sun King</option>
+            <option value="bokku">Bokku</option>
+            <option value="indomie">Indomie</option>
+            <option value="dangote">Dangote</option>
+            <option value="gtbank">GTBank</option>
+            <option value="access-bank">Access Bank</option>
+            <option value="firstbank">FirstBank</option>
+            <option value="zenith-bank">Zenith Bank</option>
+            <option value="uba">UBA</option>
+            <option value="fidelity-bank">Fidelity Bank</option>
+            <option value="fcmb">FCMB</option>
+            <option value="sterling-bank">Sterling Bank</option>
+            <option value="union-bank">Union Bank</option>
+            <option value="kuda">Kuda</option>
+            <option value="carbon">Carbon</option>
+            <option value="palmpay">PalmPay</option>
+            <option value="fairmoney">FairMoney</option>
+            <option value="paga">Paga</option>
+            <option value="interswitch">Interswitch</option>
+            <option value="flutterwave">Flutterwave</option>
+            <option value="paystack">Paystack</option>
+            <option value="remita">Remita</option>
+            <option value="jiji">Jiji</option>
+            <option value="jumia">Jumia</option>
+            <option value="konga">Konga</option>
+            <option value="slot">Slot</option>
+            <option value="tecno">Tecno</option>
+            <option value="itel">itel</option>
+            <option value="infinix">Infinix</option>
+            <option value="mtn">MTN</option>
+            <option value="airtel">Airtel</option>
+            <option value="glo">Glo</option>
+            <option value="9mobile">9mobile</option>
+            <option value="showmax">Showmax</option>
+            <option value="dstv">DStv</option>
+            <option value="gotv">GOtv</option>
+            <option value="bet9ja">Bet9ja</option>
+            <option value="sportybet">SportyBet</option>
+            <option value="shoprite">Shoprite</option>
+            <option value="spar">SPAR</option>
+            <option value="foodco">FoodCo</option>
+            <option value="mcdonalds">Chicken Republic</option>
+            <option value="dominos">Domino's</option>
+            <option value="coldstone">Cold Stone</option>
+            <option value="rite-foods">Rite Foods</option>
+            <option value="peak">Peak</option>
+          </select>
+        </div>
+
+        <div class="brand-publisher-row">
+          <div class="field">
+            <label for="status-media-type">Media Type</label>
+            <select id="status-media-type" required>
+              <option value="image">Image</option>
+              <option value="video">Video</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="status-media-url">Media URL</label>
+            <input
+              type="url"
+              id="status-media-url"
+              placeholder="https://..."
+              required
+            >
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="status-caption">Caption (Optional)</label>
+          <textarea
+            id="status-caption"
+            maxlength="500"
+            rows="3"
+            placeholder="Write a short caption..."
+          ></textarea>
+        </div>
+
+        <div id="brand-status-message"
+          class="brand-status-message"
+          role="status"></div>
+
+        <button
+          type="submit"
+          class="brand-publish-button"
+          id="publish-brand-status">
+          Publish Status
+        </button>
+      </form>
+
+      <div class="brand-posts-heading">
+        <h3>Published Posts</h3>
+        <span id="brand-post-count">0 posts</span>
+      </div>
+
+      <div id="brand-posts-list" class="brand-posts-list">
+        <div class="brand-post-empty">Published posts will appear here.</div>
       </div>
     </div>
-
-    <button class="save-button" id="save-all-brands" type="button">
-      Save All Brand Settings
-    </button>
-
-    <div id="brand-message" role="status"></div>
-
   </section>
 </main>
 
@@ -907,9 +985,8 @@ let allPayments = [];
 let activePaymentStatus = "pending";
 let proofObjectURLs = [];
 
-let brandSettings = [];
-let brandSystemEnabled = true;
-let editingBrandId = null;
+let brandStatusPosts = [];
+let brandStatusBusy = false;
 
 /* =========================================
    SHARED HELPERS
@@ -1053,8 +1130,8 @@ $("logout-button").addEventListener("click",()=>{
   adminSecret = null;
   settings = null;
   allPayments = [];
-  brandSettings = [];
-  editingBrandId = null;
+  brandStatusPosts = [];
+  brandStatusBusy = false;
 
   $("dashboard").classList.remove("unlocked");
   $("login-screen").classList.remove("hidden");
@@ -1062,8 +1139,7 @@ $("logout-button").addEventListener("click",()=>{
   $("login-message").textContent = "";
   $("balance").textContent = "₦0.00";
   $("payment-list").innerHTML = "";
-  $("brand-list").innerHTML = "";
-  $("brand-editor").classList.add("hidden");
+  $("brand-posts-list").innerHTML = "";
 });
 
 /* =========================================
@@ -1448,551 +1524,284 @@ $("save-settings").addEventListener("click",async()=>{
 });
 
 /* =========================================
-   BRAND STATUS ADMIN
+   BRAND STATUS PUBLISHER
 ========================================= */
 
-function brandMessage(message,type="success") {
-  $("brand-message").textContent = message;
-  $("brand-message").className = type;
+function brandStatusHeaders() {
+  return {
+    "Content-Type":"application/json",
+    "Authorization":`Bearer ${adminSecret}`
+  };
 }
 
-function makeBrandId() {
-  return "brand-" + Date.now() + "-" +
-    Math.random().toString(36).slice(2,8);
+function showBrandStatusMessage(message,type="success") {
+  const element = $("brand-status-message");
+
+  element.textContent = message;
+  element.className = `brand-status-message ${type}`;
 }
 
-function makeStatusId() {
-  return "status-" + Date.now() + "-" +
-    Math.random().toString(36).slice(2,8);
+function clearBrandStatusMessage() {
+  const element = $("brand-status-message");
+
+  element.textContent = "";
+  element.className = "brand-status-message";
 }
 
-async function brandRequest(method="GET",payload=null) {
-  const response = await fetch(BRAND_API,{
-    method,
-    headers:authHeaders(),
-    ...(payload ? {body:JSON.stringify(payload)} : {}),
-    cache:"no-store"
-  });
+function getBrandStatusName(id) {
+  const select = $("status-brand");
 
-  const result = await response.json();
+  const option = Array.from(select.options).find(
+    item => item.value === id
+  );
 
-  if (!response.ok) {
-    throw new Error(result.message || "Brand request failed.");
+  return option ? option.textContent : id;
+}
+
+function formatBrandStatusDate(value) {
+  if (!value) return "Recently published";
+
+  const date = new Date(value);
+
+  if (Number.isNaN(date.getTime())) {
+    return "Recently published";
   }
 
-  return result;
+  return date.toLocaleString();
+}
+
+function renderBrandStatusPosts() {
+  const list = $("brand-posts-list");
+  const count = $("brand-post-count");
+
+  count.textContent =
+    `${brandStatusPosts.length} ${
+      brandStatusPosts.length === 1 ? "post" : "posts"
+    }`;
+
+  if (!brandStatusPosts.length) {
+    list.innerHTML = `
+      <div class="brand-post-empty">
+        No status posts have been published yet.
+      </div>
+    `;
+    return;
+  }
+
+  list.innerHTML = brandStatusPosts.map(post=>{
+    const brandName = escapeHTML(
+      getBrandStatusName(post.brandId)
+    );
+
+    const caption = escapeHTML(
+      post.caption || "No caption"
+    );
+
+    const mediaUrl = escapeHTML(post.mediaUrl);
+
+    const thumbnail = post.mediaType === "image"
+      ? `<img class="brand-post-thumb"
+          src="${mediaUrl}"
+          alt=""
+          loading="lazy"
+          onerror="this.style.display='none'">`
+      : `<div class="brand-post-thumb brand-post-video">VIDEO</div>`;
+
+    return `
+      <article class="brand-post-item">
+        ${thumbnail}
+
+        <div class="brand-post-info">
+          <strong>${brandName}</strong>
+          <p>${caption}</p>
+          <small>
+            ${post.mediaType === "video" ? "Video" : "Image"}
+            · ${escapeHTML(formatBrandStatusDate(post.createdAt))}
+          </small>
+        </div>
+
+        <button
+          type="button"
+          class="brand-post-delete"
+          data-delete-brand-post="${escapeHTML(post.id)}">
+          Delete
+        </button>
+      </article>
+    `;
+  }).join("");
 }
 
 async function loadBrands() {
-  if (!adminSecret) return;
+  if (!adminSecret || brandStatusBusy) return;
 
-  $("refresh-brands").disabled = true;
-  $("refresh-brands").textContent = "Loading...";
+  $("refresh-brand-posts").disabled = true;
+  $("refresh-brand-posts").textContent = "Loading...";
 
-  $("brand-list").innerHTML =
-    '<div class="loading-state">Loading brands...</div>';
-
-  try {
-    const result = await brandRequest("GET");
-    const data = result.settings || {};
-
-    brandSettings = Array.isArray(data.brands)
-      ? data.brands
-      : [];
-
-    brandSystemEnabled = data.enabled !== false;
-
-    $("brand-system-enabled").checked = brandSystemEnabled;
-
-    renderBrands();
-
-    brandMessage("Brand settings loaded.");
-
-  } catch(error) {
-    $("brand-list").innerHTML =
-      `<div class="empty-state">${escapeHTML(error.message)}</div>`;
-
-    brandMessage(error.message,"error");
-
-  } finally {
-    $("refresh-brands").disabled = false;
-    $("refresh-brands").textContent = "↻ Refresh";
-  }
-}
-
-function renderBrands() {
-  $("brand-count").textContent =
-    `${brandSettings.length}/50`;
-
-  $("add-brand-button").disabled =
-    brandSettings.length >= 50;
-
-  if (!brandSettings.length) {
-    $("brand-list").innerHTML = `
-      <div class="empty-state">
-        <span class="empty-icon">◉</span>
-        No brands have been added yet.
-        <br>Add your first brand to get started.
-      </div>`;
-
-    return;
-  }
-
-  $("brand-list").innerHTML = brandSettings.map(brand=>{
-    const statuses = Array.isArray(brand.statuses)
-      ? brand.statuses
-      : [];
-
-    const activeStatuses = statuses.filter(status=>
-      status.active
-    ).length;
-
-    const avatar = brand.profileImage
-      ? `<img class="brand-admin-avatar"
-          src="${escapeHTML(brand.profileImage)}"
-          alt=""
-          loading="lazy"
-          onerror="this.style.visibility='hidden'">`
-      : `<div class="brand-admin-avatar"></div>`;
-
-    return `
-      <article class="brand-admin-card">
-
-        <div class="brand-admin-top">
-          ${avatar}
-
-          <div class="brand-admin-info">
-            <div class="brand-admin-name">
-              ${escapeHTML(brand.name)}
-            </div>
-
-            <div class="brand-admin-username">
-              ${escapeHTML(brand.username)}
-            </div>
-          </div>
-
-          <span class="status-badge ${
-            brand.active ? "status-approved" : "status-rejected"
-          }">
-            ${brand.active ? "Active" : "Inactive"}
-          </span>
-        </div>
-
-        <div class="brand-meta">
-          <span>${statuses.length} Statuses</span>
-          <span>${activeStatuses} Active</span>
-          <span>₦${Number(brand.rewardMin).toLocaleString("en-NG")} – ₦${Number(brand.rewardMax).toLocaleString("en-NG")}</span>
-        </div>
-
-        <div class="brand-admin-actions">
-          <button class="brand-action brand-edit"
-            data-brand-edit="${escapeHTML(brand.id)}">
-            Edit
-          </button>
-
-          <button class="brand-action brand-toggle"
-            data-brand-toggle="${escapeHTML(brand.id)}">
-            ${brand.active ? "Deactivate" : "Activate"}
-          </button>
-
-          <button class="brand-action brand-delete"
-            data-brand-delete="${escapeHTML(brand.id)}">
-            Delete
-          </button>
-        </div>
-
-      </article>`;
-  }).join("");
-
-  document.querySelectorAll("[data-brand-edit]").forEach(button=>{
-    button.addEventListener("click",()=>{
-      editBrand(button.dataset.brandEdit);
-    });
-  });
-
-  document.querySelectorAll("[data-brand-toggle]").forEach(button=>{
-    button.addEventListener("click",()=>{
-      toggleBrand(button.dataset.brandToggle);
-    });
-  });
-
-  document.querySelectorAll("[data-brand-delete]").forEach(button=>{
-    button.addEventListener("click",()=>{
-      deleteBrand(button.dataset.brandDelete);
-    });
-  });
-}
-
-/* BRAND EDITOR */
-
-function resetBrandEditor() {
-  editingBrandId = null;
-
-  $("brand-id").value = "";
-  $("brand-name").value = "";
-  $("brand-username").value = "";
-  $("brand-image").value = "";
-  $("brand-reward-min").value = "0";
-  $("brand-reward-max").value = "0";
-  $("brand-active").checked = true;
-
-  $("brand-status-editor-list").innerHTML = "";
-
-  $("brand-editor-title").textContent = "Add New Brand";
-  $("save-brand-button").textContent = "Save Brand";
-}
-
-function openNewBrandEditor() {
-  resetBrandEditor();
-
-  $("brand-editor").classList.remove("hidden");
-
-  $("brand-editor").scrollIntoView({
-    behavior:"smooth",
-    block:"start"
-  });
-}
-
-function editBrand(id) {
-  const brand = brandSettings.find(item=>item.id===id);
-  if (!brand) return;
-
-  editingBrandId = id;
-
-  $("brand-id").value = brand.id;
-  $("brand-name").value = brand.name || "";
-  $("brand-username").value = brand.username || "";
-  $("brand-image").value = brand.profileImage || "";
-
-  $("brand-reward-min").value = brand.rewardMin ?? 0;
-  $("brand-reward-max").value = brand.rewardMax ?? 0;
-  $("brand-active").checked = brand.active === true;
-
-  $("brand-editor-title").textContent = "Edit Brand";
-  $("save-brand-button").textContent = "Update Brand";
-
-  $("brand-status-editor-list").innerHTML = "";
-
-  (brand.statuses || []).forEach(status=>{
-    addBrandStatus(status);
-  });
-
-  $("brand-editor").classList.remove("hidden");
-
-  $("brand-editor").scrollIntoView({
-    behavior:"smooth",
-    block:"start"
-  });
-}
-
-/* STATUS EDITOR */
-
-function addBrandStatus(status=null) {
-  const id = status?.id || makeStatusId();
-
-  const item = document.createElement("div");
-  item.className = "brand-status-item";
-
-  item.innerHTML = `
-    <div class="brand-status-heading">
-      <span>STATUS ITEM</span>
-      <span>${escapeHTML(id.slice(0,18))}</span>
-    </div>
-
-    <input type="hidden" class="status-id"
-      value="${escapeHTML(id)}">
-
-    <div class="field">
-      <label>Media Type</label>
-      <select class="status-media-type">
-        <option value="image" ${
-          status?.mediaType === "image" ? "selected" : ""
-        }>Image</option>
-
-        <option value="video" ${
-          status?.mediaType === "video" ? "selected" : ""
-        }>Video</option>
-      </select>
-    </div>
-
-    <div class="field">
-      <label>Media URL</label>
-      <input class="status-media-url"
-        type="url"
-        placeholder="https://..."
-        value="${escapeHTML(status?.mediaUrl || "")}">
-    </div>
-
-    <div class="field">
-      <label>Caption</label>
-      <textarea class="status-caption"
-        placeholder="Write a status caption...">${escapeHTML(status?.caption || "")}</textarea>
-    </div>
-
-    <div class="toggle-row">
-      <span>Active Status</span>
-      <input class="status-active" type="checkbox"
-        ${status?.active === false ? "" : "checked"}>
-    </div>
-
-    <button type="button" class="brand-status-remove">
-      Remove Status
-    </button>
+  $("brand-posts-list").innerHTML = `
+    <div class="brand-post-empty">Loading published posts...</div>
   `;
 
-  item.querySelector(".brand-status-remove")
-    .addEventListener("click",()=>{
-      if (confirm("Remove this status?")) {
-        item.remove();
-      }
+  try {
+    const response = await fetch(BRAND_API,{
+      method:"GET",
+      headers:brandStatusHeaders(),
+      cache:"no-store"
     });
 
-  $("brand-status-editor-list").appendChild(item);
-}
+    const result = await response.json();
 
-function collectBrandStatuses() {
-  return Array.from(
-    $("brand-status-editor-list").querySelectorAll(
-      ".brand-status-item"
-    )
-  ).map(item=>({
-    id:item.querySelector(".status-id").value,
-    mediaType:item.querySelector(".status-media-type").value,
-    mediaUrl:item.querySelector(".status-media-url").value.trim(),
-    caption:item.querySelector(".status-caption").value.trim(),
-    active:item.querySelector(".status-active").checked
-  }));
-}
-
-/* SAVE BRAND SETTINGS */
-
-async function saveBrandSettings() {
-  return await brandRequest("PUT",{
-    enabled:brandSystemEnabled,
-    brands:brandSettings
-  });
-}
-
-$("add-brand-button").addEventListener("click",()=>{
-  if (brandSettings.length >= 50) {
-    brandMessage("Maximum of 50 brands reached.","error");
-    return;
-  }
-
-  openNewBrandEditor();
-});
-
-$("add-status-button").addEventListener("click",()=>{
-  addBrandStatus();
-});
-
-$("cancel-brand-button").addEventListener("click",()=>{
-  $("brand-editor").classList.add("hidden");
-  resetBrandEditor();
-});
-
-$("save-brand-button").addEventListener("click",async()=>{
-  const name = $("brand-name").value.trim();
-  const username = $("brand-username").value.trim();
-  const profileImage = $("brand-image").value.trim();
-
-  const rewardMin = Number($("brand-reward-min").value);
-  const rewardMax = Number($("brand-reward-max").value);
-
-  if (!name || !username) {
-    brandMessage("Brand name and username are required.","error");
-    return;
-  }
-
-  if (
-    !Number.isFinite(rewardMin) ||
-    !Number.isFinite(rewardMax) ||
-    rewardMin < 0 ||
-    rewardMax < rewardMin
-  ) {
-    brandMessage("Enter a valid reward range.","error");
-    return;
-  }
-
-  if (
-    profileImage &&
-    !/^https?:\/\//i.test(profileImage)
-  ) {
-    brandMessage("Enter a valid profile image URL.","error");
-    return;
-  }
-
-  const statuses = collectBrandStatuses();
-
-  for (const status of statuses) {
-    if (
-      !status.mediaUrl ||
-      !/^https?:\/\//i.test(status.mediaUrl)
-    ) {
-      brandMessage(
-        "Every status needs a valid media URL.",
-        "error"
-      );
-      return;
-    }
-  }
-
-  const id = editingBrandId || makeBrandId();
-
-  const brand = {
-    id,
-    name,
-    username,
-    profileImage,
-    rewardMin,
-    rewardMax,
-    active:$("brand-active").checked,
-    statuses
-  };
-
-  const previous = brandSettings.map(item=>({...item}));
-
-  const index = brandSettings.findIndex(item=>item.id===id);
-
-  if (index===-1) {
-    if (brandSettings.length>=50) {
-      brandMessage("Maximum of 50 brands reached.","error");
-      return;
+    if (!response.ok || !result.ok) {
+      throw new Error(result.message || "Unable to load published posts.");
     }
 
-    brandSettings.push(brand);
-  } else {
-    brandSettings[index] = brand;
-  }
+    brandStatusPosts = Array.isArray(result.posts)
+      ? result.posts
+      : [];
 
-  const button = $("save-brand-button");
-  button.disabled = true;
-  button.textContent = "Saving...";
-
-  try {
-    await saveBrandSettings();
-
-    $("brand-editor").classList.add("hidden");
-    resetBrandEditor();
-
-    renderBrands();
-    brandMessage("Brand saved successfully.");
+    renderBrandStatusPosts();
 
   } catch(error) {
-    brandSettings = previous;
-    renderBrands();
-    brandMessage(error.message,"error");
+    console.error("Load brand status posts:",error);
+
+    $("brand-posts-list").innerHTML = `
+      <div class="brand-post-empty">
+        ${escapeHTML(error.message || "Unable to load posts.")}
+      </div>
+    `;
 
   } finally {
-    button.disabled = false;
-    button.textContent = editingBrandId
-      ? "Update Brand"
-      : "Save Brand";
-  }
-});
-
-/* ACTIVATE / DEACTIVATE BRAND */
-
-async function toggleBrand(id) {
-  const brand = brandSettings.find(item=>item.id===id);
-  if (!brand) return;
-
-  const previous = brand.active;
-  brand.active = !previous;
-
-  try {
-    await saveBrandSettings();
-
-    renderBrands();
-
-    brandMessage(
-      `${brand.name} ${brand.active ? "activated" : "deactivated"}.`
-    );
-
-  } catch(error) {
-    brand.active = previous;
-    renderBrands();
-    brandMessage(error.message,"error");
+    $("refresh-brand-posts").disabled = false;
+    $("refresh-brand-posts").textContent = "↻ Refresh";
   }
 }
 
-/* DELETE BRAND */
+/* PUBLISH POST */
 
-async function deleteBrand(id) {
-  const brand = brandSettings.find(item=>item.id===id);
-  if (!brand) return;
+$("brand-status-form").addEventListener("submit",async event=>{
+  event.preventDefault();
 
-  if (!confirm(
-    `Permanently delete ${brand.name} and all its statuses?`
-  )) return;
+  if (brandStatusBusy) return;
 
-  const previous = brandSettings;
-  brandSettings = brandSettings.filter(item=>item.id!==id);
+  const brandId = $("status-brand").value;
+  const mediaType = $("status-media-type").value;
+  const mediaUrl = $("status-media-url").value.trim();
+  const caption = $("status-caption").value.trim();
 
-  try {
-    await saveBrandSettings();
-
-    renderBrands();
-    brandMessage("Brand deleted successfully.");
-
-  } catch(error) {
-    brandSettings = previous;
-    renderBrands();
-    brandMessage(error.message,"error");
+  if (!brandId || !mediaUrl) {
+    showBrandStatusMessage(
+      "Select a brand and provide a media URL.",
+      "error"
+    );
+    return;
   }
-}
 
-/* GLOBAL BRAND SWITCH */
+  brandStatusBusy = true;
 
-$("brand-system-enabled").addEventListener("change",async()=>{
-  const previous = brandSystemEnabled;
+  const button = $("publish-brand-status");
+  button.disabled = true;
+  button.textContent = "Publishing...";
 
-  brandSystemEnabled = $("brand-system-enabled").checked;
-
-  $("brand-system-enabled").disabled = true;
+  clearBrandStatusMessage();
 
   try {
-    await saveBrandSettings();
+    const response = await fetch(BRAND_API,{
+      method:"POST",
+      headers:brandStatusHeaders(),
+      body:JSON.stringify({
+        brandId,
+        mediaType,
+        mediaUrl,
+        caption
+      })
+    });
 
-    brandMessage(
-      brandSystemEnabled
-        ? "Liora Bet brand system enabled."
-        : "Liora Bet brand system disabled."
+    const result = await response.json();
+
+    if (!response.ok || !result.ok) {
+      throw new Error(result.message || "Unable to publish status.");
+    }
+
+    $("brand-status-form").reset();
+
+    showBrandStatusMessage(
+      "Status published successfully.",
+      "success"
     );
 
-  } catch(error) {
-    brandSystemEnabled = previous;
-    $("brand-system-enabled").checked = previous;
+    await loadBrands();
 
-    brandMessage(error.message,"error");
+  } catch(error) {
+    console.error("Publish brand status:",error);
+
+    showBrandStatusMessage(
+      error.message || "Unable to publish status.",
+      "error"
+    );
 
   } finally {
-    $("brand-system-enabled").disabled = false;
+    brandStatusBusy = false;
+    button.disabled = false;
+    button.textContent = "Publish Status";
   }
 });
 
-/* REFRESH AND SAVE ALL */
+/* DELETE POST */
 
-$("refresh-brands").addEventListener("click",loadBrands);
+$("brand-posts-list").addEventListener("click",async event=>{
+  const button = event.target.closest("[data-delete-brand-post]");
 
-$("save-all-brands").addEventListener("click",async()=>{
-  const button = $("save-all-brands");
+  if (!button || brandStatusBusy) return;
 
+  const postId = button.getAttribute("data-delete-brand-post");
+
+  if (!postId) return;
+
+  if (!confirm("Delete this published status?")) return;
+
+  brandStatusBusy = true;
   button.disabled = true;
-  button.textContent = "Saving...";
+  button.textContent = "Deleting...";
 
   try {
-    await saveBrandSettings();
-    brandMessage("All brand settings saved successfully.");
+    const response = await fetch(BRAND_API,{
+      method:"DELETE",
+      headers:brandStatusHeaders(),
+      body:JSON.stringify({id:postId})
+    });
+
+    const result = await response.json();
+
+    if (!response.ok || !result.ok) {
+      throw new Error(result.message || "Unable to delete status.");
+    }
+
+    showBrandStatusMessage(
+      "Status deleted successfully.",
+      "success"
+    );
+
+    await loadBrands();
 
   } catch(error) {
-    brandMessage(error.message,"error");
+    console.error("Delete brand status:",error);
+
+    showBrandStatusMessage(
+      error.message || "Unable to delete status.",
+      "error"
+    );
+
+    button.disabled = false;
+    button.textContent = "Delete";
 
   } finally {
-    button.disabled = false;
-    button.textContent = "Save All Brand Settings";
+    brandStatusBusy = false;
   }
 });
+
+/* REFRESH POSTS */
+
+$("refresh-brand-posts").addEventListener("click",loadBrands);
+
 </script>
 
 </body>
