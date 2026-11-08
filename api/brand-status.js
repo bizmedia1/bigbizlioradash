@@ -1,4 +1,3 @@
-
 const { readJSON } = require("../lib/github-storage");
 
 const FILE = "data/brand-status.json";
@@ -14,6 +13,8 @@ module.exports = async function handler(req, res) {
   }
 
   if (req.method !== "GET") {
+    res.setHeader("Allow", "GET, OPTIONS");
+
     return res.status(405).json({
       ok: false,
       message: "Method not allowed."
@@ -23,50 +24,33 @@ module.exports = async function handler(req, res) {
   try {
     const result = await readJSON(FILE, {
       version: 1,
-      enabled: true,
-      brands: []
+      posts: []
     });
 
     const data = result.data || {};
+    const posts = Array.isArray(data.posts) ? data.posts : [];
 
-    if (data.enabled === false) {
-      return res.status(200).json({
-        ok: true,
-        enabled: false,
-        brands: []
-      });
-    }
-
-    const brands = Array.isArray(data.brands)
-      ? data.brands
-      : [];
-
-    const activeBrands = brands
-      .filter(brand => brand && brand.active === true)
-      .map(brand => ({
-        id: brand.id,
-        name: brand.name,
-        username: brand.username,
-        profileImage: brand.profileImage || "",
-        rewardMin: Number(brand.rewardMin || 0),
-        rewardMax: Number(brand.rewardMax || 0),
-        statuses: (Array.isArray(brand.statuses)
-          ? brand.statuses
-          : []
-        )
-          .filter(status => status && status.active === true)
-          .map(status => ({
-            id: status.id,
-            mediaType: status.mediaType,
-            mediaUrl: status.mediaUrl,
-            caption: status.caption || ""
-          }))
+    const activePosts = posts
+      .filter(post =>
+        post &&
+        post.active !== false &&
+        post.brandId &&
+        ["image", "video"].includes(post.mediaType) &&
+        typeof post.mediaUrl === "string" &&
+        post.mediaUrl.trim()
+      )
+      .map(post => ({
+        id: post.id,
+        brandId: post.brandId,
+        mediaType: post.mediaType,
+        mediaUrl: post.mediaUrl,
+        caption: post.caption || "",
+        createdAt: post.createdAt || ""
       }));
 
     return res.status(200).json({
       ok: true,
-      enabled: true,
-      brands: activeBrands
+      posts: activePosts
     });
 
   } catch (error) {
