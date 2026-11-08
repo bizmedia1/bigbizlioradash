@@ -55,126 +55,125 @@ const VALID_BRANDS = new Set([
   "peak"
 ]);
 
-function send(res, status, data) {
-  return res.status(status).json(data);
+function getSecret() {
+  return process.env.ADMIN_SECRET || "";
 }
 
-function authenticate(req) {
-  const secret = process.env.ADMIN_SECRET;
-
-  return Boolean(
-    secret &&
-    req.headers.authorization === `Bearer ${secret}`
-  );
-}
-
-function cleanText(value, max = 500) {
-  return typeof value === "string"
-    ? value.trim().slice(0, max)
-    : "";
+function getPosts(data) {
+  return Array.isArray(data?.posts) ? data.posts : [];
 }
 
 function validMediaUrl(value) {
-  if (typeof value !== "string" || !value.trim()) {
-    return false;
-  }
-
   try {
-    const url = new URL(value.trim());
+    const url = new URL(value);
 
-    return ["https:", "http:"].includes(url.protocol);
+    return (
+      url.protocol === "https:" ||
+      url.protocol === "http:"
+    );
   } catch {
     return false;
   }
 }
 
-function makeId() {
-  return `status_${Date.now()}_${Math.random().toString(36).slice(2, 10)}`;
-}
+function createId() {
+  if (typeof crypto !== "undefined" && crypto.randomUUID) {
+    return crypto.randomUUID();
+  }
 
-async function loadData() {
-  const result = await readJSON(FILE, {
-    version: 1,
-    posts: []
-  });
-
-  const data = result.data || {};
-
-  return {
-    sha: result.sha,
-    data: {
-      version: 1,
-      posts: Array.isArray(data.posts) ? data.posts : []
-    }
-  };
+  return (
+    Date.now().toString(36) +
+    Math.random().toString(36).slice(2, 12)
+  );
 }
 
 module.exports = async function handler(req, res) {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET, POST, DELETE, OPTIONS"
+  );
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "Content-Type, Authorization"
+  );
   res.setHeader("Cache-Control", "no-store");
-  res.setHeader("Access-Control-Allow-Methods", "GET, POST, DELETE, OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
 
   if (req.method === "OPTIONS") {
     return res.status(204).end();
   }
 
-  if (!["GET", "POST", "DELETE"].includes(req.method)) {
-    res.setHeader("Allow", "GET, POST, DELETE, OPTIONS");
+  const secret = getSecret();
+  const authorization = req.headers.authorization || "";
 
-    return send(res, 405, {
-      ok: false,
-      message: "Method not allowed."
-    });
-  }
-
-  if (!authenticate(req)) {
-    return send(res, 401, {
+  if (
+    !secret ||
+    authorization !== `Bearer ${secret}`
+  ) {
+    return res.status(401).json({
       ok: false,
       message: "Unauthorized."
     });
   }
 
   try {
-    const { sha, data } = await loadData();
+    const result = await readJSON(FILE, {
+      version: 1,
+      posts: []
+    });
+
+    const data = result?.data || {};
+    const posts = getPosts(data);
 
     if (req.method === "GET") {
-      return send(res, 200, {
+      return res.status(200).json({
         ok: true,
-        posts: data.posts
+        posts: posts.sort(
+          (a, b) =>
+            new Date(b.createdAt || 0) -
+            new Date(a.createdAt || 0)
+        )
       });
     }
 
     if (req.method === "POST") {
-      const input = req.body || {};
+      const body = req.body || {};
 
-      const brandId = cleanText(input.brandId, 100);
-      const mediaType = cleanText(input.mediaType, 20).toLowerCase();
-      const mediaUrl = cleanText(input.mediaUrl, 2000);
-      const caption = cleanText(input.caption, 500);
+      const brandId = String(body.brandId || "").trim();
+      const mediaType = String(body.mediaType || "").trim().toLowerCase();
+      const mediaUrl = String(body.mediaUrl || "").trim();
+      const caption = String(body.caption || "").trim();
 
       if (!VALID_BRANDS.has(brandId)) {
-        return send(res, 400, {
+        return res.status(400).json({
           ok: false,
-          message: "Please select a valid existing brand."
+          message: "Please select a valid brand."
         });
       }
 
       if (!["image", "video"].includes(mediaType)) {
-        return send(res, 400, {
+        return res.status(400).json({
           ok: false,
           message: "Media type must be image or video."
         });
       }
 
-      if (!validMediaUrl(mediaUrl)) {
-        return send(res, 400, {
+      if (!mediaUrl || !validMediaUrl(mediaUrl)) {
+        return res.status(400).json({
           ok: false,
-          message: "Please provide a valid HTTP or HTTPS media URL."
+          message: "Enter a valid HTTP or HTTPS media URL."
+        });
+      }
+
+      if (caption.length > 500) {
+        return res.status(400).json({
+          ok: false,
+          message: "Caption cannot exceed 500 characters."
         });
       }
 
       const post = {
-        id: makeId(),
+        id: createId(),
         brandId,
         mediaType,
         mediaUrl,
@@ -183,61 +182,64 @@ module.exports = async function handler(req, res) {
         createdAt: new Date().toISOString()
       };
 
-      const updated = {
+      const updatedPosts = [post, ...posts];
+
+      await writeJSON(FILE, {
         version: 1,
-        updatedAt: new Date().toISOString(),
-        posts: [post, ...data.posts]
-      };
+        posts: updatedPosts
+      });
 
-      await writeJSON(FILE, updated, sha);
-
-      return send(res, 201, {
+      return res.status(201).json({
         ok: true,
-        message: "Status published successfully.",
+        message: "Brand status published successfully.",
         post
       });
     }
 
     if (req.method === "DELETE") {
-      const postId = cleanText(
-        (req.body && req.body.id) || req.query.id,
-        150
-      );
+      const body = req.body || {};
+      const id = String(body.id || "").trim();
 
-      if (!postId) {
-        return send(res, 400, {
+      if (!id) {
+        return res.status(400).json({
           ok: false,
           message: "Post ID is required."
         });
       }
 
-      const exists = data.posts.some(post => post.id === postId);
+      const exists = posts.some(post => post.id === id);
 
       if (!exists) {
-        return send(res, 404, {
+        return res.status(404).json({
           ok: false,
           message: "Status post not found."
         });
       }
 
-      const updated = {
+      const updatedPosts = posts.filter(
+        post => post.id !== id
+      );
+
+      await writeJSON(FILE, {
         version: 1,
-        updatedAt: new Date().toISOString(),
-        posts: data.posts.filter(post => post.id !== postId)
-      };
+        posts: updatedPosts
+      });
 
-      await writeJSON(FILE, updated, sha);
-
-      return send(res, 200, {
+      return res.status(200).json({
         ok: true,
-        message: "Status deleted successfully."
+        message: "Status post deleted successfully."
       });
     }
+
+    return res.status(405).json({
+      ok: false,
+      message: "Method not allowed."
+    });
 
   } catch (error) {
     console.error("Admin brand status API:", error);
 
-    return send(res, 500, {
+    return res.status(500).json({
       ok: false,
       message: "Unable to process brand status request."
     });
