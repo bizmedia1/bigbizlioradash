@@ -203,7 +203,11 @@
       overflow-wrap:anywhere;
     }
 
-    .tabs { display:flex; gap:10px; margin-bottom:20px; }
+    .tabs {
+      display:flex;
+      gap:10px;
+      margin-bottom:20px;
+    }
 
     .tab {
       flex:1;
@@ -267,7 +271,9 @@
 
     .field input:focus,
     .field textarea:focus,
-    .field select:focus { border-color:var(--sage); }
+    .field select:focus {
+      border-color:var(--sage);
+    }
 
     .toggle-row {
       display:flex;
@@ -363,7 +369,9 @@
       font-size:10px;
     }
 
-    .payment-tab.active .count { background:rgba(255,255,255,.18); }
+    .payment-tab.active .count {
+      background:rgba(255,255,255,.18);
+    }
 
     .payment-list { display:grid; gap:14px; }
 
@@ -431,9 +439,24 @@
       overflow-wrap:anywhere;
     }
 
-    .proof-section { padding-top:13px; border-top:1px solid var(--border); }
-    .proof-title { margin-bottom:9px; color:var(--muted); font-size:11px; font-weight:700; }
-    .proof-viewer { min-height:30px; color:var(--muted); font-size:12px; line-height:1.6; }
+    .proof-section {
+      padding-top:13px;
+      border-top:1px solid var(--border);
+    }
+
+    .proof-title {
+      margin-bottom:9px;
+      color:var(--muted);
+      font-size:11px;
+      font-weight:700;
+    }
+
+    .proof-viewer {
+      min-height:30px;
+      color:var(--muted);
+      font-size:12px;
+      line-height:1.6;
+    }
 
     .proof-image {
       display:block;
@@ -455,7 +478,11 @@
       font-weight:700;
     }
 
-    .payment-actions { display:flex; gap:9px; margin-top:16px; }
+    .payment-actions {
+      display:flex;
+      gap:9px;
+      margin-top:16px;
+    }
 
     .action-button {
       flex:1;
@@ -487,7 +514,141 @@
       background:#FFFEFA;
     }
 
-    .empty-icon { display:block; margin-bottom:10px; font-size:27px; }
+    .empty-icon {
+      display:block;
+      margin-bottom:10px;
+      font-size:27px;
+    }
+
+    /* BRAND STATUS ADMIN */
+
+    .brand-admin-card {
+      padding:17px;
+      margin-bottom:13px;
+      border:1px solid var(--border);
+      border-radius:15px;
+      background:#FFFEFA;
+    }
+
+    .brand-admin-top {
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+
+    .brand-admin-avatar {
+      width:52px;
+      height:52px;
+      flex-shrink:0;
+      object-fit:cover;
+      border-radius:14px;
+      background:var(--light);
+    }
+
+    .brand-admin-info {
+      flex:1;
+      min-width:0;
+    }
+
+    .brand-admin-name {
+      font-size:14px;
+      font-weight:700;
+      overflow-wrap:anywhere;
+    }
+
+    .brand-admin-username {
+      margin-top:5px;
+      color:var(--muted);
+      font-size:12px;
+    }
+
+    .brand-admin-actions {
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-top:15px;
+    }
+
+    .brand-action {
+      flex:1;
+      min-width:75px;
+      padding:11px 8px;
+      border:0;
+      border-radius:10px;
+      font-size:11px;
+      font-weight:700;
+    }
+
+    .brand-edit {
+      background:#E5EDE6;
+      color:var(--dark);
+    }
+
+    .brand-delete {
+      background:#FBE4E1;
+      color:#A32D2D;
+    }
+
+    .brand-toggle {
+      background:#DDF3E5;
+      color:#147344;
+    }
+
+    .brand-status-item {
+      padding:14px;
+      margin-bottom:12px;
+      border:1px solid var(--border);
+      border-radius:13px;
+      background:#FFFEFA;
+    }
+
+    .brand-status-heading {
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:8px;
+      margin-bottom:12px;
+      color:var(--green);
+      font-size:12px;
+      font-weight:700;
+    }
+
+    .brand-status-item .field { margin:12px 0; }
+
+    .brand-status-item .field:first-of-type { margin-top:0; }
+
+    .brand-status-remove {
+      width:100%;
+      padding:11px;
+      border:0;
+      border-radius:10px;
+      background:#FBE4E1;
+      color:#A32D2D;
+      font-size:12px;
+      font-weight:700;
+    }
+
+    .brand-meta {
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-top:12px;
+    }
+
+    .brand-meta span {
+      padding:6px 9px;
+      border-radius:20px;
+      background:var(--light);
+      color:var(--dark);
+      font-size:10px;
+      font-weight:700;
+    }
+
+    #brand-message {
+      margin:12px 0;
+      font-size:13px;
+      line-height:1.6;
+    }
 
     @media (max-width:480px) {
       #dashboard { padding:20px 13px 45px; }
@@ -496,6 +657,10 @@
       .panel { padding:19px 15px; }
       .payment-details { grid-template-columns:1fr 1fr; }
       .payment-tab { font-size:10px; }
+      .brand-admin-card { padding:14px; }
+      .brand-admin-actions { gap:7px; }
+      .tabs { gap:7px; }
+      .tab { padding:13px 5px; font-size:12px; }
     }
   </style>
 </head>
@@ -540,9 +705,12 @@
   <nav class="tabs">
     <button class="tab active" data-tab="payments">Payments</button>
     <button class="tab" data-tab="management">Management</button>
+    <button class="tab" data-tab="brand-status">Brand Status</button>
   </nav>
 
   <div id="message"></div>
+
+  <!-- PAYMENTS -->
 
   <section id="payments-section">
     <div class="panel">
@@ -568,6 +736,8 @@
       </div>
     </div>
   </section>
+
+  <!-- MANAGEMENT -->
 
   <section id="management-section" class="hidden">
 
@@ -618,12 +788,117 @@
     <button class="save-button" id="save-settings">Update & Save</button>
 
   </section>
+
+  <!-- BRAND STATUS -->
+
+  <section id="brand-status-section" class="hidden">
+
+    <div class="panel">
+      <div class="payment-heading-row">
+        <h2>Brand Status Control</h2>
+        <span class="count" id="brand-count">0/50</span>
+      </div>
+
+      <div class="toggle-row">
+        <span>Enable Liora Bet brands</span>
+        <input type="checkbox" id="brand-system-enabled" checked>
+      </div>
+
+      <p class="disabled-note">
+        Control the brands and status content displayed in the Liora Bet tab.
+        Disabling this will hide all brands from the public brand-status API.
+      </p>
+
+      <button class="save-button" id="add-brand-button" type="button">
+        + Add New Brand
+      </button>
+    </div>
+
+    <!-- BRAND EDITOR -->
+
+    <div class="panel hidden" id="brand-editor">
+      <h2 id="brand-editor-title">Add New Brand</h2>
+
+      <input type="hidden" id="brand-id">
+
+      <div class="field">
+        <label for="brand-name">Brand Name</label>
+        <input id="brand-name" type="text" placeholder="e.g. Bet9ja">
+      </div>
+
+      <div class="field">
+        <label for="brand-username">Username</label>
+        <input id="brand-username" type="text" placeholder="@brandname">
+      </div>
+
+      <div class="field">
+        <label for="brand-image">Profile Image URL</label>
+        <input id="brand-image" type="url" placeholder="https://...">
+      </div>
+
+      <div class="field">
+        <label for="brand-reward-min">Minimum Reward (₦)</label>
+        <input id="brand-reward-min" type="number" min="0" step="0.01" value="0">
+      </div>
+
+      <div class="field">
+        <label for="brand-reward-max">Maximum Reward (₦)</label>
+        <input id="brand-reward-max" type="number" min="0" step="0.01" value="0">
+      </div>
+
+      <div class="toggle-row">
+        <span>Brand Active</span>
+        <input id="brand-active" type="checkbox" checked>
+      </div>
+
+      <div class="payment-heading-row" style="margin-top:25px">
+        <h2>Brand Statuses</h2>
+        <button type="button" class="refresh-button" id="add-status-button">
+          + Add Status
+        </button>
+      </div>
+
+      <div id="brand-status-editor-list"></div>
+
+      <button class="save-button" id="save-brand-button" type="button">
+        Save Brand
+      </button>
+
+      <button class="icon-button" id="cancel-brand-button"
+        type="button" style="width:100%;margin-top:10px">
+        Cancel
+      </button>
+    </div>
+
+    <!-- REGISTERED BRANDS -->
+
+    <div class="panel">
+      <div class="payment-heading-row">
+        <h2>Registered Brands</h2>
+        <button class="refresh-button" id="refresh-brands" type="button">
+          ↻ Refresh
+        </button>
+      </div>
+
+      <div id="brand-list">
+        <div class="loading-state">Loading brands...</div>
+      </div>
+    </div>
+
+    <button class="save-button" id="save-all-brands" type="button">
+      Save All Brand Settings
+    </button>
+
+    <div id="brand-message" role="status"></div>
+
+  </section>
 </main>
 
 <script>
 "use strict";
 
 const API = "/api";
+const BRAND_API = `${API}/admin/brand-status`;
 const $ = id => document.getElementById(id);
 
 let adminSecret = null;
@@ -631,6 +906,24 @@ let settings = null;
 let allPayments = [];
 let activePaymentStatus = "pending";
 let proofObjectURLs = [];
+
+let brandSettings = [];
+let brandSystemEnabled = true;
+let editingBrandId = null;
+
+/* =========================================
+   SHARED HELPERS
+========================================= */
+
+function escapeHTML(value) {
+  return String(value ?? "").replace(/[&<>"']/g,character=>({
+    "&":"&amp;",
+    "<":"&lt;",
+    ">":"&gt;",
+    '"':"&quot;",
+    "'":"&#039;"
+  })[character]);
+}
 
 function showMessage(text,type="success") {
   $("message").textContent = text;
@@ -647,11 +940,17 @@ function authHeaders() {
 function formatMoney(amount,currency="NGN") {
   const value = Number(amount);
   if (!Number.isFinite(value)) return "₦0.00";
+
   return new Intl.NumberFormat("en-NG",{
-    style:"currency",currency,
+    style:"currency",
+    currency,
     minimumFractionDigits:2
   }).format(value);
 }
+
+/* =========================================
+   AUTHENTICATION
+========================================= */
 
 async function verifySecret(secret) {
   const response = await fetch(`${API}/admin/settings`,{
@@ -659,39 +958,60 @@ async function verifySecret(secret) {
     headers:{"Authorization":`Bearer ${secret}`},
     cache:"no-store"
   });
+
   const result = await response.json();
-  if (!response.ok) throw new Error(result.message || "Incorrect admin password.");
+
+  if (!response.ok) {
+    throw new Error(result.message || "Incorrect admin password.");
+  }
+
   return result.settings;
 }
 
 function unlockDashboard(data,secret) {
   settings = data;
   adminSecret = secret;
+
   $("login-screen").classList.add("hidden");
   $("dashboard").classList.add("unlocked");
+
   loadForm(data);
   refreshPayments();
+  loadBrands();
 }
 
 function loadForm(data) {
   $("admin-title").textContent =
     `${data.adminName || "Liora"}'s Admin Dashboard`;
+
   $("adminName").value = data.adminName || "";
   $("paymentAmount").value = data.paymentAmount || 15000;
   $("paga").checked = Boolean(data.paymentMethods?.paga);
-  $("manualBankEnabled").checked = Boolean(data.paymentMethods?.manualBank);
-  $("accountNumber").value = data.manualBank?.accountNumber || "";
-  $("bankName").value = data.manualBank?.bankName || "";
-  $("accountName").value = data.manualBank?.accountName || "";
+  $("manualBankEnabled").checked =
+    Boolean(data.paymentMethods?.manualBank);
+
+  $("accountNumber").value =
+    data.manualBank?.accountNumber || "";
+
+  $("bankName").value =
+    data.manualBank?.bankName || "";
+
+  $("accountName").value =
+    data.manualBank?.accountName || "";
+
   updateBankPanel();
 }
 
 function updateBankPanel() {
-  $("bank-panel").classList.toggle("hidden",!$("manualBankEnabled").checked);
+  $("bank-panel").classList.toggle(
+    "hidden",
+    !$("manualBankEnabled").checked
+  );
 }
 
 $("login-form").addEventListener("submit",async event=>{
   event.preventDefault();
+
   const secret = $("admin-password").value.trim();
   if (!secret) return;
 
@@ -706,6 +1026,7 @@ $("login-form").addEventListener("submit",async event=>{
   } catch(error) {
     $("login-message").textContent =
       "Access denied. Check your password and try again.";
+
     $("admin-password").value = "";
   } finally {
     $("login-button").disabled = false;
@@ -716,6 +1037,7 @@ $("login-form").addEventListener("submit",async event=>{
 $("toggle-password").addEventListener("click",()=>{
   const input = $("admin-password");
   const visible = input.type === "text";
+
   input.type = visible ? "password" : "text";
   $("toggle-password").textContent = visible ? "SHOW" : "HIDE";
 });
@@ -727,32 +1049,60 @@ function clearProofObjectURLs() {
 
 $("logout-button").addEventListener("click",()=>{
   clearProofObjectURLs();
+
   adminSecret = null;
   settings = null;
   allPayments = [];
+  brandSettings = [];
+  editingBrandId = null;
+
   $("dashboard").classList.remove("unlocked");
   $("login-screen").classList.remove("hidden");
   $("admin-password").value = "";
   $("login-message").textContent = "";
   $("balance").textContent = "₦0.00";
   $("payment-list").innerHTML = "";
+  $("brand-list").innerHTML = "";
+  $("brand-editor").classList.add("hidden");
 });
+
+/* =========================================
+   MAIN NAVIGATION
+========================================= */
+
+function activateMainTab(tabName) {
+  document.querySelectorAll(".tab").forEach(tab=>{
+    tab.classList.toggle("active",tab.dataset.tab===tabName);
+  });
+
+  $("payments-section").classList.toggle(
+    "hidden",tabName!=="payments"
+  );
+
+  $("management-section").classList.toggle(
+    "hidden",tabName!=="management"
+  );
+
+  $("brand-status-section").classList.toggle(
+    "hidden",tabName!=="brand-status"
+  );
+
+  if (tabName==="payments") refreshPayments();
+  if (tabName==="brand-status") loadBrands();
+}
 
 document.querySelectorAll(".tab").forEach(button=>{
   button.addEventListener("click",()=>{
-    document.querySelectorAll(".tab").forEach(tab=>tab.classList.remove("active"));
-    button.classList.add("active");
-
-    $("payments-section").classList.toggle("hidden",button.dataset.tab!=="payments");
-    $("management-section").classList.toggle("hidden",button.dataset.tab!=="management");
-
-    if (button.dataset.tab==="payments") refreshPayments();
+    activateMainTab(button.dataset.tab);
   });
 });
 
 document.querySelectorAll(".payment-tab").forEach(button=>{
   button.addEventListener("click",()=>{
-    document.querySelectorAll(".payment-tab").forEach(tab=>tab.classList.remove("active"));
+    document.querySelectorAll(".payment-tab").forEach(tab=>
+      tab.classList.remove("active")
+    );
+
     button.classList.add("active");
     activePaymentStatus = button.dataset.status;
     renderPayments();
@@ -761,43 +1111,58 @@ document.querySelectorAll(".payment-tab").forEach(button=>{
 
 $("manualBankEnabled").addEventListener("change",updateBankPanel);
 
+/* =========================================
+   PAYMENTS
+========================================= */
+
 async function refreshPayments() {
   if (!adminSecret) return;
 
   $("refresh-payments").disabled = true;
   $("refresh-payments").textContent = "Loading...";
+
   $("payment-list").innerHTML =
     '<div class="loading-state">Loading payment requests...</div>';
 
   try {
     const response = await fetch(`${API}/admin/payments`,{
-      method:"GET",headers:authHeaders(),cache:"no-store"
+      method:"GET",
+      headers:authHeaders(),
+      cache:"no-store"
     });
-    const result = await response.json();
-    if (!response.ok) throw new Error(result.message || "Could not load payments.");
 
-    allPayments = Array.isArray(result.payments) ? result.payments : [];
+    const result = await response.json();
+
+    if (!response.ok) {
+      throw new Error(result.message || "Could not load payments.");
+    }
+
+    allPayments = Array.isArray(result.payments)
+      ? result.payments
+      : [];
+
     const counts = result.counts || {};
 
     $("pending-count").textContent = counts.pending || 0;
     $("approved-count").textContent = counts.approved || 0;
     $("rejected-count").textContent = counts.rejected || 0;
-    $("balance").textContent = formatMoney(result.balance,result.currency || "NGN");
+
+    $("balance").textContent = formatMoney(
+      result.balance,
+      result.currency || "NGN"
+    );
+
     renderPayments();
+
   } catch(error) {
     $("payment-list").innerHTML =
       `<div class="empty-state">${escapeHTML(error.message)}</div>`;
+
     showMessage(error.message,"error");
   } finally {
     $("refresh-payments").disabled = false;
     $("refresh-payments").textContent = "↻ Refresh";
   }
-}
-
-function escapeHTML(value) {
-  return String(value ?? "").replace(/[&<>"']/g,character=>({
-    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
-  })[character]);
 }
 
 function getPaymentStatus(payment) {
@@ -846,6 +1211,7 @@ function renderPayments() {
         ${labels[activePaymentStatus]}
         <br>Payment requests will appear here when your frontend is connected.
       </div>`;
+
     return;
   }
 
@@ -861,7 +1227,8 @@ function renderPayments() {
     const proofHTML = proof ? `
       <div class="proof-section">
         <div class="proof-title">Payment Proof</div>
-        <div class="proof-viewer" data-proof-path="${escapeHTML(proof)}">
+        <div class="proof-viewer"
+          data-proof-path="${escapeHTML(proof)}">
           Loading receipt...
         </div>
       </div>` : `
@@ -885,31 +1252,39 @@ function renderPayments() {
             <div class="customer-name">${escapeHTML(name)}</div>
             <div class="customer-email">${escapeHTML(email)}</div>
           </div>
+
           <span class="status-badge status-${escapeHTML(status)}">
             ${escapeHTML(status)}
           </span>
         </div>
+
         <div class="payment-details">
           <div>
             <span class="detail-label">Amount</span>
             <span class="detail-value">${escapeHTML(formatMoney(amount))}</span>
           </div>
+
           <div>
             <span class="detail-label">Reference</span>
             <span class="detail-value">${escapeHTML(reference)}</span>
           </div>
         </div>
+
         ${proofHTML}
         ${actionsHTML}
       </article>`;
   }).join("");
 
   document.querySelectorAll("[data-reject-id]").forEach(button=>{
-    button.addEventListener("click",()=>rejectPayment(button.dataset.rejectId,button));
+    button.addEventListener("click",()=>{
+      rejectPayment(button.dataset.rejectId,button);
+    });
   });
 
   document.querySelectorAll("[data-approve-id]").forEach(button=>{
-    button.addEventListener("click",()=>approvePayment(button.dataset.approveId,button));
+    button.addEventListener("click",()=>{
+      approvePayment(button.dataset.approveId,button);
+    });
   });
 
   loadPaymentProofs();
@@ -923,12 +1298,17 @@ async function loadPaymentProofs() {
     try {
       const response = await fetch(
         `${API}/payments/proof?path=${encodeURIComponent(path)}`,
-        {headers:{"Authorization":`Bearer ${adminSecret}`},cache:"no-store"}
+        {
+          headers:{"Authorization":`Bearer ${adminSecret}`},
+          cache:"no-store"
+        }
       );
+
       if (!response.ok) throw new Error("Receipt unavailable");
 
       const blob = await response.blob();
       const url = URL.createObjectURL(blob);
+
       proofObjectURLs.push(url);
 
       const isImage = ["jpg","jpeg","png","webp"].includes(extension);
@@ -941,6 +1321,7 @@ async function loadPaymentProofs() {
           rel="noopener noreferrer">Open receipt</a>` : `
         <a class="proof-link" href="${url}" target="_blank"
           rel="noopener noreferrer">Open or download receipt</a>`;
+
     } catch(error) {
       viewer.textContent = "Unable to load receipt.";
     }
@@ -955,14 +1336,20 @@ async function rejectPayment(id,button) {
 
   try {
     const response = await fetch(`${API}/admin/payments`,{
-      method:"POST",headers:authHeaders(),
+      method:"POST",
+      headers:authHeaders(),
       body:JSON.stringify({id,action:"reject"})
     });
+
     const result = await response.json();
-    if (!response.ok) throw new Error(result.message || "Unable to reject payment.");
+
+    if (!response.ok) {
+      throw new Error(result.message || "Unable to reject payment.");
+    }
 
     showMessage("Payment rejected successfully.");
     await refreshPayments();
+
   } catch(error) {
     showMessage(error.message,"error");
     button.disabled = false;
@@ -978,14 +1365,20 @@ async function approvePayment(id,button) {
 
   try {
     const response = await fetch(`${API}/admin/payments`,{
-      method:"POST",headers:authHeaders(),
+      method:"POST",
+      headers:authHeaders(),
       body:JSON.stringify({id,action:"approve"})
     });
+
     const result = await response.json();
-    if (!response.ok) throw new Error(result.message || "Unable to approve payment.");
+
+    if (!response.ok) {
+      throw new Error(result.message || "Unable to approve payment.");
+    }
 
     showMessage("Payment approved and balance updated.");
     await refreshPayments();
+
   } catch(error) {
     showMessage(error.message,"error");
     button.disabled = false;
@@ -995,15 +1388,26 @@ async function approvePayment(id,button) {
 
 $("refresh-payments").addEventListener("click",refreshPayments);
 
+/* =========================================
+   PAYMENT SETTINGS
+========================================= */
+
 $("save-settings").addEventListener("click",async()=>{
   if (!$("paga").checked && !$("manualBankEnabled").checked) {
     showMessage("Enable at least one payment method.","error");
     return;
   }
 
+  const amount = Number($("paymentAmount").value);
+
+  if (!Number.isFinite(amount) || amount < 100) {
+    showMessage("Enter a valid payment amount.","error");
+    return;
+  }
+
   const payload = {
     adminName:$("adminName").value.trim(),
-    paymentAmount:Number($("paymentAmount").value),
+    paymentAmount:amount,
     paymentMethods:{
       paga:$("paga").checked,
       manualBank:$("manualBankEnabled").checked
@@ -1020,18 +1424,573 @@ $("save-settings").addEventListener("click",async()=>{
     showMessage("Saving settings...");
 
     const response = await fetch(`${API}/admin/settings`,{
-      method:"PUT",headers:authHeaders(),body:JSON.stringify(payload)
+      method:"PUT",
+      headers:authHeaders(),
+      body:JSON.stringify(payload)
     });
+
     const result = await response.json();
-    if (!response.ok) throw new Error(result.message || "Unable to save.");
+
+    if (!response.ok) {
+      throw new Error(result.message || "Unable to save.");
+    }
 
     settings = result.settings;
     loadForm(settings);
+
     showMessage("Settings saved successfully.");
+
   } catch(error) {
     showMessage(error.message,"error");
   } finally {
     $("save-settings").disabled = false;
+  }
+});
+
+/* =========================================
+   BRAND STATUS ADMIN
+========================================= */
+
+function brandMessage(message,type="success") {
+  $("brand-message").textContent = message;
+  $("brand-message").className = type;
+}
+
+function makeBrandId() {
+  return "brand-" + Date.now() + "-" +
+    Math.random().toString(36).slice(2,8);
+}
+
+function makeStatusId() {
+  return "status-" + Date.now() + "-" +
+    Math.random().toString(36).slice(2,8);
+}
+
+async function brandRequest(method="GET",payload=null) {
+  const response = await fetch(BRAND_API,{
+    method,
+    headers:authHeaders(),
+    ...(payload ? {body:JSON.stringify(payload)} : {}),
+    cache:"no-store"
+  });
+
+  const result = await response.json();
+
+  if (!response.ok) {
+    throw new Error(result.message || "Brand request failed.");
+  }
+
+  return result;
+}
+
+async function loadBrands() {
+  if (!adminSecret) return;
+
+  $("refresh-brands").disabled = true;
+  $("refresh-brands").textContent = "Loading...";
+
+  $("brand-list").innerHTML =
+    '<div class="loading-state">Loading brands...</div>';
+
+  try {
+    const result = await brandRequest("GET");
+    const data = result.settings || {};
+
+    brandSettings = Array.isArray(data.brands)
+      ? data.brands
+      : [];
+
+    brandSystemEnabled = data.enabled !== false;
+
+    $("brand-system-enabled").checked = brandSystemEnabled;
+
+    renderBrands();
+
+    brandMessage("Brand settings loaded.");
+
+  } catch(error) {
+    $("brand-list").innerHTML =
+      `<div class="empty-state">${escapeHTML(error.message)}</div>`;
+
+    brandMessage(error.message,"error");
+
+  } finally {
+    $("refresh-brands").disabled = false;
+    $("refresh-brands").textContent = "↻ Refresh";
+  }
+}
+
+function renderBrands() {
+  $("brand-count").textContent =
+    `${brandSettings.length}/50`;
+
+  $("add-brand-button").disabled =
+    brandSettings.length >= 50;
+
+  if (!brandSettings.length) {
+    $("brand-list").innerHTML = `
+      <div class="empty-state">
+        <span class="empty-icon">◉</span>
+        No brands have been added yet.
+        <br>Add your first brand to get started.
+      </div>`;
+
+    return;
+  }
+
+  $("brand-list").innerHTML = brandSettings.map(brand=>{
+    const statuses = Array.isArray(brand.statuses)
+      ? brand.statuses
+      : [];
+
+    const activeStatuses = statuses.filter(status=>
+      status.active
+    ).length;
+
+    const avatar = brand.profileImage
+      ? `<img class="brand-admin-avatar"
+          src="${escapeHTML(brand.profileImage)}"
+          alt=""
+          loading="lazy"
+          onerror="this.style.visibility='hidden'">`
+      : `<div class="brand-admin-avatar"></div>`;
+
+    return `
+      <article class="brand-admin-card">
+
+        <div class="brand-admin-top">
+          ${avatar}
+
+          <div class="brand-admin-info">
+            <div class="brand-admin-name">
+              ${escapeHTML(brand.name)}
+            </div>
+
+            <div class="brand-admin-username">
+              ${escapeHTML(brand.username)}
+            </div>
+          </div>
+
+          <span class="status-badge ${
+            brand.active ? "status-approved" : "status-rejected"
+          }">
+            ${brand.active ? "Active" : "Inactive"}
+          </span>
+        </div>
+
+        <div class="brand-meta">
+          <span>${statuses.length} Statuses</span>
+          <span>${activeStatuses} Active</span>
+          <span>₦${Number(brand.rewardMin).toLocaleString("en-NG")} – ₦${Number(brand.rewardMax).toLocaleString("en-NG")}</span>
+        </div>
+
+        <div class="brand-admin-actions">
+          <button class="brand-action brand-edit"
+            data-brand-edit="${escapeHTML(brand.id)}">
+            Edit
+          </button>
+
+          <button class="brand-action brand-toggle"
+            data-brand-toggle="${escapeHTML(brand.id)}">
+            ${brand.active ? "Deactivate" : "Activate"}
+          </button>
+
+          <button class="brand-action brand-delete"
+            data-brand-delete="${escapeHTML(brand.id)}">
+            Delete
+          </button>
+        </div>
+
+      </article>`;
+  }).join("");
+
+  document.querySelectorAll("[data-brand-edit]").forEach(button=>{
+    button.addEventListener("click",()=>{
+      editBrand(button.dataset.brandEdit);
+    });
+  });
+
+  document.querySelectorAll("[data-brand-toggle]").forEach(button=>{
+    button.addEventListener("click",()=>{
+      toggleBrand(button.dataset.brandToggle);
+    });
+  });
+
+  document.querySelectorAll("[data-brand-delete]").forEach(button=>{
+    button.addEventListener("click",()=>{
+      deleteBrand(button.dataset.brandDelete);
+    });
+  });
+}
+
+/* BRAND EDITOR */
+
+function resetBrandEditor() {
+  editingBrandId = null;
+
+  $("brand-id").value = "";
+  $("brand-name").value = "";
+  $("brand-username").value = "";
+  $("brand-image").value = "";
+  $("brand-reward-min").value = "0";
+  $("brand-reward-max").value = "0";
+  $("brand-active").checked = true;
+
+  $("brand-status-editor-list").innerHTML = "";
+
+  $("brand-editor-title").textContent = "Add New Brand";
+  $("save-brand-button").textContent = "Save Brand";
+}
+
+function openNewBrandEditor() {
+  resetBrandEditor();
+
+  $("brand-editor").classList.remove("hidden");
+
+  $("brand-editor").scrollIntoView({
+    behavior:"smooth",
+    block:"start"
+  });
+}
+
+function editBrand(id) {
+  const brand = brandSettings.find(item=>item.id===id);
+  if (!brand) return;
+
+  editingBrandId = id;
+
+  $("brand-id").value = brand.id;
+  $("brand-name").value = brand.name || "";
+  $("brand-username").value = brand.username || "";
+  $("brand-image").value = brand.profileImage || "";
+
+  $("brand-reward-min").value = brand.rewardMin ?? 0;
+  $("brand-reward-max").value = brand.rewardMax ?? 0;
+  $("brand-active").checked = brand.active === true;
+
+  $("brand-editor-title").textContent = "Edit Brand";
+  $("save-brand-button").textContent = "Update Brand";
+
+  $("brand-status-editor-list").innerHTML = "";
+
+  (brand.statuses || []).forEach(status=>{
+    addBrandStatus(status);
+  });
+
+  $("brand-editor").classList.remove("hidden");
+
+  $("brand-editor").scrollIntoView({
+    behavior:"smooth",
+    block:"start"
+  });
+}
+
+/* STATUS EDITOR */
+
+function addBrandStatus(status=null) {
+  const id = status?.id || makeStatusId();
+
+  const item = document.createElement("div");
+  item.className = "brand-status-item";
+
+  item.innerHTML = `
+    <div class="brand-status-heading">
+      <span>STATUS ITEM</span>
+      <span>${escapeHTML(id.slice(0,18))}</span>
+    </div>
+
+    <input type="hidden" class="status-id"
+      value="${escapeHTML(id)}">
+
+    <div class="field">
+      <label>Media Type</label>
+      <select class="status-media-type">
+        <option value="image" ${
+          status?.mediaType === "image" ? "selected" : ""
+        }>Image</option>
+
+        <option value="video" ${
+          status?.mediaType === "video" ? "selected" : ""
+        }>Video</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label>Media URL</label>
+      <input class="status-media-url"
+        type="url"
+        placeholder="https://..."
+        value="${escapeHTML(status?.mediaUrl || "")}">
+    </div>
+
+    <div class="field">
+      <label>Caption</label>
+      <textarea class="status-caption"
+        placeholder="Write a status caption...">${escapeHTML(status?.caption || "")}</textarea>
+    </div>
+
+    <div class="toggle-row">
+      <span>Active Status</span>
+      <input class="status-active" type="checkbox"
+        ${status?.active === false ? "" : "checked"}>
+    </div>
+
+    <button type="button" class="brand-status-remove">
+      Remove Status
+    </button>
+  `;
+
+  item.querySelector(".brand-status-remove")
+    .addEventListener("click",()=>{
+      if (confirm("Remove this status?")) {
+        item.remove();
+      }
+    });
+
+  $("brand-status-editor-list").appendChild(item);
+}
+
+function collectBrandStatuses() {
+  return Array.from(
+    $("brand-status-editor-list").querySelectorAll(
+      ".brand-status-item"
+    )
+  ).map(item=>({
+    id:item.querySelector(".status-id").value,
+    mediaType:item.querySelector(".status-media-type").value,
+    mediaUrl:item.querySelector(".status-media-url").value.trim(),
+    caption:item.querySelector(".status-caption").value.trim(),
+    active:item.querySelector(".status-active").checked
+  }));
+}
+
+/* SAVE BRAND SETTINGS */
+
+async function saveBrandSettings() {
+  return await brandRequest("PUT",{
+    enabled:brandSystemEnabled,
+    brands:brandSettings
+  });
+}
+
+$("add-brand-button").addEventListener("click",()=>{
+  if (brandSettings.length >= 50) {
+    brandMessage("Maximum of 50 brands reached.","error");
+    return;
+  }
+
+  openNewBrandEditor();
+});
+
+$("add-status-button").addEventListener("click",()=>{
+  addBrandStatus();
+});
+
+$("cancel-brand-button").addEventListener("click",()=>{
+  $("brand-editor").classList.add("hidden");
+  resetBrandEditor();
+});
+
+$("save-brand-button").addEventListener("click",async()=>{
+  const name = $("brand-name").value.trim();
+  const username = $("brand-username").value.trim();
+  const profileImage = $("brand-image").value.trim();
+
+  const rewardMin = Number($("brand-reward-min").value);
+  const rewardMax = Number($("brand-reward-max").value);
+
+  if (!name || !username) {
+    brandMessage("Brand name and username are required.","error");
+    return;
+  }
+
+  if (
+    !Number.isFinite(rewardMin) ||
+    !Number.isFinite(rewardMax) ||
+    rewardMin < 0 ||
+    rewardMax < rewardMin
+  ) {
+    brandMessage("Enter a valid reward range.","error");
+    return;
+  }
+
+  if (
+    profileImage &&
+    !/^https?:\/\//i.test(profileImage)
+  ) {
+    brandMessage("Enter a valid profile image URL.","error");
+    return;
+  }
+
+  const statuses = collectBrandStatuses();
+
+  for (const status of statuses) {
+    if (
+      !status.mediaUrl ||
+      !/^https?:\/\//i.test(status.mediaUrl)
+    ) {
+      brandMessage(
+        "Every status needs a valid media URL.",
+        "error"
+      );
+      return;
+    }
+  }
+
+  const id = editingBrandId || makeBrandId();
+
+  const brand = {
+    id,
+    name,
+    username,
+    profileImage,
+    rewardMin,
+    rewardMax,
+    active:$("brand-active").checked,
+    statuses
+  };
+
+  const previous = brandSettings.map(item=>({...item}));
+
+  const index = brandSettings.findIndex(item=>item.id===id);
+
+  if (index===-1) {
+    if (brandSettings.length>=50) {
+      brandMessage("Maximum of 50 brands reached.","error");
+      return;
+    }
+
+    brandSettings.push(brand);
+  } else {
+    brandSettings[index] = brand;
+  }
+
+  const button = $("save-brand-button");
+  button.disabled = true;
+  button.textContent = "Saving...";
+
+  try {
+    await saveBrandSettings();
+
+    $("brand-editor").classList.add("hidden");
+    resetBrandEditor();
+
+    renderBrands();
+    brandMessage("Brand saved successfully.");
+
+  } catch(error) {
+    brandSettings = previous;
+    renderBrands();
+    brandMessage(error.message,"error");
+
+  } finally {
+    button.disabled = false;
+    button.textContent = editingBrandId
+      ? "Update Brand"
+      : "Save Brand";
+  }
+});
+
+/* ACTIVATE / DEACTIVATE BRAND */
+
+async function toggleBrand(id) {
+  const brand = brandSettings.find(item=>item.id===id);
+  if (!brand) return;
+
+  const previous = brand.active;
+  brand.active = !previous;
+
+  try {
+    await saveBrandSettings();
+
+    renderBrands();
+
+    brandMessage(
+      `${brand.name} ${brand.active ? "activated" : "deactivated"}.`
+    );
+
+  } catch(error) {
+    brand.active = previous;
+    renderBrands();
+    brandMessage(error.message,"error");
+  }
+}
+
+/* DELETE BRAND */
+
+async function deleteBrand(id) {
+  const brand = brandSettings.find(item=>item.id===id);
+  if (!brand) return;
+
+  if (!confirm(
+    `Permanently delete ${brand.name} and all its statuses?`
+  )) return;
+
+  const previous = brandSettings;
+  brandSettings = brandSettings.filter(item=>item.id!==id);
+
+  try {
+    await saveBrandSettings();
+
+    renderBrands();
+    brandMessage("Brand deleted successfully.");
+
+  } catch(error) {
+    brandSettings = previous;
+    renderBrands();
+    brandMessage(error.message,"error");
+  }
+}
+
+/* GLOBAL BRAND SWITCH */
+
+$("brand-system-enabled").addEventListener("change",async()=>{
+  const previous = brandSystemEnabled;
+
+  brandSystemEnabled = $("brand-system-enabled").checked;
+
+  $("brand-system-enabled").disabled = true;
+
+  try {
+    await saveBrandSettings();
+
+    brandMessage(
+      brandSystemEnabled
+        ? "Liora Bet brand system enabled."
+        : "Liora Bet brand system disabled."
+    );
+
+  } catch(error) {
+    brandSystemEnabled = previous;
+    $("brand-system-enabled").checked = previous;
+
+    brandMessage(error.message,"error");
+
+  } finally {
+    $("brand-system-enabled").disabled = false;
+  }
+});
+
+/* REFRESH AND SAVE ALL */
+
+$("refresh-brands").addEventListener("click",loadBrands);
+
+$("save-all-brands").addEventListener("click",async()=>{
+  const button = $("save-all-brands");
+
+  button.disabled = true;
+  button.textContent = "Saving...";
+
+  try {
+    await saveBrandSettings();
+    brandMessage("All brand settings saved successfully.");
+
+  } catch(error) {
+    brandMessage(error.message,"error");
+
+  } finally {
+    button.disabled = false;
+    button.textContent = "Save All Brand Settings";
   }
 });
 </script>
