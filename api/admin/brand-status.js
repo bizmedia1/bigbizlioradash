@@ -1,90 +1,39 @@
+
 const { readJSON, writeJSON } = require("../../lib/github-storage");
 
 const FILE = "data/brand-status.json";
 
 const VALID_BRANDS = new Set([
-  "chowdeck",
-  "opay",
-  "moniepoint",
-  "okash",
-  "sun-king",
-  "bokku",
-  "indomie",
-  "dangote",
-  "gtbank",
-  "access-bank",
-  "firstbank",
-  "zenith-bank",
-  "uba",
-  "fidelity-bank",
-  "fcmb",
-  "sterling-bank",
-  "union-bank",
-  "kuda",
-  "carbon",
-  "palmpay",
-  "fairmoney",
-  "paga",
-  "interswitch",
-  "flutterwave",
-  "paystack",
-  "remita",
-  "jiji",
-  "jumia",
-  "konga",
-  "slot",
-  "tecno",
-  "itel",
-  "infinix",
-  "mtn",
-  "airtel",
-  "glo",
-  "9mobile",
-  "showmax",
-  "dstv",
-  "gotv",
-  "bet9ja",
-  "sportybet",
-  "shoprite",
-  "spar",
-  "foodco",
-  "mcdonalds",
-  "dominos",
-  "coldstone",
-  "rite-foods",
+  "chowdeck", "opay", "moniepoint", "okash", "sun-king",
+  "bokku", "indomie", "dangote", "gtbank", "access-bank",
+  "firstbank", "zenith-bank", "uba", "fidelity-bank", "fcmb",
+  "sterling-bank", "union-bank", "kuda", "carbon", "palmpay",
+  "fairmoney", "paga", "interswitch", "flutterwave", "paystack",
+  "remita", "jiji", "jumia", "konga", "slot", "tecno", "itel",
+  "infinix", "mtn", "airtel", "glo", "9mobile", "showmax",
+  "dstv", "gotv", "bet9ja", "sportybet", "shoprite", "spar",
+  "foodco", "mcdonalds", "dominos", "coldstone", "rite-foods",
   "peak"
 ]);
-
-function getSecret() {
-  return process.env.ADMIN_SECRET || "";
-}
-
-function getPosts(data) {
-  return Array.isArray(data?.posts) ? data.posts : [];
-}
 
 function validMediaUrl(value) {
   try {
     const url = new URL(value);
-
-    return (
-      url.protocol === "https:" ||
-      url.protocol === "http:"
-    );
+    return ["https:", "http:"].includes(url.protocol);
   } catch {
     return false;
   }
 }
 
 function createId() {
-  if (typeof crypto !== "undefined" && crypto.randomUUID) {
-    return crypto.randomUUID();
-  }
+  return typeof crypto !== "undefined" && crypto.randomUUID
+    ? crypto.randomUUID()
+    : Date.now().toString(36) +
+      Math.random().toString(36).slice(2, 12);
+}
 
-  return (
-    Date.now().toString(36) +
-    Math.random().toString(36).slice(2, 12)
-  );
+function getPosts(data) {
+  return Array.isArray(data?.posts) ? data.posts : [];
 }
 
 module.exports = async function handler(req, res) {
@@ -103,13 +52,10 @@ module.exports = async function handler(req, res) {
     return res.status(204).end();
   }
 
-  const secret = getSecret();
+  const secret = process.env.ADMIN_SECRET || "";
   const authorization = req.headers.authorization || "";
 
-  if (
-    !secret ||
-    authorization !== `Bearer ${secret}`
-  ) {
+  if (!secret || authorization !== `Bearer ${secret}`) {
     return res.status(401).json({
       ok: false,
       message: "Unauthorized."
@@ -117,18 +63,19 @@ module.exports = async function handler(req, res) {
   }
 
   try {
-    const result = await readJSON(FILE, {
+    const stored = await readJSON(FILE, {
       version: 1,
       posts: []
     });
 
-    const data = result?.data || {};
+    const data = stored.data || {};
     const posts = getPosts(data);
+    const sha = stored.sha || null;
 
     if (req.method === "GET") {
       return res.status(200).json({
         ok: true,
-        posts: posts.sort(
+        posts: [...posts].sort(
           (a, b) =>
             new Date(b.createdAt || 0) -
             new Date(a.createdAt || 0)
@@ -140,7 +87,9 @@ module.exports = async function handler(req, res) {
       const body = req.body || {};
 
       const brandId = String(body.brandId || "").trim();
-      const mediaType = String(body.mediaType || "").trim().toLowerCase();
+      const mediaType = String(body.mediaType || "")
+        .trim()
+        .toLowerCase();
       const mediaUrl = String(body.mediaUrl || "").trim();
       const caption = String(body.caption || "").trim();
 
@@ -158,7 +107,7 @@ module.exports = async function handler(req, res) {
         });
       }
 
-      if (!mediaUrl || !validMediaUrl(mediaUrl)) {
+      if (!validMediaUrl(mediaUrl)) {
         return res.status(400).json({
           ok: false,
           message: "Enter a valid HTTP or HTTPS media URL."
@@ -184,10 +133,15 @@ module.exports = async function handler(req, res) {
 
       const updatedPosts = [post, ...posts];
 
-      await writeJSON(FILE, {
-        version: 1,
-        posts: updatedPosts
-      });
+      // IMPORTANT: Pass the existing GitHub SHA.
+      await writeJSON(
+        FILE,
+        {
+          version: 1,
+          posts: updatedPosts
+        },
+        sha
+      );
 
       return res.status(201).json({
         ok: true,
@@ -207,9 +161,7 @@ module.exports = async function handler(req, res) {
         });
       }
 
-      const exists = posts.some(post => post.id === id);
-
-      if (!exists) {
+      if (!posts.some(post => post.id === id)) {
         return res.status(404).json({
           ok: false,
           message: "Status post not found."
@@ -220,10 +172,15 @@ module.exports = async function handler(req, res) {
         post => post.id !== id
       );
 
-      await writeJSON(FILE, {
-        version: 1,
-        posts: updatedPosts
-      });
+      // IMPORTANT: Pass the existing GitHub SHA here too.
+      await writeJSON(
+        FILE,
+        {
+          version: 1,
+          posts: updatedPosts
+        },
+        sha
+      );
 
       return res.status(200).json({
         ok: true,
