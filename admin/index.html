@@ -1632,7 +1632,7 @@ function renderBrandStatusPosts() {
 }
 
 async function loadBrands() {
-  if (!adminSecret || brandStatusBusy) return;
+  if (!adminSecret) return;
 
   $("refresh-brand-posts").disabled = true;
   $("refresh-brand-posts").textContent = "Loading...";
