@@ -13,8 +13,6 @@ module.exports = async function handler(req, res) {
   }
 
   if (req.method !== "GET") {
-    res.setHeader("Allow", "GET, OPTIONS");
-
     return res.status(405).json({
       ok: false,
       message: "Method not allowed."
@@ -27,30 +25,36 @@ module.exports = async function handler(req, res) {
       posts: []
     });
 
-    const data = result.data || {};
-    const posts = Array.isArray(data.posts) ? data.posts : [];
+    const data = result?.data || {};
 
-    const activePosts = posts
-      .filter(post =>
-        post &&
-        post.active !== false &&
-        post.brandId &&
-        ["image", "video"].includes(post.mediaType) &&
-        typeof post.mediaUrl === "string" &&
-        post.mediaUrl.trim()
-      )
-      .map(post => ({
-        id: post.id,
-        brandId: post.brandId,
-        mediaType: post.mediaType,
-        mediaUrl: post.mediaUrl,
-        caption: post.caption || "",
-        createdAt: post.createdAt || ""
-      }));
+    const posts = Array.isArray(data.posts)
+      ? data.posts
+          .filter(post =>
+            post &&
+            post.active === true &&
+            typeof post.id === "string" &&
+            typeof post.brandId === "string" &&
+            ["image", "video"].includes(post.mediaType) &&
+            typeof post.mediaUrl === "string"
+          )
+          .map(post => ({
+            id: post.id,
+            brandId: post.brandId,
+            mediaType: post.mediaType,
+            mediaUrl: post.mediaUrl,
+            caption: post.caption || "",
+            createdAt: post.createdAt || ""
+          }))
+          .sort(
+            (a, b) =>
+              new Date(b.createdAt || 0) -
+              new Date(a.createdAt || 0)
+          )
+      : [];
 
     return res.status(200).json({
       ok: true,
-      posts: activePosts
+      posts
     });
 
   } catch (error) {
