@@ -1,8 +1,59 @@
-
 const { readJSON, writeJSON } = require("../../lib/github-storage");
 
 const FILE = "data/brand-status.json";
-const MAX_BRANDS = 50;
+
+const VALID_BRANDS = new Set([
+  "chowdeck",
+  "opay",
+  "moniepoint",
+  "okash",
+  "sun-king",
+  "bokku",
+  "indomie",
+  "dangote",
+  "gtbank",
+  "access-bank",
+  "firstbank",
+  "zenith-bank",
+  "uba",
+  "fidelity-bank",
+  "fcmb",
+  "sterling-bank",
+  "union-bank",
+  "kuda",
+  "carbon",
+  "palmpay",
+  "fairmoney",
+  "paga",
+  "interswitch",
+  "flutterwave",
+  "paystack",
+  "remita",
+  "jiji",
+  "jumia",
+  "konga",
+  "slot",
+  "tecno",
+  "itel",
+  "infinix",
+  "mtn",
+  "airtel",
+  "glo",
+  "9mobile",
+  "showmax",
+  "dstv",
+  "gotv",
+  "bet9ja",
+  "sportybet",
+  "shoprite",
+  "spar",
+  "foodco",
+  "mcdonalds",
+  "dominos",
+  "coldstone",
+  "rite-foods",
+  "peak"
+]);
 
 function send(res, status, data) {
   return res.status(status).json(data);
@@ -17,135 +68,58 @@ function authenticate(req) {
   );
 }
 
-function validUrl(value, optional = false) {
-  if (optional && !value) return true;
+function cleanText(value, max = 500) {
+  return typeof value === "string"
+    ? value.trim().slice(0, max)
+    : "";
+}
 
+function validMediaUrl(value) {
   if (typeof value !== "string" || !value.trim()) {
     return false;
   }
 
   try {
     const url = new URL(value.trim());
-    return ["http:", "https:"].includes(url.protocol);
+
+    return ["https:", "http:"].includes(url.protocol);
   } catch {
     return false;
   }
 }
 
-function cleanText(value, max = 200) {
-  return typeof value === "string"
-    ? value.trim().slice(0, max)
-    : "";
+function makeId() {
+  return `status_${Date.now()}_${Math.random().toString(36).slice(2, 10)}`;
 }
 
-function validateBrands(brands) {
-  if (!Array.isArray(brands) || brands.length > MAX_BRANDS) {
-    return {
-      ok: false,
-      message: "A maximum of 50 brands is allowed."
-    };
-  }
+async function loadData() {
+  const result = await readJSON(FILE, {
+    version: 1,
+    posts: []
+  });
 
-  const brandIds = new Set();
+  const data = result.data || {};
 
-  for (const brand of brands) {
-    if (!brand || typeof brand !== "object") {
-      return { ok: false, message: "Invalid brand data." };
+  return {
+    sha: result.sha,
+    data: {
+      version: 1,
+      posts: Array.isArray(data.posts) ? data.posts : []
     }
-
-    const id = cleanText(brand.id, 100);
-    const name = cleanText(brand.name, 100);
-    const username = cleanText(brand.username, 100);
-
-    if (!id || !name || !username) {
-      return {
-        ok: false,
-        message: "Every brand needs an ID, name and username."
-      };
-    }
-
-    if (brandIds.has(id)) {
-      return {
-        ok: false,
-        message: "Duplicate brand ID: " + id
-      };
-    }
-
-    brandIds.add(id);
-
-    if (
-      typeof brand.active !== "boolean" ||
-      !validUrl(brand.profileImage || "", true)
-    ) {
-      return {
-        ok: false,
-        message: "Invalid brand activation or profile image."
-      };
-    }
-
-    const rewardMin = Number(brand.rewardMin);
-    const rewardMax = Number(brand.rewardMax);
-
-    if (
-      !Number.isFinite(rewardMin) ||
-      !Number.isFinite(rewardMax) ||
-      rewardMin < 0 ||
-      rewardMax < rewardMin
-    ) {
-      return {
-        ok: false,
-        message: "Invalid reward range for " + name + "."
-      };
-    }
-
-    const statuses = brand.statuses ?? [];
-
-    if (!Array.isArray(statuses)) {
-      return {
-        ok: false,
-        message: "Invalid statuses for " + name + "."
-      };
-    }
-
-    const statusIds = new Set();
-
-    for (const status of statuses) {
-      if (!status || typeof status !== "object") {
-        return { ok: false, message: "Invalid status data." };
-      }
-
-      const statusId = cleanText(status.id, 100);
-
-      if (!statusId || statusIds.has(statusId)) {
-        return {
-          ok: false,
-          message: "Every status needs a unique ID."
-        };
-      }
-
-      statusIds.add(statusId);
-
-      if (
-        !["image", "video"].includes(status.mediaType) ||
-        !validUrl(status.mediaUrl) ||
-        typeof status.active !== "boolean"
-      ) {
-        return {
-          ok: false,
-          message: "Invalid status media or activation for " + name + "."
-        };
-      }
-    }
-  }
-
-  return { ok: true };
+  };
 }
 
 module.exports = async function handler(req, res) {
   res.setHeader("Cache-Control", "no-store");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, DELETE, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
 
-  if (!["GET", "PUT"].includes(req.method)) {
-    res.setHeader("Allow", "GET, PUT");
+  if (req.method === "OPTIONS") {
+    return res.status(204).end();
+  }
+
+  if (!["GET", "POST", "DELETE"].includes(req.method)) {
+    res.setHeader("Allow", "GET, POST, DELETE, OPTIONS");
 
     return send(res, 405, {
       ok: false,
@@ -161,86 +135,111 @@ module.exports = async function handler(req, res) {
   }
 
   try {
-    const current = await readJSON(FILE, {
-      version: 1,
-      enabled: true,
-      brands: []
-    });
-
-    const data = current.data || {
-      version: 1,
-      enabled: true,
-      brands: []
-    };
+    const { sha, data } = await loadData();
 
     if (req.method === "GET") {
       return send(res, 200, {
         ok: true,
-        settings: {
-          version: data.version || 1,
-          enabled: data.enabled !== false,
-          brands: Array.isArray(data.brands) ? data.brands : []
-        }
+        posts: data.posts
       });
     }
 
-    const input = req.body || {};
+    if (req.method === "POST") {
+      const input = req.body || {};
 
-    if (
-      typeof input.enabled !== "boolean" ||
-      !Array.isArray(input.brands)
-    ) {
-      return send(res, 400, {
-        ok: false,
-        message: "Enabled setting and brands array are required."
+      const brandId = cleanText(input.brandId, 100);
+      const mediaType = cleanText(input.mediaType, 20).toLowerCase();
+      const mediaUrl = cleanText(input.mediaUrl, 2000);
+      const caption = cleanText(input.caption, 500);
+
+      if (!VALID_BRANDS.has(brandId)) {
+        return send(res, 400, {
+          ok: false,
+          message: "Please select a valid existing brand."
+        });
+      }
+
+      if (!["image", "video"].includes(mediaType)) {
+        return send(res, 400, {
+          ok: false,
+          message: "Media type must be image or video."
+        });
+      }
+
+      if (!validMediaUrl(mediaUrl)) {
+        return send(res, 400, {
+          ok: false,
+          message: "Please provide a valid HTTP or HTTPS media URL."
+        });
+      }
+
+      const post = {
+        id: makeId(),
+        brandId,
+        mediaType,
+        mediaUrl,
+        caption,
+        active: true,
+        createdAt: new Date().toISOString()
+      };
+
+      const updated = {
+        version: 1,
+        updatedAt: new Date().toISOString(),
+        posts: [post, ...data.posts]
+      };
+
+      await writeJSON(FILE, updated, sha);
+
+      return send(res, 201, {
+        ok: true,
+        message: "Status published successfully.",
+        post
       });
     }
 
-    const validation = validateBrands(input.brands);
+    if (req.method === "DELETE") {
+      const postId = cleanText(
+        (req.body && req.body.id) || req.query.id,
+        150
+      );
 
-    if (!validation.ok) {
-      return send(res, 400, {
-        ok: false,
-        message: validation.message
+      if (!postId) {
+        return send(res, 400, {
+          ok: false,
+          message: "Post ID is required."
+        });
+      }
+
+      const exists = data.posts.some(post => post.id === postId);
+
+      if (!exists) {
+        return send(res, 404, {
+          ok: false,
+          message: "Status post not found."
+        });
+      }
+
+      const updated = {
+        version: 1,
+        updatedAt: new Date().toISOString(),
+        posts: data.posts.filter(post => post.id !== postId)
+      };
+
+      await writeJSON(FILE, updated, sha);
+
+      return send(res, 200, {
+        ok: true,
+        message: "Status deleted successfully."
       });
     }
-
-    const updated = {
-      version: 1,
-      enabled: input.enabled,
-      updatedAt: new Date().toISOString(),
-      brands: input.brands.map(brand => ({
-        id: cleanText(brand.id, 100),
-        name: cleanText(brand.name, 100),
-        username: cleanText(brand.username, 100),
-        profileImage: cleanText(brand.profileImage, 2000),
-        rewardMin: Number(brand.rewardMin),
-        rewardMax: Number(brand.rewardMax),
-        active: brand.active,
-        statuses: (brand.statuses || []).map(status => ({
-          id: cleanText(status.id, 100),
-          mediaType: status.mediaType,
-          mediaUrl: cleanText(status.mediaUrl, 2000),
-          caption: cleanText(status.caption, 500),
-          active: status.active
-        }))
-      }))
-    };
-
-    await writeJSON(FILE, updated, current.sha);
-
-    return send(res, 200, {
-      ok: true,
-      message: "Brand status settings updated.",
-      settings: updated
-    });
 
   } catch (error) {
     console.error("Admin brand status API:", error);
 
     return send(res, 500, {
       ok: false,
-      message: "Unable to update brand status settings."
+      message: "Unable to process brand status request."
     });
   }
 };
