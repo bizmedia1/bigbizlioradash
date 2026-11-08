@@ -2,15 +2,6 @@
   "version": 1,
   "posts": [
     {
-      "id": "6a3cd63e-6a91-4656-8a8e-8ee7bb5464cd",
-      "brandId": "chowdeck",
-      "mediaType": "image",
-      "mediaUrl": "https://i.postimg.cc/Y0tJvJrL/cb085d00-cefb-4ad6-8451-f05b66855c09.jpg",
-      "caption": "",
-      "active": true,
-      "createdAt": "2026-11-08T07:01:32.959Z"
-    },
-    {
       "id": "ddb00949-1a1a-45eb-a720-51607e96826f",
       "brandId": "infinix",
       "mediaType": "image",
