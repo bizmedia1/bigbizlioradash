@@ -2,6 +2,15 @@
   "version": 1,
   "posts": [
     {
+      "id": "2cde883e-f639-41d8-ab97-8d6cb444414d",
+      "brandId": "moniepoint",
+      "mediaType": "image",
+      "mediaUrl": "https://i.postimg.cc/zvCV7fPy/IMG-3494.jpg",
+      "caption": "Mfkgkgoofi",
+      "active": true,
+      "createdAt": "2026-11-10T09:18:43.064Z"
+    },
+    {
       "id": "77a6c9dc-5368-4365-954a-9e7edbfb4afc",
       "brandId": "chowdeck",
       "mediaType": "image",
