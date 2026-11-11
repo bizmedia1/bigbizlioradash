@@ -27,8 +27,9 @@
       "proofFileName": "Screenshot_20261111_210715_OPay.jpg",
       "proofFileType": "image/jpeg",
       "statusTokenHash": "9025b34232ec99657b4561e275d0ff50bd4097a221d588a5a50c1998b91d494d",
-      "status": "pending",
-      "createdAt": "2026-11-11T20:39:43.144Z"
+      "status": "approved",
+      "createdAt": "2026-11-11T20:39:43.144Z",
+      "processedAt": "2026-11-11T22:35:39.807Z"
     },
     {
       "id": "PAY-1794428730546-NZENQQ",
