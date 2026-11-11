@@ -2,6 +2,15 @@
   "version": 1,
   "posts": [
     {
+      "id": "2135ff98-b6db-4139-b82f-14db5aff39b0",
+      "brandId": "tecno",
+      "mediaType": "image",
+      "mediaUrl": "https://i.postimg.cc/vmHNx808/IMG-3617.jpg",
+      "caption": "",
+      "active": true,
+      "createdAt": "2026-11-11T18:10:52.977Z"
+    },
+    {
       "id": "c83463d5-843a-400c-bceb-003106c350ab",
       "brandId": "jumia",
       "mediaType": "image",
