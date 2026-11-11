@@ -2,6 +2,15 @@
   "version": 1,
   "posts": [
     {
+      "id": "c83463d5-843a-400c-bceb-003106c350ab",
+      "brandId": "jumia",
+      "mediaType": "image",
+      "mediaUrl": "https://i.postimg.cc/cL7mmqvD/IMG-3616.jpg",
+      "caption": "",
+      "active": true,
+      "createdAt": "2026-11-11T18:09:34.732Z"
+    },
+    {
       "id": "04d65693-6b00-4889-a1ad-1481940e4cf3",
       "brandId": "palmpay",
       "mediaType": "image",
