@@ -2,6 +2,15 @@
   "version": 1,
   "posts": [
     {
+      "id": "edbacd91-f5e8-49a5-9152-c6fdc29e739e",
+      "brandId": "moniepoint",
+      "mediaType": "image",
+      "mediaUrl": "https://i.postimg.cc/x1gm89k3/IMG-3610.jpg",
+      "caption": "",
+      "active": true,
+      "createdAt": "2026-11-11T18:02:58.959Z"
+    },
+    {
       "id": "44af5942-7dda-4697-bc16-9a3765f45e38",
       "brandId": "opay",
       "mediaType": "image",
