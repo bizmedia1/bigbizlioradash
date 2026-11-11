@@ -2,6 +2,15 @@
   "version": 1,
   "posts": [
     {
+      "id": "37db92a8-d6bf-49a0-9a17-d19382edc488",
+      "brandId": "airtel",
+      "mediaType": "image",
+      "mediaUrl": "https://i.postimg.cc/vH2gw3Cj/IMG-3620.jpg",
+      "caption": "",
+      "active": true,
+      "createdAt": "2026-11-11T18:15:13.875Z"
+    },
+    {
       "id": "0ab98b7d-8d0d-4bc1-b3cc-efae5749a1ba",
       "brandId": "mcdonalds",
       "mediaType": "image",
