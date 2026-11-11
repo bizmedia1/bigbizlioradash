@@ -2,6 +2,15 @@
   "version": 1,
   "posts": [
     {
+      "id": "c7a23c04-0e5a-4941-b06d-3f33b3b0ce4c",
+      "brandId": "dangote",
+      "mediaType": "image",
+      "mediaUrl": "https://i.postimg.cc/B64RgcZK/IMG-3613.jpg",
+      "caption": "",
+      "active": true,
+      "createdAt": "2026-11-11T18:06:55.903Z"
+    },
+    {
       "id": "e3215eda-8bac-4d86-8227-341bd6ff09d7",
       "brandId": "indomie",
       "mediaType": "image",
