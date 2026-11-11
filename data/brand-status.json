@@ -1,14 +1,4 @@
 {
   "version": 1,
-  "posts": [
-    {
-      "id": "ddb00949-1a1a-45eb-a720-51607e96826f",
-      "brandId": "infinix",
-      "mediaType": "image",
-      "mediaUrl": "https://i.postimg.cc/B6R0th82/182435ab-097b-433f-885c-6459175d0b78.jpg",
-      "caption": "Mamwmwwm",
-      "active": true,
-      "createdAt": "2026-11-08T06:52:01.649Z"
-    }
-  ]
+  "posts": []
 }
