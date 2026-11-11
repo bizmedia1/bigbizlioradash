@@ -2,15 +2,6 @@
   "version": 1,
   "posts": [
     {
-      "id": "77a6c9dc-5368-4365-954a-9e7edbfb4afc",
-      "brandId": "chowdeck",
-      "mediaType": "image",
-      "mediaUrl": "https://oaka.com",
-      "caption": "",
-      "active": true,
-      "createdAt": "2026-11-08T07:32:08.096Z"
-    },
-    {
       "id": "2e4d0961-83ee-4ee2-9a9c-e117acab4725",
       "brandId": "chowdeck",
       "mediaType": "video",
