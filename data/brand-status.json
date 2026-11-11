@@ -2,6 +2,15 @@
   "version": 1,
   "posts": [
     {
+      "id": "04d65693-6b00-4889-a1ad-1481940e4cf3",
+      "brandId": "palmpay",
+      "mediaType": "image",
+      "mediaUrl": "https://i.postimg.cc/HnKSfQmw/IMG-3614.jpg",
+      "caption": "",
+      "active": true,
+      "createdAt": "2026-11-11T18:08:30.866Z"
+    },
+    {
       "id": "c7a23c04-0e5a-4941-b06d-3f33b3b0ce4c",
       "brandId": "dangote",
       "mediaType": "image",
