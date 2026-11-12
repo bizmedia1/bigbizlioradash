@@ -2,15 +2,6 @@
   "version": 1,
   "posts": [
     {
-      "id": "c4591fd8-a5e9-4677-be9f-95f6b8e05238",
-      "brandId": "mtn",
-      "mediaType": "image",
-      "mediaUrl": "https://i.postimg.cc/XvSvnhxW/IMG-3621.jpg",
-      "caption": "",
-      "active": true,
-      "createdAt": "2026-11-11T18:16:52.501Z"
-    },
-    {
       "id": "37db92a8-d6bf-49a0-9a17-d19382edc488",
       "brandId": "airtel",
       "mediaType": "image",
