@@ -28,8 +28,9 @@
       "proofFileName": "file_0000000015c48210a645df75bf50215d.png",
       "proofFileType": "image/png",
       "statusTokenHash": "854ebbe0bee5afa957b617b1cdd3f41e306801426f02a7c5a9e5c18ee3ab0bf5",
-      "status": "pending",
-      "createdAt": "2026-11-12T12:15:58.948Z"
+      "status": "rejected",
+      "createdAt": "2026-11-12T12:15:58.948Z",
+      "processedAt": "2026-11-12T15:17:28.103Z"
     },
     {
       "id": "PAY-1794479601610-6NJDNI",
