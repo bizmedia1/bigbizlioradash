@@ -1,5 +1,5 @@
 {
-  "paymentAmount": 15000,
+  "paymentAmount": 12000,
   "paymentMethods": {
     "paga": true,
     "manualBank": false
