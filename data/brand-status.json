@@ -1,14 +1,4 @@
 {
   "version": 1,
-  "posts": [
-    {
-      "id": "57037028-9a76-499d-a5bd-ff5a5cba957a",
-      "brandId": "sun-king",
-      "mediaType": "image",
-      "mediaUrl": "https://i.postimg.cc/Dz8SzL30/IMG-3611.jpg",
-      "caption": "",
-      "active": true,
-      "createdAt": "2026-11-11T18:04:24.373Z"
-    }
-  ]
+  "posts": []
 }
