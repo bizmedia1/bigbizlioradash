@@ -2,15 +2,6 @@
   "version": 1,
   "posts": [
     {
-      "id": "9caa60f4-5fce-4af9-9f35-79e2dd49234e",
-      "brandId": "bet9ja",
-      "mediaType": "image",
-      "mediaUrl": "https://i.postimg.cc/MZRdTjzb/IMG-3618.jpg",
-      "caption": "",
-      "active": true,
-      "createdAt": "2026-11-11T18:12:25.765Z"
-    },
-    {
       "id": "2135ff98-b6db-4139-b82f-14db5aff39b0",
       "brandId": "tecno",
       "mediaType": "image",
