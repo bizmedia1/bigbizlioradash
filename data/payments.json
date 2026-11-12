@@ -1,6 +1,21 @@
 {
   "payments": [
     {
+      "id": "PAY-1794479601610-6NJDNI",
+      "customerName": "Luqman Sultan Nuur",
+      "email": "sultanluqman05@gmail.com",
+      "phone": "08101500802",
+      "amount": 12000,
+      "method": "paga",
+      "reference": "liora_paga_1794479411937",
+      "proofPath": "uploads/payment-proofs/PAY-1794479601610-6NJDNI-Access_Receipt_000014261112113105225052218457_20261112113235.png",
+      "proofFileName": "Access_Receipt_000014261112113105225052218457_20261112113235.png",
+      "proofFileType": "image/png",
+      "statusTokenHash": "79b6f7860a71d7e90836bc9cba7512da6073be8deb208d37c83b7d2d63e50647",
+      "status": "pending",
+      "createdAt": "2026-11-12T10:33:23.188Z"
+    },
+    {
       "id": "PAY-1794471780925-Y3MPJA",
       "customerName": "Amamansns s",
       "email": "jaah@gmail.com",
