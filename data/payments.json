@@ -60,8 +60,9 @@
       "proofFileName": "Screenshot_20261111_210715_OPay.jpg",
       "proofFileType": "image/jpeg",
       "statusTokenHash": "5a107e589427ee4ac1834526bcdc54d09825ca457ee5aa57ccf7b8da409df978",
-      "status": "pending",
-      "createdAt": "2026-11-11T20:07:43.942Z"
+      "status": "rejected",
+      "createdAt": "2026-11-11T20:07:43.942Z",
+      "processedAt": "2026-11-12T08:14:28.616Z"
     },
     {
       "id": "PAY-1794301877303-BEMFFQ",
