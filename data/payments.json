@@ -44,8 +44,9 @@
       "proofFileName": "Screenshot_20261111_210715_OPay.jpg",
       "proofFileType": "image/jpeg",
       "statusTokenHash": "bcd6d134215884e89b2f667a9c78baaa2db28ebce8e678b62bb35f996ac559f4",
-      "status": "pending",
-      "createdAt": "2026-11-11T20:25:32.337Z"
+      "status": "approved",
+      "createdAt": "2026-11-11T20:25:32.337Z",
+      "processedAt": "2026-11-12T08:14:22.118Z"
     },
     {
       "id": "PAY-1794427662410-169TIV",
