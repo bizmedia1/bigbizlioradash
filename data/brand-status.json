@@ -2,15 +2,6 @@
   "version": 1,
   "posts": [
     {
-      "id": "0ab98b7d-8d0d-4bc1-b3cc-efae5749a1ba",
-      "brandId": "mcdonalds",
-      "mediaType": "image",
-      "mediaUrl": "https://i.postimg.cc/t4g3h1HR/IMG-3619.jpg",
-      "caption": "",
-      "active": true,
-      "createdAt": "2026-11-11T18:13:46.919Z"
-    },
-    {
       "id": "9caa60f4-5fce-4af9-9f35-79e2dd49234e",
       "brandId": "bet9ja",
       "mediaType": "image",
