@@ -12,8 +12,9 @@
       "proofFileName": "file_0000000015c48210a645df75bf50215d.png",
       "proofFileType": "image/png",
       "statusTokenHash": "721733469b248434f66d9f9a41479d80751f1631150c4bb47a59153456ccff68",
-      "status": "pending",
-      "createdAt": "2026-11-12T12:21:44.430Z"
+      "status": "rejected",
+      "createdAt": "2026-11-12T12:21:44.430Z",
+      "processedAt": "2026-11-12T15:17:22.174Z"
     },
     {
       "id": "PAY-1794485757288-4008FZ",
