@@ -2,15 +2,6 @@
   "version": 1,
   "posts": [
     {
-      "id": "e3215eda-8bac-4d86-8227-341bd6ff09d7",
-      "brandId": "indomie",
-      "mediaType": "image",
-      "mediaUrl": "https://i.postimg.cc/tR5pLJL9/IMG-3612.jpg",
-      "caption": "",
-      "active": true,
-      "createdAt": "2026-11-11T18:05:35.512Z"
-    },
-    {
       "id": "57037028-9a76-499d-a5bd-ff5a5cba957a",
       "brandId": "sun-king",
       "mediaType": "image",
