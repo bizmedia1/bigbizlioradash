@@ -1,4 +1,14 @@
 {
   "version": 1,
-  "posts": []
+  "posts": [
+    {
+      "id": "cfe83186-d43d-4530-96bf-43113e080ac5",
+      "brandId": "chowdeck",
+      "mediaType": "image",
+      "mediaUrl": "https://i.postimg.cc/GpGbtMHZ/IMG-3736.jpg",
+      "caption": "",
+      "active": true,
+      "createdAt": "2026-11-12T20:45:48.400Z"
+    }
+  ]
 }
