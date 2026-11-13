@@ -2,6 +2,15 @@
   "version": 1,
   "posts": [
     {
+      "id": "e1f41a46-08a0-46d4-bd71-8a5b5da049c4",
+      "brandId": "kuda",
+      "mediaType": "image",
+      "mediaUrl": "https://i.postimg.cc/76ff7zf8/IMG-3748.jpg",
+      "caption": "",
+      "active": true,
+      "createdAt": "2026-11-13T08:56:48.927Z"
+    },
+    {
       "id": "8c2d62eb-a6b3-4351-a8d2-e58c206086b6",
       "brandId": "access-bank",
       "mediaType": "image",
