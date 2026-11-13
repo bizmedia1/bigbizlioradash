@@ -2,6 +2,15 @@
   "version": 1,
   "posts": [
     {
+      "id": "d2c24589-21e7-4fe9-b365-d6cf2408ffb4",
+      "brandId": "gtbank",
+      "mediaType": "image",
+      "mediaUrl": "https://i.postimg.cc/jqczyH8M/IMG-3745.jpg",
+      "caption": "",
+      "active": true,
+      "createdAt": "2026-11-13T08:54:11.343Z"
+    },
+    {
       "id": "383443a4-9790-46fa-a879-c2a151119e10",
       "brandId": "sun-king",
       "mediaType": "image",
