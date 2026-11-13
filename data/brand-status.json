@@ -2,6 +2,15 @@
   "version": 1,
   "posts": [
     {
+      "id": "f6c5a060-e4c5-40b2-b7ac-b09bed7c4dbc",
+      "brandId": "paga",
+      "mediaType": "image",
+      "mediaUrl": "https://i.postimg.cc/sggyvrMt/IMG-3751.jpg",
+      "caption": "",
+      "active": true,
+      "createdAt": "2026-11-13T08:59:39.063Z"
+    },
+    {
       "id": "5af0c348-86a9-4aac-a934-e5fce33de6d1",
       "brandId": "fairmoney",
       "mediaType": "image",
