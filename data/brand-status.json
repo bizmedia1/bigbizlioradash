@@ -2,6 +2,15 @@
   "version": 1,
   "posts": [
     {
+      "id": "8c2d62eb-a6b3-4351-a8d2-e58c206086b6",
+      "brandId": "access-bank",
+      "mediaType": "image",
+      "mediaUrl": "https://i.postimg.cc/Y9nCCC3s/IMG-3746.jpg",
+      "caption": "",
+      "active": true,
+      "createdAt": "2026-11-13T08:55:18.138Z"
+    },
+    {
       "id": "d2c24589-21e7-4fe9-b365-d6cf2408ffb4",
       "brandId": "gtbank",
       "mediaType": "image",
