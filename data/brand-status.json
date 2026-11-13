@@ -2,6 +2,15 @@
   "version": 1,
   "posts": [
     {
+      "id": "a87adfaf-014b-4700-9edb-d49886b268e3",
+      "brandId": "palmpay",
+      "mediaType": "image",
+      "mediaUrl": "https://i.postimg.cc/Vkk1d8J4/IMG-3749.jpg",
+      "caption": "",
+      "active": true,
+      "createdAt": "2026-11-13T08:59:02.502Z"
+    },
+    {
       "id": "e1f41a46-08a0-46d4-bd71-8a5b5da049c4",
       "brandId": "kuda",
       "mediaType": "image",
