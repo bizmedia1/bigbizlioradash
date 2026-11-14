@@ -12,8 +12,13 @@
       "proofFileName": "IMG_3811.png",
       "proofFileType": "image/png",
       "statusTokenHash": "e7447761754cd85cb6faac27b9297570c7943dd809e98aba5c551dfae614d605",
-      "status": "pending",
-      "createdAt": "2026-11-14T11:39:42.254Z"
+      "status": "approved",
+      "createdAt": "2026-11-14T11:39:42.254Z",
+      "processedAt": "2026-11-14T11:39:52.295Z",
+      "pofPass": "AM12AMTU39SA",
+      "pofGeneratedAt": "2026-11-14T11:39:52.295Z",
+      "pofUsed": false,
+      "pofUsedAt": null
     },
     {
       "id": "PAY-1794656162977-GLUO1F",
