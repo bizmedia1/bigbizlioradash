@@ -1,3 +1,4 @@
+
 const crypto = require("crypto");
 const { readJSON } = require("../../lib/github-storage");
 
@@ -31,7 +32,10 @@ module.exports = async (req, res) => {
     });
 
     const payments = stored.data?.payments || [];
-    const payment = payments.find(item => item.id === paymentId);
+
+    const payment = payments.find(
+      item => String(item.id) === String(paymentId)
+    );
 
     if (!payment || !payment.statusTokenHash) {
       return send(res, 404, { ok: false });
@@ -42,7 +46,10 @@ module.exports = async (req, res) => {
       .update(String(statusToken))
       .digest();
 
-    const savedHash = Buffer.from(payment.statusTokenHash, "hex");
+    const savedHash = Buffer.from(
+      payment.statusTokenHash,
+      "hex"
+    );
 
     if (
       savedHash.length !== submittedHash.length ||
@@ -51,13 +58,23 @@ module.exports = async (req, res) => {
       return send(res, 403, { ok: false });
     }
 
-    return send(res, 200, {
+    const status = String(payment.status || "pending").toLowerCase();
+
+    const response = {
       ok: true,
-      status: payment.status
-    });
+      status
+    };
+
+    if (status === "approved" && payment.pofPass) {
+      response.pofPass = payment.pofPass;
+      response.pofGeneratedAt = payment.pofGeneratedAt || payment.processedAt || null;
+    }
+
+    return send(res, 200, response);
 
   } catch (error) {
     console.error("[Payment Status]", error);
+
     return send(res, 500, { ok: false });
   }
 };
