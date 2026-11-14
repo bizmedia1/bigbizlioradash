@@ -27,8 +27,9 @@
       "proofFileName": "IMG_3828.jpeg",
       "proofFileType": "image/jpeg",
       "statusTokenHash": "88a279fe62ddd6a799bbb25ada434e3578264a7ccc893b6e623f9df4fb1e0acc",
-      "status": "pending",
-      "createdAt": "2026-11-14T10:38:10.931Z"
+      "status": "approved",
+      "createdAt": "2026-11-14T10:38:10.931Z",
+      "processedAt": "2026-11-14T10:38:31.604Z"
     },
     {
       "id": "PAY-1794620729925-URS0B3",
