@@ -12,8 +12,13 @@
       "proofFileName": "IMG_3828.jpeg",
       "proofFileType": "image/jpeg",
       "statusTokenHash": "c56641a6ba659147aa49f9556069f6f7f1ab2cc085934f5e79e8cf28589a17af",
-      "status": "pending",
-      "createdAt": "2026-11-14T11:36:04.653Z"
+      "status": "approved",
+      "createdAt": "2026-11-14T11:36:04.653Z",
+      "processedAt": "2026-11-14T11:36:35.705Z",
+      "pofPass": "AM12AMTU36SA",
+      "pofGeneratedAt": "2026-11-14T11:36:35.705Z",
+      "pofUsed": false,
+      "pofUsedAt": null
     },
     {
       "id": "PAY-1794652703912-YTUGOG",
