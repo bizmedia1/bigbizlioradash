@@ -12,8 +12,9 @@
       "proofFileName": "IMG_0388.jpeg",
       "proofFileType": "image/jpeg",
       "statusTokenHash": "687435b76c1cd6f4d0fc65e8a94484d134993657a14c26f13e2b148493b3154c",
-      "status": "pending",
-      "createdAt": "2026-11-14T00:21:41.544Z"
+      "status": "approved",
+      "createdAt": "2026-11-14T00:21:41.544Z",
+      "processedAt": "2026-11-14T00:21:50.162Z"
     },
     {
       "id": "PAY-1794486102242-GQDI3V",
