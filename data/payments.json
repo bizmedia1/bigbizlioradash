@@ -12,8 +12,9 @@
       "proofFileName": "IMG_3815.jpeg",
       "proofFileType": "image/jpeg",
       "statusTokenHash": "ebbce6ea60bf9f6530cc58bf3bbc31ae85e28f23192b28bd586815a945b03e92",
-      "status": "pending",
-      "createdAt": "2026-11-14T01:45:31.313Z"
+      "status": "approved",
+      "createdAt": "2026-11-14T01:45:31.313Z",
+      "processedAt": "2026-11-14T01:50:41.560Z"
     },
     {
       "id": "PAY-1794615700189-FEBS5Z",
