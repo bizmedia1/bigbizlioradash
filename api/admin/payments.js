@@ -1,3 +1,5 @@
+
+const crypto = require("crypto");
 const { readJSON, writeJSON } = require("../../lib/github-storage");
 
 const FILES = {
@@ -5,6 +7,9 @@ const FILES = {
   balance: "data/balance.json",
   transactions: "data/transactions.json"
 };
+
+const TIME_ZONE = "Africa/Lagos";
+const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 function send(res, status, data) {
   return res.status(status).json(data);
@@ -40,6 +45,133 @@ function getCounts(payments) {
 
   return counts;
 }
+
+/* =====================================================
+   POF PASS GENERATOR
+===================================================== */
+
+function getLagosApprovalParts(date) {
+  const parts = new Intl.DateTimeFormat("en-US", {
+    timeZone: TIME_ZONE,
+    hour: "2-digit",
+    minute: "2-digit",
+    hourCycle: "h23",
+    weekday: "long"
+  }).formatToParts(date);
+
+  const values = {};
+
+  parts.forEach(part => {
+    values[part.type] = part.value;
+  });
+
+  return {
+    time: `${values.hour}${values.minute}`,
+    day: String(values.weekday).slice(0, 4).toUpperCase()
+  };
+}
+
+function hashLetters(seed) {
+  const hash = crypto
+    .createHash("sha256")
+    .update(String(seed))
+    .digest();
+
+  return Array.from(hash.slice(0, 4))
+    .map(byte => ALPHABET[byte % 26])
+    .join("");
+}
+
+function getNameLetters(name, paymentKey) {
+  const cleanName = String(name || "")
+    .normalize("NFKD")
+    .replace(/[^a-zA-Z]/g, "")
+    .toUpperCase();
+
+  let letters = cleanName.slice(0, 4);
+
+  if (letters.length < 4) {
+    const fallback = hashLetters(
+      `${cleanName}|${paymentKey}`
+    );
+
+    letters = (letters + fallback).slice(0, 4);
+  }
+
+  return letters;
+}
+
+function assemblePofPass(nameLetters, time, day) {
+  /*
+    Exact arrangement:
+
+    Name: RSIA
+    Time: 1145
+    Day:  TUES
+
+    Result: RS11IAES45UT
+  */
+
+  return (
+    nameLetters[0] +
+    nameLetters[1] +
+    time[0] +
+    time[1] +
+    nameLetters[2] +
+    nameLetters[3] +
+    day[2] +
+    day[3] +
+    time[2] +
+    time[3] +
+    day[0] +
+    day[1]
+  );
+}
+
+function generateUniquePofPass(payment, processedAt, payments) {
+  const date = new Date(processedAt);
+
+  if (Number.isNaN(date.getTime())) {
+    throw new Error("Invalid POF approval timestamp.");
+  }
+
+  const { time, day } = getLagosApprovalParts(date);
+
+  const key = paymentId(payment);
+
+  const existingPasses = new Set(
+    payments
+      .map(item => String(item.pofPass || "").toUpperCase())
+      .filter(Boolean)
+  );
+
+  const originalLetters = getNameLetters(
+    payment.customerName,
+    key
+  );
+
+  for (let attempt = 0; attempt < 10000; attempt++) {
+    let letters = originalLetters;
+
+    if (attempt > 0) {
+      letters = hashLetters(
+        `${payment.customerName}|${key}|${attempt}`
+      );
+    }
+
+    const pass = assemblePofPass(letters, time, day);
+
+    if (!existingPasses.has(pass)) {
+      return pass;
+    }
+  }
+
+  throw new Error("Unable to generate a unique POF pass.");
+}
+
+/* =====================================================
+   MAIN HANDLER
+===================================================== */
 
 module.exports = async function handler(req, res) {
   res.setHeader("Cache-Control", "no-store");
@@ -83,7 +215,7 @@ module.exports = async function handler(req, res) {
 
       return send(res, 405, {
         ok: false,
-        message: "Method not allowed"
+        message: "Method not allowed."
       });
     }
 
@@ -119,6 +251,10 @@ module.exports = async function handler(req, res) {
     const processedAt = new Date().toISOString();
     const updatedPayments = [...payments];
 
+    /* =================================================
+       REJECT PAYMENT
+    ================================================= */
+
     if (action === "reject") {
       updatedPayments[index] = {
         ...payment,
@@ -141,6 +277,10 @@ module.exports = async function handler(req, res) {
         payment: updatedPayments[index]
       });
     }
+
+    /* =================================================
+       APPROVE PAYMENT
+    ================================================= */
 
     const amount = Number(payment.amount);
 
@@ -187,6 +327,14 @@ module.exports = async function handler(req, res) {
       });
     }
 
+    /* Generate the pass before saving approval */
+
+    const pofPass = generateUniquePofPass(
+      payment,
+      processedAt,
+      payments
+    );
+
     const transaction = {
       id: "TXN-" + Date.now(),
       paymentId: paymentId(payment),
@@ -204,8 +352,14 @@ module.exports = async function handler(req, res) {
     updatedPayments[index] = {
       ...payment,
       status: "approved",
-      processedAt
+      processedAt,
+      pofPass,
+      pofGeneratedAt: processedAt,
+      pofUsed: false,
+      pofUsedAt: null
     };
+
+    /* Save transaction */
 
     await writeJSON(
       FILES.transactions,
@@ -216,6 +370,8 @@ module.exports = async function handler(req, res) {
       transactionFile.sha
     );
 
+    /* Update balance */
+
     await writeJSON(
       FILES.balance,
       {
@@ -225,6 +381,8 @@ module.exports = async function handler(req, res) {
       },
       balanceFile.sha
     );
+
+    /* Save approved payment and POF pass */
 
     await writeJSON(
       FILES.payments,
@@ -237,7 +395,7 @@ module.exports = async function handler(req, res) {
 
     return send(res, 200, {
       ok: true,
-      message: "Payment approved and wallet balance updated.",
+      message: "Payment approved and POF pass generated.",
       payment: updatedPayments[index],
       transaction,
       balance: currentBalance + amount
