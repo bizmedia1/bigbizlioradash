@@ -1,6 +1,21 @@
 {
   "payments": [
     {
+      "id": "PAY-1794656162977-GLUO1F",
+      "customerName": "Amamansns s",
+      "email": "jaah@gmail.com",
+      "phone": "08121515181",
+      "amount": 12000,
+      "method": "paga",
+      "reference": "liora_paga_1794656148753",
+      "proofPath": "uploads/payment-proofs/PAY-1794656162977-GLUO1F-IMG_3828.jpeg",
+      "proofFileName": "IMG_3828.jpeg",
+      "proofFileType": "image/jpeg",
+      "statusTokenHash": "c56641a6ba659147aa49f9556069f6f7f1ab2cc085934f5e79e8cf28589a17af",
+      "status": "pending",
+      "createdAt": "2026-11-14T11:36:04.653Z"
+    },
+    {
       "id": "PAY-1794652703912-YTUGOG",
       "customerName": "Amamansns s",
       "email": "jaah@gmail.com",
