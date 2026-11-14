@@ -12,8 +12,13 @@
       "proofFileName": "IMG_3770.png",
       "proofFileType": "image/png",
       "statusTokenHash": "ba4cc1a1fd0f8b840f583e684bb3886507f594ab5217de1ab5d60eecbb9ef5e4",
-      "status": "pending",
-      "createdAt": "2026-11-14T11:56:08.549Z"
+      "status": "approved",
+      "createdAt": "2026-11-14T11:56:08.549Z",
+      "processedAt": "2026-11-14T11:56:41.425Z",
+      "pofPass": "AM12AMTU56SA",
+      "pofGeneratedAt": "2026-11-14T11:56:41.425Z",
+      "pofUsed": false,
+      "pofUsedAt": null
     },
     {
       "id": "PAY-1794656693282-NFV9MC",
