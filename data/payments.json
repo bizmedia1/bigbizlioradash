@@ -12,8 +12,13 @@
       "proofFileName": "IMG_3773.png",
       "proofFileType": "image/png",
       "statusTokenHash": "6563d1dd03a7aa147e384dd4aa7b6e5a70abaa35c4078b5dfa281a437fb11c17",
-      "status": "pending",
-      "createdAt": "2026-11-14T11:44:55.904Z"
+      "status": "approved",
+      "createdAt": "2026-11-14T11:44:55.904Z",
+      "processedAt": "2026-11-14T11:45:10.322Z",
+      "pofPass": "AM12AMTU45SA",
+      "pofGeneratedAt": "2026-11-14T11:45:10.322Z",
+      "pofUsed": false,
+      "pofUsedAt": null
     },
     {
       "id": "PAY-1794656379952-OX134K",
