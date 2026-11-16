@@ -1,6 +1,21 @@
 {
   "payments": [
     {
+      "id": "PAY-1794823610182-5FSCEM",
+      "customerName": "Amakamana",
+      "email": "haaba@gmail.com",
+      "phone": "08154848404",
+      "amount": 500,
+      "method": "paga",
+      "reference": "lp_1794823458922_53c64153f2",
+      "proofPath": "uploads/payment-proofs/PAY-1794823610182-5FSCEM-Screenshot_20261112-054223_Chrome.jpg",
+      "proofFileName": "Screenshot_20261112-054223_Chrome.jpg",
+      "proofFileType": "image/jpeg",
+      "statusTokenHash": "b0db525b9aff2f339346736004de1be71c28f86b727dd05cad520f19fbb9adc2",
+      "status": "pending",
+      "createdAt": "2026-11-16T10:06:51.753Z"
+    },
+    {
       "id": "PAY-PAGA-a373b10c9e7fb5100ccd2076",
       "customerName": "Amakamana",
       "email": "haaba@gmail.com",
