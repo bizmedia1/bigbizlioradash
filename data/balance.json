@@ -1,4 +1,7 @@
 {
-  "balance": 275000,
-  "currency": "NGN"
+  "balance": 275500,
+  "currency": "NGN",
+  "processedPaymentIds": [
+    "PAY-PAGA-f105748c72ff53c6df84146e"
+  ]
 }
