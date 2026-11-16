@@ -58,16 +58,24 @@ module.exports = async (req, res) => {
       return send(res, 403, { ok: false });
     }
 
-    const status = String(payment.status || "pending").toLowerCase();
+    const status = String(
+      payment.status || "pending"
+    ).toLowerCase();
 
     const response = {
       ok: true,
-      status
+      status,
+      amount: Number(payment.amount || 0),
+      reference: payment.reference || null
     };
 
     if (status === "approved" && payment.pofPass) {
       response.pofPass = payment.pofPass;
-      response.pofGeneratedAt = payment.pofGeneratedAt || payment.processedAt || null;
+
+      response.pofGeneratedAt =
+        payment.pofGeneratedAt ||
+        payment.processedAt ||
+        null;
     }
 
     return send(res, 200, response);
