@@ -1,0 +1,13 @@
+{
+  "paymentAmount": 9500,
+  "paymentMethods": {
+    "paga": true,
+    "manualBank": false
+  },
+  "manualBank": {
+    "accountNumber": "",
+    "bankName": "",
+    "accountName": ""
+  },
+  "adminName": "Bizmedia"
+}
