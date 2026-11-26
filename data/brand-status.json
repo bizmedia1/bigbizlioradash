@@ -1,0 +1,59 @@
+{
+  "version": 1,
+  "posts": [
+    {
+      "id": "d7a85e10-634f-4e07-908b-9716f9f13a79",
+      "brandId": "bokku",
+      "mediaType": "image",
+      "mediaUrl": "https://i.postimg.cc/3rzDDsg0/8f34194671ffac0454163c1cea15c1f3.jpg",
+      "caption": "Shop from us",
+      "active": true,
+      "createdAt": "2026-11-26T08:09:30.680Z"
+    },
+    {
+      "id": "da60c3d4-fb76-46c9-a727-c5d56d87b6b5",
+      "brandId": "sun-king",
+      "mediaType": "image",
+      "mediaUrl": "https://i.postimg.cc/1zhWCV0S/235b12e05574d301de18fa981acb5755.jpg",
+      "caption": "Get your solar appliances from us today",
+      "active": true,
+      "createdAt": "2026-11-26T07:48:16.024Z"
+    },
+    {
+      "id": "1c9069e5-ae07-409f-aef3-56e089deb1b8",
+      "brandId": "okash",
+      "mediaType": "image",
+      "mediaUrl": "https://i.postimg.cc/sfctMmY9/814e00e870783b2b89677c48c4d58fd3.jpg",
+      "caption": "Get assistance from us today",
+      "active": true,
+      "createdAt": "2026-11-26T07:47:08.868Z"
+    },
+    {
+      "id": "34cb8e8b-8635-41ae-99e8-1368d29cef9d",
+      "brandId": "moniepoint",
+      "mediaType": "image",
+      "mediaUrl": "https://i.postimg.cc/NMy5KFV7/4522db83868c51218231fc08c8f641b9.jpg",
+      "caption": "Bank with us today...",
+      "active": true,
+      "createdAt": "2026-11-26T07:44:46.760Z"
+    },
+    {
+      "id": "aac48908-5ae2-4f8f-9321-e973fe41638c",
+      "brandId": "opay",
+      "mediaType": "image",
+      "mediaUrl": "https://i.postimg.cc/kMp2PQ2w/f692231702deaeec08c5b21598142b65.jpg",
+      "caption": "Bank with us",
+      "active": true,
+      "createdAt": "2026-11-26T07:43:43.786Z"
+    },
+    {
+      "id": "c3ce7e16-36e0-432a-9417-5fd1ef25a94e",
+      "brandId": "chowdeck",
+      "mediaType": "image",
+      "mediaUrl": "https://i.postimg.cc/cHWQYQRg/f50357f201f58f545aa677f7b13fc9ba.jpg",
+      "caption": "Order from us today",
+      "active": true,
+      "createdAt": "2026-11-26T07:41:12.909Z"
+    }
+  ]
+}

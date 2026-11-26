@@ -1,0 +1,2412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#080808">
+<title>Liora Admin</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --dark:#080808;
+  --green:#111111;
+  --sage:#A8A29A;
+  --light:#202020;
+  --cream:#0B0B0B;
+  --yellow:#F8B719;
+  --gold:#D6A62E;
+  --white:#FFFFFF;
+  --text:#F5F0E6;
+  --muted:#A8A29A;
+  --border:#292929;
+  --red:#D94B43;
+  --success:#38B875;
+  --panel:#141414;
+  --input:#0D0D0D;
+}
+
+* { box-sizing:border-box; }
+
+body {
+  margin:0;
+  background:var(--cream);
+  color:var(--text);
+  font-family:'Inter',sans-serif;
+}
+
+button,input,textarea,select { font:inherit; }
+button { cursor:pointer; }
+button:disabled { cursor:not-allowed; opacity:.55; }
+.hidden { display:none !important; }
+
+#login-screen {
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:24px;
+  background:
+    radial-gradient(circle at top right,rgba(248,183,25,.15),transparent 48%),
+    radial-gradient(circle at bottom left,rgba(214,166,46,.10),transparent 45%),
+    linear-gradient(145deg,#000000,#101010 65%,#1A160B);
+}
+
+.login-card {
+  width:100%;
+  max-width:410px;
+  padding:34px 26px;
+  border:1px solid #393124;
+  border-radius:25px;
+  background:#141414;
+  box-shadow:0 25px 80px rgba(0,0,0,.55);
+}
+
+.login-brand {
+  font-family:'Unbounded',sans-serif;
+  font-size:27px;
+  font-weight:700;
+  color:var(--yellow);
+  margin-bottom:9px;
+}
+
+.login-subtitle {
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.6;
+  margin-bottom:28px;
+}
+
+.login-label {
+  display:block;
+  font-size:13px;
+  font-weight:700;
+  margin-bottom:9px;
+}
+
+.password-box {
+  display:flex;
+  align-items:center;
+  border:1.5px solid var(--border);
+  border-radius:13px;
+  background:var(--input);
+  overflow:hidden;
+}
+
+.password-box:focus-within {
+  border-color:var(--gold);
+  box-shadow:0 0 0 4px rgba(214,166,46,.10);
+}
+
+.password-box input {
+  width:100%;
+  min-width:0;
+  padding:16px;
+  border:0;
+  outline:0;
+  background:transparent;
+  color:var(--text);
+}
+
+.password-box button {
+  border:0;
+  padding:14px;
+  background:transparent;
+  color:var(--yellow);
+  font-weight:700;
+}
+
+.login-button {
+  width:100%;
+  padding:16px;
+  margin-top:20px;
+  border:0;
+  border-radius:13px;
+  background:linear-gradient(135deg,#F8B719,#D6A62E);
+  color:#080808;
+  font-weight:800;
+}
+
+#login-message {
+  min-height:20px;
+  margin-top:14px;
+  font-size:13px;
+  color:var(--red);
+  line-height:1.5;
+}
+
+#dashboard {
+  display:none;
+  max-width:1000px;
+  margin:auto;
+  padding:26px 17px 60px;
+}
+
+#dashboard.unlocked { display:block; }
+
+.topbar {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  margin-bottom:25px;
+}
+
+.admin-heading {
+  font-family:'Unbounded',sans-serif;
+  font-size:18px;
+  line-height:1.5;
+  font-weight:600;
+  color:var(--text);
+}
+
+.icon-button {
+  border:1px solid var(--border);
+  background:var(--panel);
+  color:var(--yellow);
+  border-radius:12px;
+  padding:11px 14px;
+  font-size:13px;
+  font-weight:700;
+}
+
+.balance-card {
+  position:relative;
+  padding:27px 23px;
+  margin-bottom:25px;
+  border:1px solid #3B3020;
+  border-radius:21px;
+  background:
+    radial-gradient(circle at 90% 10%,rgba(248,183,25,.15),transparent 45%),
+    linear-gradient(135deg,#080808,#17130A);
+  color:white;
+  overflow:hidden;
+}
+
+.balance-card::after {
+  content:"";
+  position:absolute;
+  width:180px;
+  height:180px;
+  right:-65px;
+  top:-90px;
+  border-radius:50%;
+  background:rgba(248,183,25,.07);
+  pointer-events:none;
+}
+
+.balance-label { color:#C6B99A; font-size:13px; }
+
+.balance-value {
+  margin-top:14px;
+  font-family:'Unbounded',sans-serif;
+  font-size:27px;
+  font-weight:600;
+  color:var(--yellow);
+  overflow-wrap:anywhere;
+}
+
+.tabs {
+  display:flex;
+  gap:9px;
+  margin-bottom:20px;
+  flex-wrap:wrap;
+}
+
+.tab {
+  flex:1;
+  min-width:100px;
+  padding:15px 9px;
+  border:1px solid var(--border);
+  border-radius:13px;
+  background:#151515;
+  color:#B8B1A5;
+  font-weight:700;
+}
+
+.tab.active {
+  background:linear-gradient(135deg,#F8B719,#D6A62E);
+  color:#080808;
+  border-color:var(--gold);
+}
+
+.panel {
+  padding:23px 20px;
+  margin-bottom:17px;
+  border:1px solid var(--border);
+  border-radius:20px;
+  background:var(--panel);
+  box-shadow:0 8px 25px rgba(0,0,0,.18);
+}
+
+.panel h2 {
+  margin:0 0 22px;
+  font-family:'Unbounded',sans-serif;
+  font-size:15px;
+  font-weight:600;
+  line-height:1.6;
+  color:var(--yellow);
+}
+
+.field { margin:17px 0; }
+
+.field label {
+  display:block;
+  margin-bottom:9px;
+  font-size:13px;
+  font-weight:700;
+  color:var(--text);
+}
+
+.field input,
+.field textarea,
+.field select {
+  width:100%;
+  padding:14px;
+  border:1.5px solid var(--border);
+  border-radius:12px;
+  background:var(--input);
+  outline:none;
+  color:var(--text);
+}
+
+.field input::placeholder,
+.field textarea::placeholder {
+  color:#77716A;
+}
+
+.field textarea {
+  min-height:85px;
+  resize:vertical;
+  line-height:1.5;
+}
+
+.field input:focus,
+.field textarea:focus,
+.field select:focus {
+  border-color:var(--gold);
+  box-shadow:0 0 0 3px rgba(214,166,46,.08);
+}
+
+.field select option {
+  background:#141414;
+  color:#F5F0E6;
+}
+
+.toggle-row {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+  padding:17px 0;
+  border-bottom:1px solid var(--border);
+  font-size:14px;
+  font-weight:600;
+}
+
+.toggle-row:last-child { border-bottom:0; }
+
+.toggle-row input {
+  width:21px;
+  height:21px;
+  accent-color:var(--yellow);
+}
+
+.save-button {
+  width:100%;
+  padding:16px;
+  border:0;
+  border-radius:13px;
+  background:linear-gradient(135deg,#F8B719,#D6A62E);
+  color:#080808;
+  font-weight:800;
+}
+
+#message {
+  margin:12px 0;
+  font-size:13px;
+  line-height:1.5;
+}
+
+.success { color:var(--success); }
+.error { color:var(--red); }
+
+.payment-heading-row {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  margin-bottom:18px;
+}
+
+.payment-heading-row h2 { margin:0; }
+
+.refresh-button {
+  padding:10px 13px;
+  border:1px solid var(--border);
+  border-radius:11px;
+  background:#202020;
+  color:var(--yellow);
+  font-size:12px;
+  font-weight:700;
+}
+
+.payment-tabs {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+  margin-bottom:18px;
+}
+
+.payment-tab {
+  padding:12px 5px;
+  border:1px solid var(--border);
+  border-radius:11px;
+  background:#1A1A1A;
+  color:#B8B1A5;
+  font-size:12px;
+  font-weight:700;
+}
+
+.payment-tab.active {
+  background:#D6A62E;
+  border-color:#D6A62E;
+  color:#080808;
+}
+
+.count {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-width:21px;
+  height:21px;
+  padding:0 5px;
+  margin-left:3px;
+  border-radius:20px;
+  background:rgba(248,183,25,.15);
+  color:var(--yellow);
+  font-size:10px;
+}
+
+.payment-tab.active .count {
+  background:rgba(0,0,0,.12);
+  color:#080808;
+}
+
+.payment-list { display:grid; gap:14px; }
+
+.payment-card {
+  padding:17px;
+  border:1px solid var(--border);
+  border-radius:15px;
+  background:#101010;
+}
+
+.payment-card-top {
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:10px;
+  margin-bottom:15px;
+}
+
+.customer-name {
+  font-weight:700;
+  font-size:15px;
+  overflow-wrap:anywhere;
+}
+
+.customer-email {
+  margin-top:5px;
+  color:var(--muted);
+  font-size:12px;
+  overflow-wrap:anywhere;
+}
+
+.status-badge {
+  flex-shrink:0;
+  padding:7px 9px;
+  border-radius:30px;
+  font-size:10px;
+  font-weight:700;
+  text-transform:uppercase;
+}
+
+.status-pending { color:#F8B719; background:#392D12; }
+.status-approved { color:#5BD18D; background:#123321; }
+.status-rejected { color:#FF8B82; background:#3B1715; }
+
+.payment-details {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:13px;
+  margin-bottom:15px;
+}
+
+.detail-label {
+  display:block;
+  margin-bottom:5px;
+  color:var(--muted);
+  font-size:10px;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:.04em;
+}
+
+.detail-value {
+  font-size:13px;
+  font-weight:600;
+  overflow-wrap:anywhere;
+}
+
+.proof-section {
+  padding-top:13px;
+  border-top:1px solid var(--border);
+}
+
+.proof-title {
+  margin-bottom:9px;
+  color:var(--muted);
+  font-size:11px;
+  font-weight:700;
+}
+
+.proof-viewer {
+  min-height:30px;
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.6;
+}
+
+.proof-image {
+  display:block;
+  width:100%;
+  max-width:260px;
+  max-height:280px;
+  object-fit:contain;
+  object-position:left center;
+  border:1px solid var(--border);
+  border-radius:10px;
+  background:#080808;
+}
+
+.proof-link {
+  display:inline-block;
+  margin-top:8px;
+  color:var(--yellow);
+  font-size:12px;
+  font-weight:700;
+}
+
+.payment-actions {
+  display:flex;
+  gap:9px;
+  margin-top:16px;
+}
+
+.action-button {
+  flex:1;
+  padding:12px 8px;
+  border:0;
+  border-radius:10px;
+  font-size:12px;
+  font-weight:700;
+}
+
+.approve-button { background:#123321; color:#5BD18D; }
+.reject-button { background:#3B1715; color:#FF8B82; }
+
+.disabled-note {
+  margin-top:9px;
+  color:var(--muted);
+  font-size:11px;
+  line-height:1.5;
+}
+
+.empty-state,.loading-state {
+  padding:35px 15px;
+  text-align:center;
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.7;
+  border:1px dashed var(--border);
+  border-radius:14px;
+  background:#101010;
+}
+
+.empty-icon {
+  display:block;
+  margin-bottom:10px;
+  font-size:27px;
+  color:var(--yellow);
+}
+
+/* BRAND STATUS PUBLISHER */
+
+.brand-publisher {
+  padding:20px;
+  margin-top:18px;
+  border:1px solid var(--border);
+  border-radius:16px;
+  background:#101010;
+}
+
+.brand-publisher .field {
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  margin:0 0 16px;
+}
+
+.brand-publisher .field label {
+  color:var(--text);
+  font-size:13px;
+  font-weight:700;
+}
+
+.brand-publisher input,
+.brand-publisher select,
+.brand-publisher textarea {
+  width:100%;
+  min-height:46px;
+  padding:12px 14px;
+  border:1px solid var(--border);
+  border-radius:10px;
+  background:var(--input);
+  color:var(--text);
+  font:inherit;
+  font-size:14px;
+  outline:none;
+}
+
+.brand-publisher textarea {
+  min-height:90px;
+  resize:vertical;
+}
+
+.brand-publisher input:focus,
+.brand-publisher select:focus,
+.brand-publisher textarea:focus {
+  border-color:var(--gold);
+  box-shadow:0 0 0 3px rgba(214,166,46,.08);
+}
+
+.brand-publisher-row {
+  display:grid;
+  grid-template-columns:1fr 2fr;
+  gap:14px;
+}
+
+.brand-status-message {
+  display:none;
+  padding:11px 13px;
+  margin-bottom:14px;
+  border-radius:9px;
+  font-size:13px;
+  font-weight:600;
+  line-height:1.5;
+}
+
+.brand-status-message.success {
+  display:block;
+  background:#123321;
+  color:#5BD18D;
+}
+
+.brand-status-message.error {
+  display:block;
+  background:#3B1715;
+  color:#FF8B82;
+}
+
+.brand-publish-button {
+  width:100%;
+  padding:15px;
+  border:0;
+  border-radius:12px;
+  background:linear-gradient(135deg,#F8B719,#D6A62E);
+  color:#080808;
+  font-size:14px;
+  font-weight:800;
+}
+
+.brand-posts-heading {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin:28px 0 14px;
+}
+
+.brand-posts-heading h3 {
+  margin:0;
+  color:var(--yellow);
+  font-size:16px;
+}
+
+#brand-post-count {
+  color:var(--gold);
+  font-size:12px;
+  font-weight:700;
+}
+
+.brand-posts-list {
+  display:grid;
+  gap:12px;
+}
+
+.brand-post-item {
+  display:flex;
+  align-items:center;
+  gap:14px;
+  min-width:0;
+  padding:13px;
+  border:1px solid var(--border);
+  border-radius:13px;
+  background:#101010;
+}
+
+.brand-post-thumb {
+  width:66px;
+  height:66px;
+  flex:0 0 66px;
+  object-fit:cover;
+  border-radius:10px;
+  background:#202020;
+}
+
+.brand-post-video {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:var(--yellow);
+  font-size:11px;
+  font-weight:800;
+}
+
+.brand-post-info {
+  flex:1;
+  min-width:0;
+}
+
+.brand-post-info strong {
+  display:block;
+  margin-bottom:5px;
+  color:var(--text);
+  font-size:13px;
+}
+
+.brand-post-info p {
+  margin:0 0 5px;
+  color:var(--muted);
+  font-size:12px;
+  overflow-wrap:anywhere;
+}
+
+.brand-post-info small {
+  color:#817A6E;
+  font-size:10px;
+}
+
+.brand-post-delete {
+  flex-shrink:0;
+  padding:9px 12px;
+  border:0;
+  border-radius:8px;
+  background:#3B1715;
+  color:#FF8B82;
+  font-size:12px;
+  font-weight:700;
+}
+
+.brand-post-empty {
+  padding:25px 15px;
+  text-align:center;
+  color:var(--muted);
+  background:#101010;
+  border:1px dashed var(--border);
+  border-radius:12px;
+  font-size:13px;
+}
+
+/* PRODUCT RECOMMENDATIONS */
+
+.recommend-intro {
+  margin:-9px 0 20px;
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.7;
+}
+
+.recommend-form {
+  padding:17px;
+  border:1px solid var(--border);
+  border-radius:15px;
+  background:#101010;
+}
+
+.recommend-upload-grid {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:13px;
+}
+
+.recommend-upload {
+  min-width:0;
+  padding:13px;
+  border:1px solid var(--border);
+  border-radius:12px;
+  background:#171717;
+}
+
+.recommend-upload h3 {
+  margin:0 0 13px;
+  color:var(--yellow);
+  font-size:12px;
+}
+
+.recommend-preview {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:100%;
+  height:145px;
+  margin-bottom:12px;
+  overflow:hidden;
+  border:1px dashed #49402D;
+  border-radius:10px;
+  background:#0B0B0B;
+  color:var(--muted);
+  font-size:12px;
+  text-align:center;
+}
+
+.recommend-preview img {
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.recommend-form .field {
+  margin:13px 0;
+}
+
+.recommend-form input[type="file"] {
+  padding:10px;
+  font-size:11px;
+}
+
+.recommend-save-button {
+  width:100%;
+  padding:16px;
+  margin-top:17px;
+  border:0;
+  border-radius:12px;
+  background:linear-gradient(135deg,#F8B719,#D6A62E);
+  color:#080808;
+  font-weight:800;
+}
+
+.recommend-save-button:disabled {
+  opacity:.6;
+}
+
+.recommend-message {
+  min-height:20px;
+  margin-top:12px;
+  font-size:13px;
+  line-height:1.5;
+}
+
+.recommend-message.success { color:#5BD18D; }
+.recommend-message.error { color:#FF8B82; }
+
+.recommend-saved-heading {
+  margin:30px 0 14px;
+  color:var(--yellow);
+  font-family:'Unbounded',sans-serif;
+  font-size:13px;
+}
+
+.recommend-saved-list {
+  display:grid;
+  gap:13px;
+}
+
+.recommend-saved-card {
+  padding:15px;
+  border:1px solid var(--border);
+  border-radius:14px;
+  background:#101010;
+}
+
+.recommend-saved-top {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  margin-bottom:13px;
+}
+
+.recommend-saved-top strong {
+  color:var(--yellow);
+  font-size:14px;
+}
+
+.recommend-saved-products {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+
+.recommend-saved-product {
+  min-width:0;
+}
+
+.recommend-saved-product img {
+  width:100%;
+  height:115px;
+  object-fit:cover;
+  border-radius:9px;
+  background:#202020;
+}
+
+.recommend-saved-product p {
+  margin:7px 0;
+  font-size:12px;
+  overflow-wrap:anywhere;
+}
+
+.recommend-saved-reward {
+  margin-top:12px;
+  color:#D6A62E;
+  font-size:13px;
+  font-weight:800;
+}
+
+.recommend-delete {
+  padding:9px 12px;
+  border:0;
+  border-radius:9px;
+  background:#3B1715;
+  color:#FF8B82;
+  font-size:11px;
+  font-weight:700;
+}
+
+@media(max-width:600px) {
+  .recommend-upload-grid {
+    grid-template-columns:1fr;
+  }
+}
+
+@media (max-width:480px) {
+  #dashboard { padding:20px 13px 45px; }
+  .admin-heading { font-size:15px; }
+  .balance-value { font-size:22px; }
+  .panel { padding:19px 15px; }
+  .payment-details { grid-template-columns:1fr 1fr; }
+  .payment-tab { font-size:10px; }
+  .tabs { gap:7px; }
+  .tab { padding:13px 5px; font-size:11px; }
+  .brand-publisher { padding:15px; }
+  .brand-publisher-row { grid-template-columns:1fr; gap:0; }
+  .brand-post-item { gap:10px; padding:10px; }
+  .brand-post-thumb { width:54px; height:54px; flex-basis:54px; }
+  .brand-post-delete { padding:8px; }
+  .recommend-saved-card { padding:12px; }
+}
+</style>
+</head>
+
+<body>
+
+<section id="login-screen">
+  <div class="login-card">
+    <div class="login-brand">LIORA</div>
+    <div class="login-subtitle">
+      Welcome to your administration portal.
+      Enter your admin password to continue.
+    </div>
+
+    <form id="login-form">
+      <label class="login-label" for="admin-password">Admin Password</label>
+      <div class="password-box">
+        <input id="admin-password" type="password"
+          placeholder="Enter your admin password"
+          autocomplete="current-password" required>
+        <button type="button" id="toggle-password">SHOW</button>
+      </div>
+      <button class="login-button" id="login-button" type="submit">
+        Unlock Dashboard
+      </button>
+      <div id="login-message" role="alert"></div>
+    </form>
+  </div>
+</section>
+
+<main id="dashboard">
+  <header class="topbar">
+    <div class="admin-heading" id="admin-title">Liora Admin Dashboard</div>
+    <button class="icon-button" id="logout-button">Log out</button>
+  </header>
+
+  <section class="balance-card">
+    <div class="balance-label">Available Balance</div>
+    <div class="balance-value" id="balance">₦0.00</div>
+  </section>
+
+  <nav class="tabs">
+    <button class="tab active" data-tab="payments">Payments</button>
+    <button class="tab" data-tab="management">Management</button>
+    <button class="tab" data-tab="brand-status">Brand Status</button>
+    <button class="tab" data-tab="recommendations">Recommendations</button>
+  </nav>
+
+  <div id="message"></div>
+
+  <!-- PAYMENTS -->
+
+  <section id="payments-section">
+    <div class="panel">
+      <div class="payment-heading-row">
+        <h2>Payment Requests</h2>
+        <button class="refresh-button" id="refresh-payments">↻ Refresh</button>
+      </div>
+
+      <div class="payment-tabs">
+        <button class="payment-tab active" data-status="pending">
+          Pending <span class="count" id="pending-count">0</span>
+        </button>
+        <button class="payment-tab" data-status="approved">
+          Approved <span class="count" id="approved-count">0</span>
+        </button>
+        <button class="payment-tab" data-status="rejected">
+          Rejected <span class="count" id="rejected-count">0</span>
+        </button>
+      </div>
+
+      <div id="payment-list" class="payment-list">
+        <div class="loading-state">Loading payment requests...</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MANAGEMENT -->
+
+  <section id="management-section" class="hidden">
+    <div class="panel">
+      <h2>Admin Profile</h2>
+      <div class="field">
+        <label for="adminName">Admin name</label>
+        <input id="adminName" type="text">
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>Payment Amount</h2>
+      <div class="field">
+        <label for="paymentAmount">Amount (₦)</label>
+        <input id="paymentAmount" type="number" min="100">
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>Available Payment Methods</h2>
+      <div class="toggle-row">
+        <span>Paga Virtual Accounts</span>
+        <input id="paga" type="checkbox">
+      </div>
+      <div class="toggle-row">
+        <span>Manual Bank Transfer</span>
+        <input id="manualBankEnabled" type="checkbox">
+      </div>
+    </div>
+
+    <div class="panel" id="bank-panel">
+      <h2>Manual Bank Details</h2>
+      <div class="field">
+        <label for="accountNumber">Account Number</label>
+        <input id="accountNumber" type="text" inputmode="numeric">
+      </div>
+      <div class="field">
+        <label for="bankName">Bank Name</label>
+        <input id="bankName" type="text">
+      </div>
+      <div class="field">
+        <label for="accountName">Account Name</label>
+        <input id="accountName" type="text">
+      </div>
+    </div>
+
+    <button class="save-button" id="save-settings">Update & Save</button>
+  </section>
+
+  <!-- BRAND STATUS PUBLISHER -->
+
+  <section id="brand-status-section" class="hidden">
+    <div class="panel">
+      <div class="payment-heading-row">
+        <h2>Publish Brand Status</h2>
+        <button class="refresh-button" id="refresh-brand-posts" type="button">
+          ↻ Refresh
+        </button>
+      </div>
+
+      <form id="brand-status-form" class="brand-publisher">
+
+        <div class="field">
+          <label for="status-brand">Select Existing Brand</label>
+          <select id="status-brand" required>
+            <option value="">Choose a brand</option>
+            <option value="chowdeck">Chowdeck</option>
+            <option value="opay">OPay</option>
+            <option value="moniepoint">Moniepoint</option>
+            <option value="okash">OKash</option>
+            <option value="sun-king">Sun King</option>
+            <option value="bokku">Bokku</option>
+            <option value="indomie">Indomie</option>
+            <option value="dangote">Dangote</option>
+            <option value="gtbank">GTBank</option>
+            <option value="access-bank">Access Bank</option>
+            <option value="firstbank">FirstBank</option>
+            <option value="zenith-bank">Zenith Bank</option>
+            <option value="uba">UBA</option>
+            <option value="fidelity-bank">Fidelity Bank</option>
+            <option value="fcmb">FCMB</option>
+            <option value="sterling-bank">Sterling Bank</option>
+            <option value="union-bank">Union Bank</option>
+            <option value="kuda">Kuda</option>
+            <option value="carbon">Carbon</option>
+            <option value="palmpay">PalmPay</option>
+            <option value="fairmoney">FairMoney</option>
+            <option value="paga">Paga</option>
+            <option value="interswitch">Interswitch</option>
+            <option value="flutterwave">Flutterwave</option>
+            <option value="paystack">Paystack</option>
+            <option value="remita">Remita</option>
+            <option value="jiji">Jiji</option>
+            <option value="jumia">Jumia</option>
+            <option value="konga">Konga</option>
+            <option value="slot">Slot</option>
+            <option value="tecno">Tecno</option>
+            <option value="itel">itel</option>
+            <option value="infinix">Infinix</option>
+            <option value="mtn">MTN</option>
+            <option value="airtel">Airtel</option>
+            <option value="glo">Glo</option>
+            <option value="9mobile">9mobile</option>
+            <option value="showmax">Showmax</option>
+            <option value="dstv">DStv</option>
+            <option value="gotv">GOtv</option>
+            <option value="bet9ja">Bet9ja</option>
+            <option value="sportybet">SportyBet</option>
+            <option value="shoprite">Shoprite</option>
+            <option value="spar">SPAR</option>
+            <option value="foodco">FoodCo</option>
+            <option value="mcdonalds">Chicken Republic</option>
+            <option value="dominos">Domino's</option>
+            <option value="coldstone">Cold Stone</option>
+            <option value="rite-foods">Rite Foods</option>
+            <option value="peak">Peak</option>
+          </select>
+        </div>
+
+        <div class="brand-publisher-row">
+          <div class="field">
+            <label for="status-media-type">Media Type</label>
+            <select id="status-media-type" required>
+              <option value="image">Image</option>
+              <option value="video">Video</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="status-media-url">Media URL</label>
+            <input type="url" id="status-media-url"
+              placeholder="https://..." required>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="status-caption">Caption (Optional)</label>
+          <textarea id="status-caption" maxlength="500" rows="3"
+            placeholder="Write a short caption..."></textarea>
+        </div>
+
+        <div id="brand-status-message"
+          class="brand-status-message" role="status"></div>
+
+        <button type="submit" class="brand-publish-button"
+          id="publish-brand-status">Publish Status</button>
+      </form>
+
+      <div class="brand-posts-heading">
+        <h3>Published Posts</h3>
+        <span id="brand-post-count">0 posts</span>
+      </div>
+
+      <div id="brand-posts-list" class="brand-posts-list">
+        <div class="brand-post-empty">Published posts will appear here.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRODUCT RECOMMENDATIONS -->
+
+  <section id="recommendations-section" class="hidden">
+    <div class="panel">
+      <h2>Product Recommendations</h2>
+
+      <p class="recommend-intro">
+        Select a creator, upload two product photos, enter their names
+        and set the reward amount.
+      </p>
+
+      <form id="recommendation-form" class="recommend-form">
+
+        <div class="field">
+          <label for="recommend-creator">Select Creator</label>
+          <select id="recommend-creator" required>
+            <option value="">Choose creator</option>
+            <option value="creator-1">Mr Babs</option>
+            <option value="creator-2">Purple Speedy</option>
+            <option value="creator-3">Two Glazzes</option>
+            <option value="creator-4">Smart BM</option>
+            <option value="creator-5">Luta Editz</option>
+          </select>
+        </div>
+
+        <div class="recommend-upload-grid">
+
+          <div class="recommend-upload">
+            <h3>PRODUCT 1</h3>
+
+            <div class="recommend-preview" id="recommend-preview-1">
+              Product image preview
+            </div>
+
+            <div class="field">
+              <label for="recommend-image-1">Product 1 Image</label>
+              <input type="file" id="recommend-image-1"
+                accept="image/jpeg,image/png,image/webp" required>
+            </div>
+
+            <div class="field">
+              <label for="recommend-name-1">Product 1 Name</label>
+              <input type="text" id="recommend-name-1"
+                maxlength="100" placeholder="Enter product name" required>
+            </div>
+          </div>
+
+          <div class="recommend-upload">
+            <h3>PRODUCT 2</h3>
+
+            <div class="recommend-preview" id="recommend-preview-2">
+              Product image preview
+            </div>
+
+            <div class="field">
+              <label for="recommend-image-2">Product 2 Image</label>
+              <input type="file" id="recommend-image-2"
+                accept="image/jpeg,image/png,image/webp" required>
+            </div>
+
+            <div class="field">
+              <label for="recommend-name-2">Product 2 Name</label>
+              <input type="text" id="recommend-name-2"
+                maxlength="100" placeholder="Enter product name" required>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="field">
+          <label for="recommend-reward">Amount to Earn (₦)</label>
+          <input type="number" id="recommend-reward"
+            min="1" max="100000000" step="1"
+            placeholder="2500" required>
+        </div>
+
+        <div id="recommendation-message"
+          class="recommend-message" role="status"></div>
+
+        <button type="submit" class="recommend-save-button"
+          id="save-recommendation">
+          Save Recommendation
+        </button>
+
+      </form>
+
+      <h3 class="recommend-saved-heading">
+        Uploaded Recommendations
+      </h3>
+
+      <div id="recommendation-brands" class="recommend-saved-list">
+        <div class="loading-state">Loading recommendations...</div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script>
+"use strict";
+
+const API = "/api";
+const BRAND_API = `${API}/admin/brand-status`;
+const RECOMMENDATION_API = `${API}/admin/recommendations`;
+
+const RECOMMENDATION_CREATORS = [
+  {id:"creator-1",name:"Mr Babs"},
+  {id:"creator-2",name:"Purple Speedy"},
+  {id:"creator-3",name:"Two Glazzes"},
+  {id:"creator-4",name:"Smart BM"},
+  {id:"creator-5",name:"Luta Editz"}
+];
+
+const $ = id => document.getElementById(id);
+
+let adminSecret = null;
+let settings = null;
+let allPayments = [];
+let activePaymentStatus = "pending";
+let proofObjectURLs = [];
+
+let brandStatusPosts = [];
+let brandStatusBusy = false;
+
+let recommendationData = {};
+let recommendationBusy = false;
+let recommendationPreviewURLs = [];
+
+/* =========================================
+   SHARED HELPERS
+========================================= */
+
+function escapeHTML(value) {
+  return String(value ?? "").replace(/[&<>"']/g,character=>({
+    "&":"&amp;",
+    "<":"&lt;",
+    ">":"&gt;",
+    '"':"&quot;",
+    "'":"&#039;"
+  })[character]);
+}
+
+function showMessage(text,type="success") {
+  $("message").textContent = text;
+  $("message").className = type;
+}
+
+function authHeaders() {
+  return {
+    "Content-Type":"application/json",
+    "Authorization":`Bearer ${adminSecret}`
+  };
+}
+
+function formatMoney(amount,currency="NGN") {
+  const value = Number(amount);
+  if (!Number.isFinite(value)) return "₦0.00";
+
+  return new Intl.NumberFormat("en-NG",{
+    style:"currency",
+    currency,
+    minimumFractionDigits:2
+  }).format(value);
+}
+
+/* =========================================
+   AUTHENTICATION
+========================================= */
+
+async function verifySecret(secret) {
+  const response = await fetch(`${API}/admin/settings`,{
+    method:"GET",
+    headers:{"Authorization":`Bearer ${secret}`},
+    cache:"no-store"
+  });
+
+  const result = await response.json();
+
+  if (!response.ok) {
+    throw new Error(result.message || "Incorrect admin password.");
+  }
+
+  return result.settings;
+}
+
+function unlockDashboard(data,secret) {
+  settings = data;
+  adminSecret = secret;
+
+  $("login-screen").classList.add("hidden");
+  $("dashboard").classList.add("unlocked");
+
+  loadForm(data);
+  refreshPayments();
+  loadBrands();
+  loadRecommendationSettings();
+}
+
+function loadForm(data) {
+  $("admin-title").textContent =
+    `${data.adminName || "Liora"}'s Admin Dashboard`;
+
+  $("adminName").value = data.adminName || "";
+  $("paymentAmount").value = data.paymentAmount || 15000;
+  $("paga").checked = Boolean(data.paymentMethods?.paga);
+  $("manualBankEnabled").checked =
+    Boolean(data.paymentMethods?.manualBank);
+
+  $("accountNumber").value =
+    data.manualBank?.accountNumber || "";
+
+  $("bankName").value =
+    data.manualBank?.bankName || "";
+
+  $("accountName").value =
+    data.manualBank?.accountName || "";
+
+  updateBankPanel();
+}
+
+function updateBankPanel() {
+  $("bank-panel").classList.toggle(
+    "hidden",
+    !$("manualBankEnabled").checked
+  );
+}
+
+$("login-form").addEventListener("submit",async event=>{
+  event.preventDefault();
+
+  const secret = $("admin-password").value.trim();
+  if (!secret) return;
+
+  $("login-button").disabled = true;
+  $("login-button").textContent = "Verifying...";
+  $("login-message").textContent = "";
+
+  try {
+    const data = await verifySecret(secret);
+    unlockDashboard(data,secret);
+    $("admin-password").value = "";
+  } catch(error) {
+    $("login-message").textContent =
+      "Access denied. Check your password and try again.";
+
+    $("admin-password").value = "";
+  } finally {
+    $("login-button").disabled = false;
+    $("login-button").textContent = "Unlock Dashboard";
+  }
+});
+
+$("toggle-password").addEventListener("click",()=>{
+  const input = $("admin-password");
+  const visible = input.type === "text";
+
+  input.type = visible ? "password" : "text";
+  $("toggle-password").textContent = visible ? "SHOW" : "HIDE";
+});
+
+function clearProofObjectURLs() {
+  proofObjectURLs.forEach(url=>URL.revokeObjectURL(url));
+  proofObjectURLs = [];
+}
+
+function clearRecommendationPreviews() {
+  recommendationPreviewURLs.forEach(url=>URL.revokeObjectURL(url));
+  recommendationPreviewURLs = [];
+}
+
+$("logout-button").addEventListener("click",()=>{
+  clearProofObjectURLs();
+  clearRecommendationPreviews();
+
+  adminSecret = null;
+  settings = null;
+  allPayments = [];
+  brandStatusPosts = [];
+  brandStatusBusy = false;
+  recommendationData = {};
+  recommendationBusy = false;
+
+  $("dashboard").classList.remove("unlocked");
+  $("login-screen").classList.remove("hidden");
+  $("admin-password").value = "";
+  $("login-message").textContent = "";
+  $("balance").textContent = "₦0.00";
+  $("payment-list").innerHTML = "";
+  $("brand-posts-list").innerHTML = "";
+  $("recommendation-brands").innerHTML = "";
+});
+
+/* =========================================
+   MAIN NAVIGATION
+========================================= */
+
+function activateMainTab(tabName) {
+  document.querySelectorAll(".tab").forEach(tab=>{
+    tab.classList.toggle("active",tab.dataset.tab===tabName);
+  });
+
+  $("payments-section").classList.toggle(
+    "hidden",tabName!=="payments"
+  );
+
+  $("management-section").classList.toggle(
+    "hidden",tabName!=="management"
+  );
+
+  $("brand-status-section").classList.toggle(
+    "hidden",tabName!=="brand-status"
+  );
+
+  $("recommendations-section").classList.toggle(
+    "hidden",tabName!=="recommendations"
+  );
+
+  if (tabName==="payments") refreshPayments();
+  if (tabName==="brand-status") loadBrands();
+  if (tabName==="recommendations") loadRecommendationSettings();
+}
+
+document.querySelectorAll(".tab").forEach(button=>{
+  button.addEventListener("click",()=>{
+    activateMainTab(button.dataset.tab);
+  });
+});
+
+document.querySelectorAll(".payment-tab").forEach(button=>{
+  button.addEventListener("click",()=>{
+    document.querySelectorAll(".payment-tab").forEach(tab=>
+      tab.classList.remove("active")
+    );
+
+    button.classList.add("active");
+    activePaymentStatus = button.dataset.status;
+    renderPayments();
+  });
+});
+
+$("manualBankEnabled").addEventListener("change",updateBankPanel);
+
+/* =========================================
+   PAYMENTS
+========================================= */
+
+async function refreshPayments() {
+  if (!adminSecret) return;
+
+  $("refresh-payments").disabled = true;
+  $("refresh-payments").textContent = "Loading...";
+
+  $("payment-list").innerHTML =
+    '<div class="loading-state">Loading payment requests...</div>';
+
+  try {
+    const response = await fetch(`${API}/admin/payments`,{
+      method:"GET",
+      headers:authHeaders(),
+      cache:"no-store"
+    });
+
+    const result = await response.json();
+
+    if (!response.ok) {
+      throw new Error(result.message || "Could not load payments.");
+    }
+
+    allPayments = Array.isArray(result.payments)
+      ? result.payments
+      : [];
+
+    const counts = result.counts || {};
+
+    $("pending-count").textContent = counts.pending || 0;
+    $("approved-count").textContent = counts.approved || 0;
+    $("rejected-count").textContent = counts.rejected || 0;
+
+    $("balance").textContent = formatMoney(
+      result.balance,
+      result.currency || "NGN"
+    );
+
+    renderPayments();
+
+  } catch(error) {
+    $("payment-list").innerHTML =
+      `<div class="empty-state">${escapeHTML(error.message)}</div>`;
+
+    showMessage(error.message,"error");
+  } finally {
+    $("refresh-payments").disabled = false;
+    $("refresh-payments").textContent = "↻ Refresh";
+  }
+}
+
+function getPaymentStatus(payment) {
+  return String(payment.status || "pending").toLowerCase();
+}
+
+function getCustomerName(payment) {
+  return payment.customerName || payment.name ||
+    payment.customer?.name || "Customer name unavailable";
+}
+
+function getCustomerEmail(payment) {
+  return payment.customerEmail || payment.email ||
+    payment.customer?.email || "Email unavailable";
+}
+
+function getPaymentAmount(payment) {
+  return payment.amount ?? payment.paymentAmount ?? 0;
+}
+
+function getPaymentReference(payment) {
+  return payment.reference || payment.id || "Reference unavailable";
+}
+
+function getProofURL(payment) {
+  return payment.proofPath || "";
+}
+
+function renderPayments() {
+  clearProofObjectURLs();
+
+  const filtered = allPayments.filter(payment=>
+    getPaymentStatus(payment)===activePaymentStatus
+  );
+
+  if (!filtered.length) {
+    const labels = {
+      pending:"No pending payment requests yet.",
+      approved:"No approved payments yet.",
+      rejected:"No rejected payment requests yet."
+    };
+
+    $("payment-list").innerHTML = `
+      <div class="empty-state">
+        <span class="empty-icon">◌</span>
+        ${labels[activePaymentStatus]}
+        <br>Payment requests will appear here when your frontend is connected.
+      </div>`;
+
+    return;
+  }
+
+  $("payment-list").innerHTML = filtered.map(payment=>{
+    const id = payment.id || payment.reference || "";
+    const name = getCustomerName(payment);
+    const email = getCustomerEmail(payment);
+    const amount = getPaymentAmount(payment);
+    const reference = getPaymentReference(payment);
+    const proof = getProofURL(payment);
+    const status = getPaymentStatus(payment);
+
+    const proofHTML = proof ? `
+      <div class="proof-section">
+        <div class="proof-title">Payment Proof</div>
+        <div class="proof-viewer"
+          data-proof-path="${escapeHTML(proof)}">
+          Loading receipt...
+        </div>
+      </div>` : `
+      <div class="proof-section">
+        <div class="proof-title">Payment Proof</div>
+        <div class="disabled-note">No proof uploaded.</div>
+      </div>`;
+
+    const actionsHTML = status==="pending" ? `
+      <div class="payment-actions">
+        <button class="action-button approve-button"
+          data-approve-id="${escapeHTML(id)}">Approve</button>
+        <button class="action-button reject-button"
+          data-reject-id="${escapeHTML(id)}">Reject</button>
+      </div>` : "";
+
+    return `
+      <article class="payment-card">
+        <div class="payment-card-top">
+          <div>
+            <div class="customer-name">${escapeHTML(name)}</div>
+            <div class="customer-email">${escapeHTML(email)}</div>
+          </div>
+
+          <span class="status-badge status-${escapeHTML(status)}">
+            ${escapeHTML(status)}
+          </span>
+        </div>
+
+        <div class="payment-details">
+          <div>
+            <span class="detail-label">Amount</span>
+            <span class="detail-value">${escapeHTML(formatMoney(amount))}</span>
+          </div>
+
+          <div>
+            <span class="detail-label">Reference</span>
+            <span class="detail-value">${escapeHTML(reference)}</span>
+          </div>
+        </div>
+
+        ${proofHTML}
+        ${actionsHTML}
+      </article>`;
+  }).join("");
+
+  document.querySelectorAll("[data-reject-id]").forEach(button=>{
+    button.addEventListener("click",()=>{
+      rejectPayment(button.dataset.rejectId,button);
+    });
+  });
+
+  document.querySelectorAll("[data-approve-id]").forEach(button=>{
+    button.addEventListener("click",()=>{
+      approvePayment(button.dataset.approveId,button);
+    });
+  });
+
+  loadPaymentProofs();
+}
+
+async function loadPaymentProofs() {
+  document.querySelectorAll("[data-proof-path]").forEach(async viewer=>{
+    const path = viewer.dataset.proofPath;
+    const extension = path.split(".").pop().toLowerCase();
+
+    try {
+      const response = await fetch(
+        `${API}/payments/proof?path=${encodeURIComponent(path)}`,
+        {
+          headers:{"Authorization":`Bearer ${adminSecret}`},
+          cache:"no-store"
+        }
+      );
+
+      if (!response.ok) throw new Error("Receipt unavailable");
+
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+
+      proofObjectURLs.push(url);
+
+      const isImage = ["jpg","jpeg","png","webp"].includes(extension);
+
+      viewer.innerHTML = isImage ? `
+        <a href="${url}" target="_blank" rel="noopener noreferrer">
+          <img class="proof-image" src="${url}" alt="Payment receipt">
+        </a>
+        <a class="proof-link" href="${url}" target="_blank"
+          rel="noopener noreferrer">Open receipt</a>` : `
+        <a class="proof-link" href="${url}" target="_blank"
+          rel="noopener noreferrer">Open or download receipt</a>`;
+
+    } catch(error) {
+      viewer.textContent = "Unable to load receipt.";
+    }
+  });
+}
+
+async function rejectPayment(id,button) {
+  if (!id || !confirm("Are you sure you want to reject this payment?")) return;
+
+  button.disabled = true;
+  button.textContent = "Rejecting...";
+
+  try {
+    const response = await fetch(`${API}/admin/payments`,{
+      method:"POST",
+      headers:authHeaders(),
+      body:JSON.stringify({id,action:"reject"})
+    });
+
+    const result = await response.json();
+
+    if (!response.ok) {
+      throw new Error(result.message || "Unable to reject payment.");
+    }
+
+    showMessage("Payment rejected successfully.");
+    await refreshPayments();
+
+  } catch(error) {
+    showMessage(error.message,"error");
+    button.disabled = false;
+    button.textContent = "Reject";
+  }
+}
+
+async function approvePayment(id,button) {
+  if (!id || !confirm("Have you confirmed this payment in your bank?")) return;
+
+  button.disabled = true;
+  button.textContent = "Approving...";
+
+  try {
+    const response = await fetch(`${API}/admin/payments`,{
+      method:"POST",
+      headers:authHeaders(),
+      body:JSON.stringify({id,action:"approve"})
+    });
+
+    const result = await response.json();
+
+    if (!response.ok) {
+      throw new Error(result.message || "Unable to approve payment.");
+    }
+
+    showMessage("Payment approved and balance updated.");
+    await refreshPayments();
+
+  } catch(error) {
+    showMessage(error.message,"error");
+    button.disabled = false;
+    button.textContent = "Approve";
+  }
+}
+
+$("refresh-payments").addEventListener("click",refreshPayments);
+
+/* =========================================
+   PAYMENT SETTINGS
+========================================= */
+
+$("save-settings").addEventListener("click",async()=>{
+  if (!adminSecret) return;
+
+  if (!$("paga").checked && !$("manualBankEnabled").checked) {
+    showMessage("Enable at least one payment method.","error");
+    return;
+  }
+
+  const amount = Number($("paymentAmount").value);
+
+  if (!Number.isFinite(amount) || amount < 100) {
+    showMessage("Enter a valid payment amount.","error");
+    return;
+  }
+
+  const payload = {
+    adminName:$("adminName").value.trim(),
+    paymentAmount:amount,
+    paymentMethods:{
+      paga:$("paga").checked,
+      manualBank:$("manualBankEnabled").checked
+    },
+    manualBank:{
+      accountNumber:$("accountNumber").value.trim(),
+      bankName:$("bankName").value.trim(),
+      accountName:$("accountName").value.trim()
+    }
+  };
+
+  try {
+    $("save-settings").disabled = true;
+    showMessage("Saving settings...");
+
+    const response = await fetch(`${API}/admin/settings`,{
+      method:"PUT",
+      headers:authHeaders(),
+      body:JSON.stringify(payload)
+    });
+
+    const result = await response.json();
+
+    if (!response.ok) {
+      throw new Error(result.message || "Unable to save.");
+    }
+
+    settings = result.settings;
+    loadForm(settings);
+
+    showMessage("Settings saved successfully.");
+
+  } catch(error) {
+    showMessage(error.message,"error");
+  } finally {
+    $("save-settings").disabled = false;
+  }
+});
+
+/* =========================================
+   BRAND STATUS PUBLISHER
+========================================= */
+
+function brandStatusHeaders() {
+  return {
+    "Content-Type":"application/json",
+    "Authorization":`Bearer ${adminSecret}`
+  };
+}
+
+function showBrandStatusMessage(message,type="success") {
+  const element = $("brand-status-message");
+
+  element.textContent = message;
+  element.className = `brand-status-message ${type}`;
+}
+
+function clearBrandStatusMessage() {
+  const element = $("brand-status-message");
+
+  element.textContent = "";
+  element.className = "brand-status-message";
+}
+
+function getBrandStatusName(id) {
+  const select = $("status-brand");
+
+  const option = Array.from(select.options).find(
+    item => item.value === id
+  );
+
+  return option ? option.textContent : id;
+}
+
+function formatBrandStatusDate(value) {
+  if (!value) return "Recently published";
+
+  const date = new Date(value);
+
+  if (Number.isNaN(date.getTime())) {
+    return "Recently published";
+  }
+
+  return date.toLocaleString();
+}
+
+function renderBrandStatusPosts() {
+  const list = $("brand-posts-list");
+  const count = $("brand-post-count");
+
+  count.textContent =
+    `${brandStatusPosts.length} ${
+      brandStatusPosts.length === 1 ? "post" : "posts"
+    }`;
+
+  if (!brandStatusPosts.length) {
+    list.innerHTML = `
+      <div class="brand-post-empty">
+        No status posts have been published yet.
+      </div>
+    `;
+    return;
+  }
+
+  list.innerHTML = brandStatusPosts.map(post=>{
+    const brandName = escapeHTML(
+      getBrandStatusName(post.brandId)
+    );
+
+    const caption = escapeHTML(
+      post.caption || "No caption"
+    );
+
+    const mediaUrl = escapeHTML(post.mediaUrl);
+
+    const thumbnail = post.mediaType === "image"
+      ? `<img class="brand-post-thumb"
+          src="${mediaUrl}"
+          alt=""
+          loading="lazy"
+          onerror="this.style.display='none'">`
+      : `<div class="brand-post-thumb brand-post-video">VIDEO</div>`;
+
+    return `
+      <article class="brand-post-item">
+        ${thumbnail}
+
+        <div class="brand-post-info">
+          <strong>${brandName}</strong>
+          <p>${caption}</p>
+          <small>
+            ${post.mediaType === "video" ? "Video" : "Image"}
+            · ${escapeHTML(formatBrandStatusDate(post.createdAt))}
+          </small>
+        </div>
+
+        <button type="button"
+          class="brand-post-delete"
+          data-delete-brand-post="${escapeHTML(post.id)}">
+          Delete
+        </button>
+      </article>
+    `;
+  }).join("");
+}
+
+async function loadBrands() {
+  if (!adminSecret) return;
+
+  $("refresh-brand-posts").disabled = true;
+  $("refresh-brand-posts").textContent = "Loading...";
+
+  $("brand-posts-list").innerHTML = `
+    <div class="brand-post-empty">Loading published posts...</div>
+  `;
+
+  try {
+    const response = await fetch(BRAND_API,{
+      method:"GET",
+      headers:brandStatusHeaders(),
+      cache:"no-store"
+    });
+
+    const result = await response.json();
+
+    if (!response.ok || !result.ok) {
+      throw new Error(result.message || "Unable to load published posts.");
+    }
+
+    brandStatusPosts = Array.isArray(result.posts)
+      ? result.posts
+      : [];
+
+    renderBrandStatusPosts();
+
+  } catch(error) {
+    console.error("Load brand status posts:",error);
+
+    $("brand-posts-list").innerHTML = `
+      <div class="brand-post-empty">
+        ${escapeHTML(error.message || "Unable to load posts.")}
+      </div>
+    `;
+
+  } finally {
+    $("refresh-brand-posts").disabled = false;
+    $("refresh-brand-posts").textContent = "↻ Refresh";
+  }
+}
+
+$("brand-status-form").addEventListener("submit",async event=>{
+  event.preventDefault();
+
+  if (brandStatusBusy) return;
+
+  const brandId = $("status-brand").value;
+  const mediaType = $("status-media-type").value;
+  const mediaUrl = $("status-media-url").value.trim();
+  const caption = $("status-caption").value.trim();
+
+  if (!brandId || !mediaUrl) {
+    showBrandStatusMessage(
+      "Select a brand and provide a media URL.",
+      "error"
+    );
+    return;
+  }
+
+  brandStatusBusy = true;
+
+  const button = $("publish-brand-status");
+  button.disabled = true;
+  button.textContent = "Publishing...";
+
+  clearBrandStatusMessage();
+
+  try {
+    const response = await fetch(BRAND_API,{
+      method:"POST",
+      headers:brandStatusHeaders(),
+      body:JSON.stringify({
+        brandId,
+        mediaType,
+        mediaUrl,
+        caption
+      })
+    });
+
+    const result = await response.json();
+
+    if (!response.ok || !result.ok) {
+      throw new Error(result.message || "Unable to publish status.");
+    }
+
+    $("brand-status-form").reset();
+
+    showBrandStatusMessage(
+      "Status published successfully.",
+      "success"
+    );
+
+    await loadBrands();
+
+  } catch(error) {
+    console.error("Publish brand status:",error);
+
+    showBrandStatusMessage(
+      error.message || "Unable to publish status.",
+      "error"
+    );
+
+  } finally {
+    brandStatusBusy = false;
+    button.disabled = false;
+    button.textContent = "Publish Status";
+  }
+});
+
+$("brand-posts-list").addEventListener("click",async event=>{
+  const button = event.target.closest("[data-delete-brand-post]");
+
+  if (!button || brandStatusBusy) return;
+
+  const postId = button.getAttribute("data-delete-brand-post");
+
+  if (!postId) return;
+
+  if (!confirm("Delete this published status?")) return;
+
+  brandStatusBusy = true;
+  button.disabled = true;
+  button.textContent = "Deleting...";
+
+  try {
+    const response = await fetch(BRAND_API,{
+      method:"DELETE",
+      headers:brandStatusHeaders(),
+      body:JSON.stringify({id:postId})
+    });
+
+    const result = await response.json();
+
+    if (!response.ok || !result.ok) {
+      throw new Error(result.message || "Unable to delete status.");
+    }
+
+    showBrandStatusMessage(
+      "Status deleted successfully.",
+      "success"
+    );
+
+    await loadBrands();
+
+  } catch(error) {
+    console.error("Delete brand status:",error);
+
+    showBrandStatusMessage(
+      error.message || "Unable to delete status.",
+      "error"
+    );
+
+    button.disabled = false;
+    button.textContent = "Delete";
+
+  } finally {
+    brandStatusBusy = false;
+  }
+});
+
+$("refresh-brand-posts").addEventListener("click",loadBrands);
+
+/* =========================================
+   PRODUCT RECOMMENDATIONS
+========================================= */
+
+function recommendationMessage(message,type="success") {
+  const element = $("recommendation-message");
+  element.textContent = message;
+  element.className = `recommend-message ${type}`;
+}
+
+function creatorName(id) {
+  const creator = RECOMMENDATION_CREATORS.find(item=>item.id===id);
+  return creator ? creator.name : id;
+}
+
+function previewRecommendationImage(input,previewId) {
+  const file = input.files?.[0];
+  const preview = $(previewId);
+
+  if (!file) {
+    preview.textContent = "Product image preview";
+    return;
+  }
+
+  if (!["image/jpeg","image/png","image/webp"].includes(file.type)) {
+    input.value = "";
+    preview.textContent = "Product image preview";
+    recommendationMessage("Use a JPEG, PNG or WebP image.","error");
+    return;
+  }
+
+  if (file.size > 1400000) {
+    input.value = "";
+    preview.textContent = "Product image preview";
+    recommendationMessage("Each image must be smaller than 1.4 MB.","error");
+    return;
+  }
+
+  const url = URL.createObjectURL(file);
+  recommendationPreviewURLs.push(url);
+
+  preview.innerHTML = "";
+
+  const img = document.createElement("img");
+  img.src = url;
+  img.alt = "Product preview";
+
+  preview.appendChild(img);
+}
+
+$("recommend-image-1").addEventListener("change",event=>{
+  previewRecommendationImage(event.target,"recommend-preview-1");
+});
+
+$("recommend-image-2").addEventListener("change",event=>{
+  previewRecommendationImage(event.target,"recommend-preview-2");
+});
+
+function fileToBase64(file) {
+  return new Promise((resolve,reject)=>{
+    const reader = new FileReader();
+
+    reader.onload = ()=>{
+      const result = String(reader.result || "");
+      resolve(result);
+    };
+
+    reader.onerror = ()=>{
+      reject(new Error("Unable to read selected image."));
+    };
+
+    reader.readAsDataURL(file);
+  });
+}
+
+function renderRecommendationSettings() {
+  const container = $("recommendation-brands");
+  const entries = Object.entries(recommendationData || {});
+
+  if (!entries.length) {
+    container.innerHTML = `
+      <div class="empty-state">
+        No recommendations have been uploaded yet.
+      </div>
+    `;
+    return;
+  }
+
+  container.innerHTML = entries.map(([id,item])=>{
+    const products = Array.isArray(item.products) ? item.products : [];
+
+    return `
+      <article class="recommend-saved-card">
+
+        <div class="recommend-saved-top">
+          <strong>${escapeHTML(creatorName(id))}</strong>
+
+          <button type="button"
+            class="recommend-delete"
+            data-delete-recommendation="${escapeHTML(id)}">
+            Delete
+          </button>
+        </div>
+
+        <div class="recommend-saved-products">
+          ${products.map(product=>`
+            <div class="recommend-saved-product">
+              <img src="${escapeHTML(product.image || "")}"
+                alt="${escapeHTML(product.name || "Product")}"
+                loading="lazy">
+              <p>${escapeHTML(product.name || "Unnamed product")}</p>
+            </div>
+          `).join("")}
+        </div>
+
+        <div class="recommend-saved-reward">
+          Reward: ${escapeHTML(formatMoney(item.reward))}
+        </div>
+
+      </article>
+    `;
+  }).join("");
+}
+
+async function loadRecommendationSettings() {
+  if (!adminSecret) return;
+
+  $("recommendation-brands").innerHTML =
+    '<div class="loading-state">Loading recommendations...</div>';
+
+  try {
+    const response = await fetch(RECOMMENDATION_API,{
+      method:"GET",
+      headers:authHeaders(),
+      cache:"no-store"
+    });
+
+    const result = await response.json();
+
+    if (!response.ok || !result.ok) {
+      throw new Error(result.message || "Unable to load recommendations.");
+    }
+
+    recommendationData = result.recommendations || {};
+    renderRecommendationSettings();
+
+  } catch(error) {
+    $("recommendation-brands").innerHTML =
+      `<div class="empty-state">${escapeHTML(error.message)}</div>`;
+  }
+}
+
+$("recommendation-form").addEventListener("submit",async event=>{
+  event.preventDefault();
+
+  if (!adminSecret || recommendationBusy) return;
+
+  const creatorId = $("recommend-creator").value;
+  const imageOne = $("recommend-image-1").files?.[0];
+  const imageTwo = $("recommend-image-2").files?.[0];
+  const nameOne = $("recommend-name-1").value.trim();
+  const nameTwo = $("recommend-name-2").value.trim();
+  const reward = Number($("recommend-reward").value);
+
+  if (!creatorId || !imageOne || !imageTwo || !nameOne || !nameTwo) {
+    recommendationMessage(
+      "Complete all fields and select both product images.",
+      "error"
+    );
+    return;
+  }
+
+  if (
+    !Number.isSafeInteger(reward) ||
+    reward < 1 ||
+    reward > 100000000
+  ) {
+    recommendationMessage("Enter a valid reward amount.","error");
+    return;
+  }
+
+  const validTypes = ["image/jpeg","image/png","image/webp"];
+
+  if (
+    !validTypes.includes(imageOne.type) ||
+    !validTypes.includes(imageTwo.type)
+  ) {
+    recommendationMessage("Only JPEG, PNG and WebP images are accepted.","error");
+    return;
+  }
+
+  if (imageOne.size > 1400000 || imageTwo.size > 1400000) {
+    recommendationMessage("Each image must be smaller than 1.4 MB.","error");
+    return;
+  }
+
+  const button = $("save-recommendation");
+
+  recommendationBusy = true;
+  button.disabled = true;
+  button.textContent = "Uploading...";
+
+  try {
+    const [productOneImage,productTwoImage] = await Promise.all([
+      fileToBase64(imageOne),
+      fileToBase64(imageTwo)
+    ]);
+
+    const response = await fetch(RECOMMENDATION_API,{
+      method:"POST",
+      headers:authHeaders(),
+      body:JSON.stringify({
+        creatorId,
+        productOneName:nameOne,
+        productTwoName:nameTwo,
+        productOneImage,
+        productTwoImage,
+        reward
+      })
+    });
+
+    const result = await response.json();
+
+    if (!response.ok || !result.ok) {
+      throw new Error(result.message || "Unable to save recommendation.");
+    }
+
+    recommendationData = result.recommendations || {};
+
+    $("recommendation-form").reset();
+    clearRecommendationPreviews();
+
+    $("recommend-preview-1").textContent = "Product image preview";
+    $("recommend-preview-2").textContent = "Product image preview";
+
+    renderRecommendationSettings();
+
+    recommendationMessage(
+      "Recommendation saved successfully.",
+      "success"
+    );
+
+  } catch(error) {
+    recommendationMessage(error.message,"error");
+
+  } finally {
+    recommendationBusy = false;
+    button.disabled = false;
+    button.textContent = "Save Recommendation";
+  }
+});
+
+$("recommendation-brands").addEventListener("click",async event=>{
+  const button = event.target.closest("[data-delete-recommendation]");
+
+  if (!button || recommendationBusy) return;
+
+  const creatorId = button.dataset.deleteRecommendation;
+
+  if (!creatorId) return;
+
+  if (!confirm(`Delete ${creatorName(creatorId)}'s recommendation?`)) {
+    return;
+  }
+
+  recommendationBusy = true;
+  button.disabled = true;
+  button.textContent = "Deleting...";
+
+  try {
+    const response = await fetch(RECOMMENDATION_API,{
+      method:"DELETE",
+      headers:authHeaders(),
+      body:JSON.stringify({creatorId})
+    });
+
+    const result = await response.json();
+
+    if (!response.ok || !result.ok) {
+      throw new Error(result.message || "Unable to delete recommendation.");
+    }
+
+    recommendationData = result.recommendations || {};
+    renderRecommendationSettings();
+
+    recommendationMessage(
+      "Recommendation deleted successfully.",
+      "success"
+    );
+
+  } catch(error) {
+    recommendationMessage(error.message,"error");
+
+  } finally {
+    recommendationBusy = false;
+  }
+});
+
+</script>
+
+</body>
+</html>

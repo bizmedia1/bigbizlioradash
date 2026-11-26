@@ -1,0 +1,92 @@
+{
+  "creator-2": {
+    "creatorId": "creator-2",
+    "creatorName": "Purple Speedy",
+    "products": [
+      {
+        "name": "SUGAR",
+        "image": "https://raw.githubusercontent.com/soft-coachsmiley/softmedia-liora/main/uploads/recommendations/creator-2-61ece86e-6b99-4b3d-8e70-3a41e312f1d8-product-1.jpg",
+        "imagePath": "uploads/recommendations/creator-2-61ece86e-6b99-4b3d-8e70-3a41e312f1d8-product-1.jpg"
+      },
+      {
+        "name": "CEMENT",
+        "image": "https://raw.githubusercontent.com/soft-coachsmiley/softmedia-liora/main/uploads/recommendations/creator-2-61ece86e-6b99-4b3d-8e70-3a41e312f1d8-product-2.jpg",
+        "imagePath": "uploads/recommendations/creator-2-61ece86e-6b99-4b3d-8e70-3a41e312f1d8-product-2.jpg"
+      }
+    ],
+    "reward": 5350,
+    "updatedAt": "2026-11-26T07:14:23.568Z"
+  },
+  "creator-3": {
+    "creatorId": "creator-3",
+    "creatorName": "Two Glazzes",
+    "products": [
+      {
+        "name": "INSTAGRAM",
+        "image": "https://raw.githubusercontent.com/soft-coachsmiley/softmedia-liora/main/uploads/recommendations/creator-3-ba61007b-f657-46f1-9398-89540ee0f216-product-1.jpg",
+        "imagePath": "uploads/recommendations/creator-3-ba61007b-f657-46f1-9398-89540ee0f216-product-1.jpg"
+      },
+      {
+        "name": "FACEBOOK",
+        "image": "https://raw.githubusercontent.com/soft-coachsmiley/softmedia-liora/main/uploads/recommendations/creator-3-ba61007b-f657-46f1-9398-89540ee0f216-product-2.jpg",
+        "imagePath": "uploads/recommendations/creator-3-ba61007b-f657-46f1-9398-89540ee0f216-product-2.jpg"
+      }
+    ],
+    "reward": 4010,
+    "updatedAt": "2026-11-26T07:23:11.753Z"
+  },
+  "creator-4": {
+    "creatorId": "creator-4",
+    "creatorName": "Smart BM",
+    "products": [
+      {
+        "name": "SOLAR LAMP",
+        "image": "https://raw.githubusercontent.com/soft-coachsmiley/softmedia-liora/main/uploads/recommendations/creator-4-a1cd38e0-fc0d-4633-ae24-f5623e9d50cf-product-1.jpg",
+        "imagePath": "uploads/recommendations/creator-4-a1cd38e0-fc0d-4633-ae24-f5623e9d50cf-product-1.jpg"
+      },
+      {
+        "name": "SOLAR FAN",
+        "image": "https://raw.githubusercontent.com/soft-coachsmiley/softmedia-liora/main/uploads/recommendations/creator-4-a1cd38e0-fc0d-4633-ae24-f5623e9d50cf-product-2.jpg",
+        "imagePath": "uploads/recommendations/creator-4-a1cd38e0-fc0d-4633-ae24-f5623e9d50cf-product-2.jpg"
+      }
+    ],
+    "reward": 3999,
+    "updatedAt": "2026-11-26T07:26:37.614Z"
+  },
+  "creator-5": {
+    "creatorId": "creator-5",
+    "creatorName": "Luta Editz",
+    "products": [
+      {
+        "name": "AC",
+        "image": "https://raw.githubusercontent.com/soft-coachsmiley/softmedia-liora/main/uploads/recommendations/creator-5-dfd44183-9c9d-4019-8b32-725aa625ee7e-product-1.jpg",
+        "imagePath": "uploads/recommendations/creator-5-dfd44183-9c9d-4019-8b32-725aa625ee7e-product-1.jpg"
+      },
+      {
+        "name": "REFRIGERATOR",
+        "image": "https://raw.githubusercontent.com/soft-coachsmiley/softmedia-liora/main/uploads/recommendations/creator-5-dfd44183-9c9d-4019-8b32-725aa625ee7e-product-2.jpg",
+        "imagePath": "uploads/recommendations/creator-5-dfd44183-9c9d-4019-8b32-725aa625ee7e-product-2.jpg"
+      }
+    ],
+    "reward": 5050,
+    "updatedAt": "2026-11-26T07:29:03.389Z"
+  },
+  "creator-1": {
+    "creatorId": "creator-1",
+    "creatorName": "Mr Babs",
+    "products": [
+      {
+        "name": "SPAGHETTI",
+        "image": "https://raw.githubusercontent.com/soft-coachsmiley/softmedia-liora/main/uploads/recommendations/creator-1-12f44142-6d88-4a0d-a320-a489d0ea5d54-product-1.jpg",
+        "imagePath": "uploads/recommendations/creator-1-12f44142-6d88-4a0d-a320-a489d0ea5d54-product-1.jpg"
+      },
+      {
+        "name": "VEGETABLE OIL",
+        "image": "https://raw.githubusercontent.com/soft-coachsmiley/softmedia-liora/main/uploads/recommendations/creator-1-12f44142-6d88-4a0d-a320-a489d0ea5d54-product-2.jpg",
+        "imagePath": "uploads/recommendations/creator-1-12f44142-6d88-4a0d-a320-a489d0ea5d54-product-2.jpg"
+      }
+    ],
+    "reward": 7200,
+    "updatedAt": "2026-11-26T08:12:02.079Z"
+  }
+}

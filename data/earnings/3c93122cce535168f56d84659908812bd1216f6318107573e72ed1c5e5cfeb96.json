@@ -1,0 +1,100 @@
+{
+  "email": "joel88252@outlook.com",
+  "balances": {
+    "commission": 0,
+    "leisure": 22539,
+    "video": 44665.270000000004,
+    "total": 67204.27
+  },
+  "transactions": [
+    {
+      "id": "chowdeck:c3ce7e16-36e0-432a-9417-5fd1ef25a94e",
+      "type": "video",
+      "amount": 4957.57,
+      "source": "brand-status",
+      "referenceId": "",
+      "createdAt": "2026-11-26T08:04:05.977Z"
+    },
+    {
+      "id": "opay:aac48908-5ae2-4f8f-9321-e973fe41638c",
+      "type": "video",
+      "amount": 7212.09,
+      "source": "brand-status",
+      "referenceId": "",
+      "createdAt": "2026-11-26T08:04:05.977Z"
+    },
+    {
+      "id": "moniepoint:34cb8e8b-8635-41ae-99e8-1368d29cef9d",
+      "type": "video",
+      "amount": 9232.92,
+      "source": "brand-status",
+      "referenceId": "",
+      "createdAt": "2026-11-26T08:04:05.977Z"
+    },
+    {
+      "id": "okash:1c9069e5-ae07-409f-aef3-56e089deb1b8",
+      "type": "video",
+      "amount": 6717.59,
+      "source": "brand-status",
+      "referenceId": "",
+      "createdAt": "2026-11-26T08:04:05.977Z"
+    },
+    {
+      "id": "sun-king:da60c3d4-fb76-46c9-a727-c5d56d87b6b5",
+      "type": "video",
+      "amount": 9735.95,
+      "source": "brand-status",
+      "referenceId": "",
+      "createdAt": "2026-11-26T08:04:05.977Z"
+    },
+    {
+      "id": "product-recommendation-creator-1:1795680254347",
+      "type": "leisure",
+      "amount": 4130,
+      "source": "product-recommendation",
+      "referenceId": "",
+      "createdAt": "2026-11-26T08:06:18.211Z"
+    },
+    {
+      "id": "product-recommendation-creator-2:1795680260180",
+      "type": "leisure",
+      "amount": 5350,
+      "source": "product-recommendation",
+      "referenceId": "",
+      "createdAt": "2026-11-26T08:06:18.211Z"
+    },
+    {
+      "id": "product-recommendation-creator-3:1795680266193",
+      "type": "leisure",
+      "amount": 4010,
+      "source": "product-recommendation",
+      "referenceId": "",
+      "createdAt": "2026-11-26T08:06:18.211Z"
+    },
+    {
+      "id": "product-recommendation-creator-4:1795680274392",
+      "type": "leisure",
+      "amount": 3999,
+      "source": "product-recommendation",
+      "referenceId": "",
+      "createdAt": "2026-11-26T08:06:18.211Z"
+    },
+    {
+      "id": "product-recommendation-creator-5:1795680280673",
+      "type": "leisure",
+      "amount": 5050,
+      "source": "product-recommendation",
+      "referenceId": "",
+      "createdAt": "2026-11-26T08:06:18.211Z"
+    },
+    {
+      "id": "bokku:d7a85e10-634f-4e07-908b-9716f9f13a79",
+      "type": "video",
+      "amount": 6809.15,
+      "source": "brand-status",
+      "referenceId": "",
+      "createdAt": "2026-11-26T08:10:39.869Z"
+    }
+  ],
+  "updatedAt": "2026-11-26T08:10:39.869Z"
+}
