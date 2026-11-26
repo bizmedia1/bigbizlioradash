@@ -1,0 +1,23 @@
+{
+  "payments": [
+    {
+      "id": "PAY-PAGA-c3a614e584f0b6846d4d7878",
+      "customerName": "Victor Israel",
+      "email": "victorisrael539@gmail.com",
+      "phone": "08121515181",
+      "amount": 9500,
+      "amountKobo": 950000,
+      "method": "paga",
+      "reference": "lp_1795723903658_ea51238f61",
+      "provider": "movantra",
+      "status": "pending",
+      "statusTokenHash": "767f03862799254e28c1428b93125b378bb3ff6430e19cdec087c0da4d350300",
+      "createdAt": "2026-11-26T20:11:45.052Z",
+      "processedAt": null,
+      "pofPass": null,
+      "pofGeneratedAt": null,
+      "pofUsed": false,
+      "pofUsedAt": null
+    }
+  ]
+}
